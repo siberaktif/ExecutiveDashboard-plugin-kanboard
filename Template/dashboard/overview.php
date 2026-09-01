@@ -3,51 +3,70 @@
 
     <!-- 1. YÖNETİCİ FİNANS & STRATEJİ PANELİ -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
-        <div class="bilgiyapar-mcc-grid-4">
-            <!-- 1. FİNANS KARTI (CostControl Eklentisine Bağlı) -->
+        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ (Finans Zirvesi)') ?></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+            <!-- 1. Bar Chart Kartı -->
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>">
+                <div style="font-weight:bold; font-size:14px; margin-bottom:15px;"><?= t('Küresel Nakit Yakım Hızı') ?></div>
+                <div style="display:flex; align-items:flex-end; gap:8px; height:80px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:5px;">
+                    <div style="width:20px; height:50%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
+                    <div style="width:20px; height:70%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
+                    <div style="width:20px; height:40%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
+                    <div style="width:20px; height:90%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
+                    <div style="width:20px; height:60%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
+                    <div style="width:20px; height:30%; background:#b39ddb; border-radius:3px 3px 0 0;"></div>
+                </div>
+                <div style="font-weight:bold; font-size:16px;">15,000 TL <span style="font-size:12px; font-weight:normal; color:#888;">/mo</span></div>
+                <div style="font-size:12px; color:#555;"><?= t('Kalan:') ?> 250.000 TL</div>
+            </a>
+
+            <!-- 2. Donut Chart Kartı -->
             <?php 
                 $spent_ratio = $global_burn_rate > 0 ? round(($budget_spent / $global_burn_rate) * 100) : 0;
                 $rem_ratio = 100 - $spent_ratio;
                 if ($spent_ratio > 100) { $spent_ratio = 100; $rem_ratio = 0; }
             ?>
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Küresel Nakit Yakım Hızı') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-donut-wrapper">
-                    <div class="bilgiyapar-mcc-donut" style="width:60px; height:60px; border-radius:50%; background: conic-gradient(#d9534f 0% <?= $spent_ratio ?>%, #5cb85c <?= $spent_ratio ?>% 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:12px;">
-                        <span>%<?= $spent_ratio ?></span>
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
+                <div style="font-weight:bold; font-size:14px; margin-bottom:15px; text-align:center;"><?= t('Küresel Bütçe Durumu') ?></div>
+                <div style="display:flex; justify-content:center; align-items:center; flex:1;">
+                    <div style="position:relative; width:100px; height:100px; border-radius:50%; background: conic-gradient(#4a90e2 0% <?= $rem_ratio ?>%, #4dd0e1 <?= $rem_ratio ?>% 100%); display:flex; align-items:center; justify-content:center;">
+                        <div style="width:70px; height:70px; border-radius:50%; background:#fff;"></div>
                     </div>
-                    <div class="bilgiyapar-mcc-donut-legend">
-                        <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 0) ?></div>
-                        <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
-                        <div style="margin-top: 5px; font-size:11px;">
-                            <span style="background: #d9534f; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Harcanan') ?> (%<?= $spent_ratio ?>)<br>
-                            <span style="background: #5cb85c; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Kalan') ?> (%<?= $rem_ratio ?>)
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:12px; font-weight:bold;">
+                    <div><span style="color:#4dd0e1;">%<?= $spent_ratio ?></span> Harcanan</div>
+                    <div><span style="color:#4a90e2;">%<?= $rem_ratio ?></span> Kalan</div>
+                </div>
+            </a>
+
+            <!-- 3. Kritik Metrikler & Fonlama -->
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <!-- Kritik Metrikler -->
+                <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:10px;">
+                    <div style="font-weight:bold; font-size:13px; margin-bottom:10px;"><?= t('Kritik Metrikler') ?></div>
+                    <div style="display:flex; gap:10px; text-align:center;">
+                        <a href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
+                            <div style="font-size:24px; font-weight:bold; color:#333;"><?= isset($total_projects) ? $total_projects : 0 ?></div>
+                            <div style="font-size:11px; color:#666;">Aktif<br>Proje</div>
+                        </a>
+                        <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
+                            <div style="font-size:24px; font-weight:bold; color:#333;"><?= isset($open_tasks) ? $open_tasks : 0 ?></div>
+                            <div style="font-size:11px; color:#666;">Açık<br>Görev</div>
+                        </a>
+                        <div style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px;">
+                            <div style="font-size:24px; font-weight:bold; color:#333;"><?= count($users) ?></div>
+                            <div style="font-size:11px; color:#666;"><br>Kullanıcı</div>
                         </div>
                     </div>
                 </div>
-            </a>
-            
-            <!-- 2. AKTİF PROJELER KARTI -->
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>">
-                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-th"></i> <?= t('Aktif Projeler') ?></div>
-                <div style="font-size:36px; font-weight:bold; color:#1a73e8;"><?= isset($total_projects) ? $total_projects : 0 ?></div>
-            </a>
-
-            <!-- 3. AÇIK GÖREVLER KARTI (Search: status:open) -->
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
-                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-folder-open-o"></i> <?= t('Açık Görevler') ?></div>
-                <div style="font-size:36px; font-weight:bold; color:#f0ad4e;"><?= isset($open_tasks) ? $open_tasks : 0 ?></div>
-            </a>
-
-            <!-- 4. KAPATILMIŞ GÖREVLER KARTI (Search: status:closed) -->
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:closed')) ?>">
-                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-check-square-o"></i> <?= t('Kapatılmış Görevler') ?></div>
-                <div style="font-size:36px; font-weight:bold; color:#5cb85c;">142</div> <!-- Mock Veri: Controller'dan $closed_tasks çekilebilir -->
-            </a>
+                <!-- Genişletilmiş Fonlama -->
+                <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;">
+                    <div style="font-weight:bold; font-size:13px; margin-bottom:5px;"><?= t('Genişletilmiş Fonlama & Gelir') ?></div>
+                    <div style="font-size:13px; color:#444; margin-bottom:5px;">Kitlesel Fonlama Lansmanı: <b>14 Gün Kaldı</b></div>
+                    <div style="font-size:13px; color:#444;">Hedef: <b>500.000 TL</b></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -84,26 +103,50 @@
 
     <!-- 3. GÖREV BAĞIMLILIKLARI & KRİTİK YOL (RELATIONGRAPH) -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL') ?></div>
-        <div class="bilgiyapar-mcc-grid-2">
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->user->getId())) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-road bilgiyapar-mcc-text-primary"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Kritik Yol (Critical Path)') ?></div>
+        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-link"></i> <?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL (Relationgraph)') ?></div>
+        <div class="bilgiyapar-mcc-card" style="background: #fdfdfd;">
+            <div class="bilgiyapar-mcc-card-content" style="display:flex; justify-content:center; align-items:center; padding:30px 10px;">
+                <div style="display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 800px; position:relative;">
+                    
+                    <!-- Sol Sütun -->
+                    <div style="display: flex; flex-direction: column; gap: 40px; z-index:2;">
+                        <div style="background:#fff; color:#3b5998; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #aebcda; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
+                            <i class="fa fa-building-o"></i> [A.Ş. Resmi İşlemler] <i class="fa fa-flag" style="color:#d9534f;"></i>
+                        </div>
+                        <div style="background:#fff; color:#333; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #f0ad4e; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
+                            <i class="fa fa-cube" style="color:#f0ad4e;"></i> [FMHSCS v2.6] <i class="fa fa-refresh" style="color:#f0ad4e;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Orta Sütun (Bağlantılar) -->
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; z-index:2;">
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="background:#fce8e6; color:#d9534f; border:1px dashed #d9534f; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:bold;">%100 Engeller ➔</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <div style="background:#fcf8e3; color:#8a6d3b; border:1px dashed #f0ad4e; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:bold;">relates to ➔</div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Sütun -->
+                    <div style="display: flex; flex-direction: column; gap: 40px; z-index:2;">
+                        <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
+                            <i class="fa fa-android"></i> [ISAMA Play Store Yayını] <i class="fa fa-lock" style="color:#8ab4f8;"></i>
+                        </div>
+                        <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
+                            <i class="fa fa-user-o"></i> [ISAMA Web] <i class="fa fa-credit-card" style="color:#8ab4f8;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Arka Plan Ok Çizgileri (Görsel Zenginlik) -->
+                    <svg style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;" preserveAspectRatio="none">
+                        <line x1="25%" y1="25%" x2="75%" y2="25%" stroke="#d9534f" stroke-width="2" stroke-dasharray="5,5" />
+                        <line x1="25%" y1="25%" x2="75%" y2="75%" stroke="#333" stroke-width="2" />
+                        <line x1="25%" y1="75%" x2="75%" y2="25%" stroke="#333" stroke-width="2" />
+                        <line x1="25%" y1="75%" x2="75%" y2="75%" stroke="#f0ad4e" stroke-width="2" stroke-dasharray="5,5" />
+                    </svg>
                 </div>
-                <div class="bilgiyapar-mcc-card-content" style="display:flex; align-items:center; flex-wrap:wrap; gap:10px; padding:20px 0;">
-                    <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:8px 15px; font-weight:bold; border:1px solid #d2e3fc;">
-                        <i class="fa fa-building"></i> [A.Ş. Resmi İşlemler]
-                    </div>
-                    <div style="font-size:12px; font-weight:bold; color:#d9534f; display:flex; flex-direction:column; align-items:center;">
-                        <span style="background:#fce8e6; padding:2px 8px; border-radius:10px; border:1px dashed #d9534f;">%100 Engeller</span>
-                        <span style="font-size:18px;">➔</span>
-                    </div>
-                    <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:8px 15px; font-weight:bold; border:1px solid #d2e3fc;">
-                        <i class="fa fa-mobile"></i> [ISAMA Play Store Yayını]
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
     </div>
 
