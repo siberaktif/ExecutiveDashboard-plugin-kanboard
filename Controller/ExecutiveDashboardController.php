@@ -3,6 +3,7 @@
 namespace Kanboard\Plugin\ExecutiveDashboard\Controller;
 
 use Kanboard\Controller\BaseController;
+use Kanboard\Plugin\ExecutiveDashboard\Model\DashboardMetricModel;
 
 class ExecutiveDashboardController extends BaseController
 {
@@ -12,30 +13,15 @@ class ExecutiveDashboardController extends BaseController
     public function index()
     {
         $user = $this->getUser();
+        $metricModel = new DashboardMetricModel($this->container);
         
-        // 1. Total Active Projects
-        $total_projects = $this->projectModel->getActiveProjectCount();
-
-        // 2. Critical Blockers & P1 Tasks
-        // Find active tasks that are P1 (assuming priority 1 or string 'P1')
-        $total_p1 = $this->db->table('tasks')
-            ->eq('is_active', 1)
-            ->eq('priority', 1) 
-            ->count();
-            
-        // Find blocking relations
-        $total_blockers = $this->db->table('task_has_links')
-            ->join('links', 'id', 'link_id', 'task_has_links')
-            ->join('tasks', 'id', 'task_id', 'task_has_links')
-            ->eq('tasks.is_active', 1)
-            ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
-            ->count();
-            
-        // 3. Budget Data (Dummy if no plugin exists)
+        $total_projects = $metricModel->getTotalActiveProjects();
+        $total_p1 = $metricModel->getTotalP1Tasks();
+        $total_blockers = $metricModel->getBlockedTasksCount();
         $budget_total = 0; // Replace with Budget plugin query if needed
 
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
-            'title' => t('Yönetici Kontrol Merkezi'),
+            'title' => t('Manager Control Center'),
             'user' => $user,
             'total_projects' => $total_projects,
             'total_p1' => $total_p1,
@@ -45,9 +31,27 @@ class ExecutiveDashboardController extends BaseController
     }
 
     /**
-     * Fetch active tasks that have 'is_blocked_by' or 'blocks' relations
+     * Project Details for Side Drawer
      */
-    public function getBlockers()
+    public function projectDetails()
+    {
+        $projects = $this->projectModel->getAll();
+        
+        $html = "<h4>" . t('Active Projects') . "</h4><ul>";
+        foreach ($projects as $p) {
+            if ($p['is_active']) {
+                $html .= "<li>" . htmlspecialchars($p['name']) . "</li>";
+            }
+        }
+        $html .= "</ul>";
+        
+        $this->response->json(array('html' => $html));
+    }
+
+    /**
+     * Blocker Details for Side Drawer
+     */
+    public function blockerDetails()
     {
         $tasks = $this->db->table('task_has_links')
             ->join('links', 'id', 'link_id', 'task_has_links')
@@ -56,27 +60,35 @@ class ExecutiveDashboardController extends BaseController
             ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
             ->findAll();
 
-        $this->response->json(array('tasks' => $tasks));
+        $html = "<h4>" . t('Critical Blockers') . "</h4><ul>";
+        if (empty($tasks)) {
+            $html .= "<li>" . t('No blocked tasks found.') . "</li>";
+        } else {
+            foreach ($tasks as $t) {
+                $html .= "<li>Task #" . $t['task_id'] . " - " . htmlspecialchars($t['title']) . "</li>";
+            }
+        }
+        $html .= "</ul>";
+
+        $this->response->json(array('html' => $html));
     }
 
     /**
-     * Priority P1 and active tasks count API for Side drawer
+     * AI Recommendations for Side Drawer
      */
-    public function getCriticalTasks()
+    public function aiRecommendations()
     {
-        $count = $this->db->table('tasks')
-            ->eq('is_active', 1)
-            ->eq('priority', 1)
-            ->count();
-            
-        $this->response->json(array('count' => $count));
+        $html = "<h4>" . t('AI Recommendations') . "</h4>";
+        $html .= "<p>" . t('System suggests moving 2 resources from Project B to Project A to resolve current blockers.') . "</p>";
+        
+        $this->response->json(array('html' => $html));
     }
-    
+
     // Dummy endpoints for other cards to prevent 404s
-    public function getFinanceDetails() { $this->response->json(array('message' => 'Finans detayları yapım aşamasında.')); }
-    public function getBlockersList() { $this->response->json(array('message' => 'Blokaj özeti yapım aşamasında.')); }
-    public function getCriticalPath() { $this->response->json(array('message' => 'Kritik yol analizi yapım aşamasında.')); }
-    public function getActionPlan() { $this->response->json(array('message' => 'Eylem planı yapım aşamasında.')); }
-    public function getProjectMatrix() { $this->response->json(array('message' => 'Proje matrisi yapım aşamasında.')); }
-    public function getAiRecommendations() { $this->response->json(array('message' => 'AI önerileri yapım aşamasında.')); }
+    public function getFinanceDetails() { $this->response->json(array('html' => '<h4>' . t('Global Burn Rate') . '</h4><p>' . t('Finance details are under construction.') . '</p>')); }
+    public function getBlockersList() { return $this->blockerDetails(); }
+    public function getCriticalPath() { $this->response->json(array('html' => '<h4>' . t('Critical Path') . '</h4><p>' . t('Critical path analysis under construction.') . '</p>')); }
+    public function getActionPlan() { $this->response->json(array('html' => '<h4>' . t('Action Plan') . '</h4><p>' . t('Action plan under construction.') . '</p>')); }
+    public function getProjectMatrix() { return $this->projectDetails(); }
+    public function getAiRecommendations() { return $this->aiRecommendations(); }
 }

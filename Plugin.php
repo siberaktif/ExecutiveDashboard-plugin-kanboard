@@ -12,6 +12,9 @@ class Plugin extends Base
         $this->hook->on('template:layout:css', array('template' => 'plugins/ExecutiveDashboard/Asset/css/dashboard.css'));
         $this->hook->on('template:layout:js', array('template' => 'plugins/ExecutiveDashboard/Asset/js/sidedrawer.js'));
 
+        // Register Helper
+        $this->helper->register('dashboardFormat', '\Kanboard\Plugin\ExecutiveDashboard\Helper\DashboardFormatHelper');
+
         // Add 'Yönetici Kontrol Merkezi' to the dashboard sidebar
         // Note: The prompt requested 'dashboard:sidebar' hook. In Kanboard, it's typically template:dashboard:sidebar.
         // We will create the sidebar template next to render the link.
