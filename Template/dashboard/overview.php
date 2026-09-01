@@ -70,22 +70,126 @@
         </div>
     </div>
 
-    <!-- 2. ACİL DURUM & KRİTİK BLOKAJLAR -->
+    <!-- 2. KAPSAMLI SİSTEM & KÜRESEL KPI MATRİSİ -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
-        <div class="bilgiyapar-mcc-grid-2">
-            <!-- Blokaj Özet -->
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
-                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-warning bilgiyapar-mcc-text-danger"></i> <?= t('Toplam Kritik Blokaj') ?></div>
-                <div style="font-size:36px; font-weight:bold; color:#d9534f;"><?= isset($total_blockers) ? $total_blockers : 3 ?></div>
-                <div style="font-size:12px; color:#999; margin-top:5px;"><?= t('Görev birbirini bekliyor') ?></div>
+        <div class="bilgiyapar-mcc-section-title"><?= t('KAPSAMLI SİSTEM & KÜRESEL KPI MATRİSİ') ?></div>
+        
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px;">
+            <!-- Projeler -->
+            <a href="<?= $this->url->href('ProjectListController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border:1px solid #d1d5da; border-radius:8px; padding:15px; color:#24292e; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">Projeler</div>
+                    <div style="display:flex; gap:5px;">
+                        <span style="background:#28a745; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Aktif"><?= $total_projects ?></span>
+                        <span style="background:#586069; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Özel"><?= $kpi['projects_private'] ?></span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-folder-open-o" style="font-size:24px; color:#1a73e8;"></i>
+                    <span style="font-size:20px; font-weight:bold;"><?= $total_projects + $kpi['projects_private'] ?></span>
+                </div>
+            </a>
+
+            <!-- Etiketler & Kategoriler -->
+            <a href="<?= $this->url->href('TagController', 'index') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #f3e7ff 0%, #e6d3fb 100%); border:1px solid #d0b0f0; border-radius:8px; padding:15px; color:#4b2771; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">Etiketler</div>
+                    <span style="background:#6f42c1; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $kpi['tags'] ?></span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-tags" style="font-size:24px; color:#6f42c1;"></i>
+                    <span style="font-size:20px; font-weight:bold;"><?= $kpi['tags'] + $kpi['categories'] ?> Toplam</span>
+                </div>
+            </a>
+
+            <!-- Görevler -->
+            <a href="<?= $this->url->href('SearchController', 'index', array('search'=>'status:all')) ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border:1px solid #ffcc80; border-radius:8px; padding:15px; color:#e65100; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">Görevler</div>
+                    <div style="display:flex; gap:5px;">
+                        <span style="background:#e65100; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $open_tasks ?> Açık</span>
+                        <span style="background:#586069; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $kpi['tasks_closed'] ?> Kpl</span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-tasks" style="font-size:24px; color:#e65100;"></i>
+                    <span style="font-size:20px; font-weight:bold;"><?= $open_tasks + $kpi['tasks_closed'] ?> Toplam</span>
+                </div>
+            </a>
+
+            <!-- İletişim & Dosyalar -->
+            <div style="background:linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); border:1px solid #80deea; border-radius:8px; padding:15px; color:#006064; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">İletişim & Ekler</div>
+                    <div style="display:flex; gap:5px;">
+                        <span style="background:#00838f; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><i class="fa fa-comment"></i> <?= $kpi['comments'] ?></span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-paperclip" style="font-size:24px; color:#00838f;"></i>
+                    <span style="font-size:15px; font-weight:bold;"><?= $kpi['attachments'] ?> Ek & <?= $kpi['external_links'] ?> Link</span>
+                </div>
+            </div>
+
+            <!-- Kullanıcı Demografisi -->
+            <a href="<?= $this->url->href('UserListController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fbe9e7 0%, #ffccbc 100%); border:1px solid #ffab91; border-radius:8px; padding:15px; color:#bf360c; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">Kullanıcılar</div>
+                    <div style="display:flex; gap:5px;">
+                        <span style="background:#bf360c; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Admin">A:<?= $kpi['users_admin'] ?></span>
+                        <span style="background:#ff7043; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Manager">M:<?= $kpi['users_manager'] ?></span>
+                        <span style="background:#ff8a65; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="User">U:<?= $kpi['users_user'] ?></span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-users" style="font-size:24px; color:#bf360c;"></i>
+                    <span style="font-size:20px; font-weight:bold;"><?= count($users) ?> Toplam</span>
+                </div>
             </a>
             
+            <!-- Eklentiler -->
+            <a href="<?= $this->url->href('PluginController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border:1px solid #a5d6a7; border-radius:8px; padding:15px; color:#1b5e20; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="font-weight:bold; font-size:13px;">Eklentiler</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <i class="fa fa-plug" style="font-size:24px; color:#2e7d32;"></i>
+                    <span style="font-size:14px; font-weight:bold;">Sistem Yönetimi <i class="fa fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 3. ACİL DURUM & KRİTİK BLOKAJLAR -->
+    <div class="bilgiyapar-mcc-section">
+        <div class="bilgiyapar-mcc-section-title"><?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:15px;">
+            <!-- Kırmızı Uyarı Kartı 1: Blokajlar -->
+            <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-warning" style="color:#d73a49;"></i> Sistem Blokajları</div>
+                    <div style="font-size:12px; color:#586069;">Birbirini engelleyen kritik görevler</div>
+                </div>
+                <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($total_blockers) ? $total_blockers : 0 ?></div>
+            </a>
+
+            <!-- Kırmızı Uyarı Kartı 2: Gecikmiş Görevler -->
+            <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-calendar-times-o" style="color:#d73a49;"></i> Gecikmiş İşlemler</div>
+                    <div style="font-size:12px; color:#586069;">Teslim tarihi geçmiş görevler</div>
+                </div>
+                <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($overdue_tasks) ? count($overdue_tasks) : 0 ?></div>
+            </a>
+        </div>
+
+        <div class="bilgiyapar-mcc-grid-1">
             <!-- Hiyerarşik Ağaç -->
             <div class="bilgiyapar-mcc-card" style="border:1px solid #e1e4e8; border-radius:6px; background:#fff;">
                 <div class="bilgiyapar-mcc-card-header" style="padding:15px; border-bottom:1px solid #eee;">
                     <i class="fa fa-sitemap bilgiyapar-mcc-text-warning"></i>
-                    <div class="bilgiyapar-mcc-card-title" style="display:inline-block; margin-left:10px; font-weight:bold;"><?= t('Blokaj Ağacı') ?></div>
+                    <div class="bilgiyapar-mcc-card-title" style="display:inline-block; margin-left:10px; font-weight:bold;"><?= t('Kök Neden Analizi (Root Cause Analysis)') ?></div>
                 </div>
                 <div class="bilgiyapar-mcc-card-content" style="padding:15px;">
                     <div class="bilgiyapar-mcc-tree" style="font-family:'Courier New', Courier, monospace; white-space:pre-wrap; line-height:1.6; font-size:13px; color:#333; background:#f9f9f9; padding:15px; border-radius:6px; border:1px solid #e1e4e8;">
@@ -287,33 +391,52 @@
 
     <!-- 6. AI DESTEKLİ OPERASYONEL ÖNERİLER -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('AI DESTEKLİ OPERASYONEL ÖNERİLER') ?></div>
-        <div class="bilgiyapar-mcc-ai-grid">
-            <!-- Öneri 1 -->
-            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Lütfen 'Olympos Projesi' için tasarım ekibinden 1 kişiyi bu projeye atamak üzere bir görev oluştur. Darboğazı çözmek için acil durum belirt.", ENT_QUOTES) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
-                    <div class="bilgiyapar-mcc-card-title">Kapasite Dengeleme</div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
-                    Projede darboğaz var. Tasarım ekibinden 1 kişiyi buraya kaydırabilirsiniz.
-                    <br><br>
-                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;" style="background:#007bff; color:#fff; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;"><i class="fa fa-copy"></i> PROMPT KOPYALA</button>
-                </div>
-            </div>
+        <div class="bilgiyapar-mcc-section-title" style="display:flex; align-items:center; gap:10px;">
+            <i class="fa fa-android fa-2x" style="color:#007bff;"></i> 
+            <?= t('MCP ÖNERİLERİ | DANIŞMANLIK') ?>
+        </div>
+        <div class="bilgiyapar-mcc-ai-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
             
-            <!-- Öneri 2 -->
-            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Geçen ayki sunucu maliyetleri ve bütçe planlamasının %15 üzerindeki harcama oranları için detaylı bir analiz oluştur, optimizasyon önerilerini listele.", ENT_QUOTES) ?>">
+            <?php if(!empty($ai_suggestion_1)): ?>
+            <!-- Öneri 1 (Dinamik Darboğaz) -->
+            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Sistem Uyarısı: " . $ai_suggestion_1 . " Lütfen bu blokajı çözecek acil bir görev şablonu hazırla ve ekibe ata.", ENT_QUOTES) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
-                    <div class="bilgiyapar-mcc-card-title">Bütçe Optimizasyonu</div>
+                    <div class="bilgiyapar-mcc-card-title">Darboğaz Tespiti</div>
                 </div>
                 <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
-                    Harcanan bütçe planlananın %15 üzerinde seyrediyor. Sunucu maliyetlerini gözden geçirin.
+                    <?= htmlspecialchars($ai_suggestion_1) ?>
                     <br><br>
-                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;" style="background:#007bff; color:#fff; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;"><i class="fa fa-copy"></i> PROMPT KOPYALA</button>
+                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;" style="background:#007bff; color:#fff; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;"><i class="fa fa-copy"></i> GÖREV OLUŞTUR VE ATA</button>
                 </div>
             </div>
+            <?php else: ?>
+            <div class="bilgiyapar-mcc-card" style="background:#f9f9f9; padding:20px; text-align:center; color:#5cb85c;">
+                <i class="fa fa-check-circle fa-2x"></i><br>
+                Sistemde kritik bir darboğaz tespit edilmedi. Operasyonlar sağlıklı.
+            </div>
+            <?php endif; ?>
+
+            <?php if(!empty($ai_suggestion_2)): ?>
+            <!-- Öneri 2 (Dinamik Optimizasyon) -->
+            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Stratejik Veri: " . $ai_suggestion_2 . " Lütfen takımı tekrar aktif hale getirecek haftalık hedefleri belirle.", ENT_QUOTES) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
+                    <div class="bilgiyapar-mcc-card-title">Kapasite & Velocity Optimizasyonu</div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
+                    <?= htmlspecialchars($ai_suggestion_2) ?>
+                    <br><br>
+                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;" style="background:#007bff; color:#fff; border:none; padding:5px 10px; border-radius:3px; cursor:pointer;"><i class="fa fa-copy"></i> AJANLARI AKTİF ET</button>
+                </div>
+            </div>
+            <?php else: ?>
+            <div class="bilgiyapar-mcc-card" style="background:#f9f9f9; padding:20px; text-align:center; color:#5cb85c;">
+                <i class="fa fa-dashboard fa-2x"></i><br>
+                Tüm aktif projelerde iş kapatma hızı (Velocity) gayet verimli.
+            </div>
+            <?php endif; ?>
+            
         </div>
     </div>
 

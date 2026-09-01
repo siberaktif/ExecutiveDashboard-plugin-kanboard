@@ -84,6 +84,7 @@ class ExecutiveDashboardController extends BaseController
         $projects_raw = $this->db->table('projects')->eq('is_active', 1)->findAll();
         
         $projects = array();
+        $ai_velocity_alert = null;
         foreach ($projects_raw as $p) {
             $total = $this->db->table('tasks')->eq('project_id', $p['id'])->count();
             $closed = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 0)->count();
@@ -95,6 +96,9 @@ class ExecutiveDashboardController extends BaseController
             // 2. Velocity (Son 7 günde kapanan görevler)
             $week_ago = time() - 604800;
             $p['velocity'] = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 0)->gte('date_completed', $week_ago)->count();
+            if ($p['velocity'] == 0 && $open > 0 && !$ai_velocity_alert) {
+                $ai_velocity_alert = "{$p['name']} projesinde üretim hızı (Velocity) tamamen durmuş durumda. Ekipleri veya yeni süreçleri aktif edin.";
+            }
             
             // 3. WIP Alert (Eğer 5'ten fazla açık görev varsa uyarı ver)
             $p['wip_alert'] = $open > 5;
@@ -111,6 +115,36 @@ class ExecutiveDashboardController extends BaseController
             $projects[] = $p;
         }
 
+        // --- SİSTEM & KÜRESEL KPI MATRİSİ (System Metrics) ---
+        $kpi = array();
+        $kpi['projects_private'] = $this->db->table('projects')->eq('is_private', 1)->count();
+        $kpi['projects_public'] = $this->db->table('projects')->eq('is_private', 0)->count();
+        $kpi['categories'] = $this->db->table('project_has_categories')->count();
+        $kpi['tags'] = $this->db->table('tags')->count();
+        $kpi['tasks_closed'] = $this->db->table('tasks')->eq('is_active', 0)->count();
+        $kpi['comments'] = $this->db->table('comments')->count();
+        $kpi['attachments'] = $this->db->table('task_has_files')->count();
+        $kpi['external_links'] = $this->db->table('task_has_external_links')->count();
+        
+        $kpi['users_admin'] = $this->db->table('users')->eq('role', 'app-admin')->count();
+        $kpi['users_manager'] = $this->db->table('users')->eq('role', 'app-manager')->count();
+        $kpi['users_user'] = $this->db->table('users')->eq('role', 'app-user')->count();
+
+        // --- ACİL DURUM KARTLARI (Gecikmiş İşlemler) ---
+        $overdue_tasks = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->neq('date_due', 0)
+            ->lt('date_due', $now)
+            ->limit(5)
+            ->findAll();
+
+        // --- AI ÖNERİSİ OLUŞTUR (Dynamic AI Logic) ---
+        $ai_suggestion_1 = null;
+        if (!empty($blocker_tree)) {
+            $first_pid = array_key_first($blocker_tree);
+            $ai_suggestion_1 = "[{$blocker_tree[$first_pid]['name']}] sürecinde ciddi bir darboğaz var. Ekip kaynaklarını acilen bu blokaja kaydırın.";
+        }
+
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),
             'user' => $user,
@@ -118,13 +152,18 @@ class ExecutiveDashboardController extends BaseController
             'open_tasks' => $open_tasks,
             'total_blockers' => $total_blockers,
             'blocker_tree' => $blocker_tree,
+            'blocker_links' => $blocker_links,
             'global_burn_rate' => $global_burn_rate,
             'budget_spent' => $budget_spent,
             'tasks_today' => $tasks_today,
             'tasks_week' => $tasks_week,
             'tasks_month' => $tasks_month,
             'users' => $users,
-            'projects' => $projects
+            'projects' => $projects,
+            'kpi' => $kpi,
+            'overdue_tasks' => $overdue_tasks,
+            'ai_suggestion_1' => $ai_suggestion_1,
+            'ai_suggestion_2' => $ai_velocity_alert
         )));
     }
 
