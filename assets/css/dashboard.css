@@ -1,0 +1,99 @@
+.sencar-mcc-dashboard-container {
+    padding: 20px;
+    background-color: #f9f9f9; /* Light theme background */
+}
+
+.sencar-mcc-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.sencar-mcc-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sencar-mcc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sencar-mcc-card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.sencar-mcc-card-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Warning Colors */
+.sencar-mcc-text-danger { color: #d9534f; }
+.sencar-mcc-text-warning { color: #f0ad4e; }
+.sencar-mcc-text-success { color: #5cb85c; }
+
+/* Side Drawer Styles */
+.sencar-mcc-sidedrawer {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.sencar-mcc-sidedrawer.sencar-mcc-sidedrawer-open {
+    right: 0;
+}
+
+.sencar-mcc-sidedrawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+}
+
+.sencar-mcc-sidedrawer-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.sencar-mcc-sidedrawer-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.sencar-mcc-sidedrawer-close:hover {
+    color: #333;
+}
+
+.sencar-mcc-sidedrawer-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.sencar-mcc-loading {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
