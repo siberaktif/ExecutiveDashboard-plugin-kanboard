@@ -6,7 +6,7 @@
         <div class="bilgiyapar-mcc-section-title"><?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
         <div class="bilgiyapar-mcc-grid-4">
             <!-- Finans Kartı (Donut Chart) -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->userSession->getId())) ?>">
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->user->getId())) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
                     <div class="bilgiyapar-mcc-card-title"><?= t('Küresel Nakit Yakım Hızı') ?></div>
@@ -27,7 +27,7 @@
             </a>
             
             <!-- Ek Metrik Kartı -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'tasks', array('user_id' => $this->userSession->getId())) ?>">
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'tasks', array('user_id' => $this->user->getId())) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-line-chart bilgiyapar-mcc-text-primary"></i>
                     <div class="bilgiyapar-mcc-card-title"><?= t('Performans Metrikleri') ?></div>
@@ -80,7 +80,7 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL') ?></div>
         <div class="bilgiyapar-mcc-grid-2">
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->userSession->getId())) ?>">
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->user->getId())) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-road bilgiyapar-mcc-text-primary"></i>
                     <div class="bilgiyapar-mcc-card-title"><?= t('Kritik Yol (Critical Path)') ?></div>
