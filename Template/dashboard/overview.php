@@ -1,72 +1,232 @@
 <div class="bilgiyapar-mcc-dashboard-container">
-    <div class="bilgiyapar-mcc-dashboard-header"><?= t('Yönetici Kontrol Merkezi') ?></div>
+    <div class="bilgiyapar-mcc-dashboard-header"><?= t('YÖNETİCİ KONTROL MERKEZİ') ?></div>
 
     <!-- 1. YÖNETİCİ FİNANS & STRATEJİ PANELİ -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
+        <div class="bilgiyapar-mcc-section-title"><?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
         <div class="bilgiyapar-mcc-grid-4">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getFinanceDetails', array('plugin' => 'ExecutiveDashboard')) ?>" onclick="MCC.openDrawer(this)">
-                <div class="card-label"><?= t('Küresel Nakit Yakım Hızı') ?></div>
-                <div class="card-value bilgiyapar-mcc-text-primary"><?= $this->helper->dashboardFormat->currency(isset($global_burn_rate) ? $global_burn_rate : 15000) ?> <small>/mo</small></div>
-            </div>
-
-            <!-- Donut Grafiği -->
-            <div class="bilgiyapar-mcc-card" style="display:flex; align-items:center;">
-                <div class="donut-chart" style="width: 60px; height: 60px; border-radius: 50%; background: conic-gradient(#5cb85c 0% 40%, #d9534f 40% 100%); margin-right:15px;"></div>
-                <div>
-                    <div style="font-weight:bold; color:#d9534f">%60 Harcanan</div>
-                    <div style="font-weight:bold; color:#5cb85c">%40 Kalan</div>
+            <!-- Finans Kartı -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getFinanceDetails', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Küresel Nakit Yakım Hızı') ?></div>
                 </div>
-            </div>
-
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getMetrics', array('plugin' => 'ExecutiveDashboard')) ?>" onclick="MCC.openDrawer(this)">
-                <div class="card-label"><?= t('Kritik Metrikler') ?></div>
-                <div class="card-stats">
-                    <span><strong><?= $active_projects ?? 5 ?></strong> <?= t('Aktif Proje') ?></span>
-                    <span><strong><?= $open_tasks ?? 54 ?></strong> <?= t('Açık Görev') ?></span>
+                <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-donut-wrapper">
+                    <div class="bilgiyapar-mcc-donut">
+                        <span class="bilgiyapar-mcc-donut-text">%60</span>
+                    </div>
+                    <div class="bilgiyapar-mcc-donut-legend">
+                        <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 90000) ?></div>
+                        <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
+                        <div style="margin-top: 5px;">
+                            <span style="background: #d9534f;"></span> <?= t('Harcanan (%60)') ?><br>
+                            <span style="background: #5cb85c;"></span> <?= t('Kalan (%40)') ?>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getFunding', array('plugin' => 'ExecutiveDashboard')) ?>" onclick="MCC.openDrawer(this)">
-                <div class="card-label"><?= t('Genişletilmiş Fonlama & Gelir') ?></div>
-                <div class="card-value">14 Gün Kaldı</div>
-                <div class="card-sub">Hedef: 500.000 TL</div>
-            </div>
+            </a>
+            
+            <!-- Ek Metrik Kartı Mock -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getMetrics', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-line-chart bilgiyapar-mcc-text-primary"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Performans Metrikleri') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content">
+                    <div class="card-value">Verimli</div>
+                    <div class="card-sub">Son 30 gün operasyon puanı: %85</div>
+                </div>
+            </a>
         </div>
     </div>
 
     <!-- 2. ACİL DURUM & KRİTİK BLOKAJLAR -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-warning" style="color:#d9534f"></i> <?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
+        <div class="bilgiyapar-mcc-section-title"><?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
         <div class="bilgiyapar-mcc-grid-2">
-            <div class="bilgiyapar-mcc-card alert-red" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getBlockerDetails', array('plugin' => 'ExecutiveDashboard')) ?>" onclick="MCC.openDrawer(this)">
-                <i class="fa fa-ban"></i> <?= t('Toplam Kritik Blokaj') ?>: <strong><?= $total_blockers ?? 3 ?></strong>
+            <!-- Blokaj Özet -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getBlockersList', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Toplam Kritik Blokaj') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-text-danger">
+                    <?= isset($total_blockers) ? $total_blockers : 3 ?> <?= t('Görev') ?>
+                </div>
+            </a>
+            
+            <!-- Hiyerarşik Ağaç -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getBlockersList', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-sitemap bilgiyapar-mcc-text-warning"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Blokaj Ağacı') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content">
+                    <div class="bilgiyapar-mcc-tree" style="font-family:monospace">
+<span class="highlight">A.Ş. Resmi İşlemler (Ana Proje)</span>
+|-- <span class="highlight">Vergi Yapılandırması</span> (P1 - Bloke)
+|   └─ Evrak Teslimi (Gecikmeli)
+|
+|-- İK İşe Alım Modülü
+    └─ Bütçe Onayı Bekleniyor
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 3. GÖREV BAĞIMLILIKLARI & KRİTİK YOL (RELATIONGRAPH) -->
+    <div class="bilgiyapar-mcc-section">
+        <div class="bilgiyapar-mcc-section-title"><?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL') ?></div>
+        <div class="bilgiyapar-mcc-grid-2">
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getCriticalPath', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-road bilgiyapar-mcc-text-primary"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Kritik Yol (Critical Path)') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content">
+                    <div class="card-sub">Ana süreçlerdeki darboğazların ağ analizi yüklenmeye hazır.</div>
+                    <button class="bilgiyapar-mcc-btn" style="margin-top:10px;"><i class="fa fa-eye"></i> Haritayı Aç</button>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 4. ZAMAN SINIRLI EYLEM PLANI -->
+    <div class="bilgiyapar-mcc-section">
+        <div class="bilgiyapar-mcc-section-title"><?= t('ZAMAN SINIRLI EYLEM PLANI') ?></div>
+        <div class="bilgiyapar-mcc-action-grid">
+            <!-- Başlıklar -->
+            <div class="bilgiyapar-mcc-action-header bilgiyapar-mcc-role-header">Kişiler / Roller</div>
+            <div class="bilgiyapar-mcc-action-header">BUGÜN (P1 Acil)</div>
+            <div class="bilgiyapar-mcc-action-header">BU HAFTA (Sprint Hedefi)</div>
+            <div class="bilgiyapar-mcc-action-header">BU AY (Stratejik)</div>
+
+            <!-- Satır 1: Sencar Tosun -->
+            <div class="bilgiyapar-mcc-action-col">
+                <div class="bilgiyapar-mcc-role-item"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> Sencar Tosun</div>
             </div>
-            <div class="bilgiyapar-mcc-card alert-red">
-                <i class="fa fa-file-text"></i> <?= t('Gecikmiş Fatura') ?>: <strong>1</strong>
+            
+            <div class="bilgiyapar-mcc-action-col">
+                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
+                    <div class="bilgiyapar-mcc-mini-card-top">
+                        <span class="bilgiyapar-mcc-mini-card-title">Müşteri Sunumu Hazırlığı</span>
+                        <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
+                    </div>
+                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 25%; background-color:#d9534f;"></div></div>
+                </a>
+            </div>
+
+            <div class="bilgiyapar-mcc-action-col">
+                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
+                    <div class="bilgiyapar-mcc-mini-card-top">
+                        <span class="bilgiyapar-mcc-mini-card-title">V2 Yayın Sürümü Kontrolü</span>
+                        <i class="fa fa-check-circle bilgiyapar-mcc-text-success"></i>
+                    </div>
+                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 80%; background-color:#5cb85c;"></div></div>
+                </a>
+            </div>
+
+            <div class="bilgiyapar-mcc-action-col">
+                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
+                    <div class="bilgiyapar-mcc-mini-card-top">
+                        <span class="bilgiyapar-mcc-mini-card-title">Q3 Bütçe Planlaması</span>
+                        <i class="fa fa-clock-o bilgiyapar-mcc-text-primary"></i>
+                    </div>
+                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 10%; background-color:#007bff;"></div></div>
+                </a>
+            </div>
+
+            <!-- Satır 2: Yazılım Ekibi -->
+            <div class="bilgiyapar-mcc-action-col">
+                <div class="bilgiyapar-mcc-role-item"><i class="fa fa-users" style="margin-right:8px; color:#666;"></i> Yazılım Ekibi</div>
+            </div>
+            <div class="bilgiyapar-mcc-action-col">
+                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
+                    <div class="bilgiyapar-mcc-mini-card-top">
+                        <span class="bilgiyapar-mcc-mini-card-title">Hotfix 1.2.4</span>
+                        <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
+                    </div>
+                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 90%; background-color:#d9534f;"></div></div>
+                </a>
+            </div>
+            <div class="bilgiyapar-mcc-action-col">
+                <div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>
+            </div>
+            <div class="bilgiyapar-mcc-action-col">
+                <div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>
             </div>
         </div>
+    </div>
 
-        <!-- Hiyerarşik Tree View (Monospaced) -->
-        <div class="bilgiyapar-mcc-list-card">
-            <div style="font-family: monospace; font-size: 13px; line-height: 1.6; color: #333;">
-                <div>[A.Ş. Resmi İşlemler]</div>
-                <div>|-- A.Ş. NACE Onayı (GÖREV)</div>
-                <div>&nbsp;&nbsp;&nbsp;└─ <span style="color:#d9534f; font-weight:bold;">Mali Müşavir Bekleniyor (BLOKE)</span></div>
-                <div style="margin-top:10px;">[ISAMA Play Store Yayını]</div>
-                <div>|-- Apple Developer Hesabı</div>
-                <div>&nbsp;&nbsp;&nbsp;└─ <span style="color:#d9534f; font-weight:bold;">DUNS Numarası Evrak Eksik (BLOKE)</span></div>
-            </div>
+    <!-- 5. ŞİRKET PROJELERİ & ÇEVİK MATRİSLER -->
+    <div class="bilgiyapar-mcc-section">
+        <div class="bilgiyapar-mcc-section-title"><?= t('ŞİRKET PROJELERİ & ÇEVİK MATRİSLER') ?></div>
+        <div class="bilgiyapar-mcc-grid-4">
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getProjectMatrix', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-cubes"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Olympos Projesi') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
+                    <div class="bilgiyapar-mcc-velocity-badge">Velocity C35</div>
+                    
+                    <div class="bilgiyapar-mcc-progress-bg" style="height:8px; margin-top:10px;">
+                        <div class="bilgiyapar-mcc-progress-bar" style="width: 75%; background-color:#f0ad4e;"></div>
+                    </div>
+                    
+                    <div class="bilgiyapar-mcc-wip-alert">
+                        <i class="fa fa-exclamation-triangle"></i> WIP Limit Aşımı (Tasarım)
+                    </div>
+                </div>
+            </a>
+            
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getProjectMatrix', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-cubes"></i>
+                    <div class="bilgiyapar-mcc-card-title"><?= t('Kurumsal Web V2') ?></div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
+                    <div class="bilgiyapar-mcc-velocity-badge" style="background:#dff0d8; color:#3c763d;">Velocity C10</div>
+                    
+                    <div class="bilgiyapar-mcc-progress-bg" style="height:8px; margin-top:10px;">
+                        <div class="bilgiyapar-mcc-progress-bar" style="width: 40%; background-color:#5cb85c;"></div>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
-</div>
 
-<!-- Side Drawer HTML -->
-<div id="bilgiyapar-mcc-sidedrawer" class="bilgiyapar-mcc-sidedrawer">
-    <div class="bilgiyapar-mcc-sidedrawer-header">
-        <h3 class="bilgiyapar-mcc-sidedrawer-title"><?= t('Detaylar') ?></h3>
-        <button class="bilgiyapar-mcc-sidedrawer-close" onclick="document.getElementById('bilgiyapar-mcc-sidedrawer').classList.remove('bilgiyapar-mcc-sidedrawer-open');">&times;</button>
+    <!-- 6. AI DESTEKLİ OPERASYONEL ÖNERİLER -->
+    <div class="bilgiyapar-mcc-section">
+        <div class="bilgiyapar-mcc-section-title"><?= t('AI DESTEKLİ OPERASYONEL ÖNERİLER') ?></div>
+        <div class="bilgiyapar-mcc-ai-grid">
+            <!-- Öneri 1 -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getAiRecommendations', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
+                    <div class="bilgiyapar-mcc-card-title">Kapasite Dengeleme</div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
+                    "Olympos Projesi"nde darboğaz var. Tasarım ekibinden 1 kişiyi buraya kaydırabilirsiniz.
+                    <br>
+                    <button class="bilgiyapar-mcc-btn"><i class="fa fa-plus"></i> GÖREV OLUŞTUR VE ATA</button>
+                </div>
+            </a>
+            
+            <!-- Öneri 2 -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getAiRecommendations', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="bilgiyapar-mcc-card-header">
+                    <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
+                    <div class="bilgiyapar-mcc-card-title">Bütçe Optimizasyonu</div>
+                </div>
+                <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
+                    Harcanan bütçe planlananın %15 üzerinde seyrediyor. Sunucu maliyetlerini gözden geçirin.
+                    <br>
+                    <button class="bilgiyapar-mcc-btn"><i class="fa fa-bar-chart"></i> RAPORU İNCELE</button>
+                </div>
+            </a>
+        </div>
     </div>
-    <div id="bilgiyapar-mcc-sidedrawer-content" class="bilgiyapar-mcc-sidedrawer-content">
-        <!-- AJAX Content will load here -->
-    </div>
+
 </div>

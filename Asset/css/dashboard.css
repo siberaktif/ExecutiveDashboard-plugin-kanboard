@@ -135,21 +135,21 @@
     align-items: center;
     gap: 20px;
 }
-.bilgiyapar-mcc-donut {
-    width: 80px;
-    height: 80px;
+.bilgiyapar-mcc-donut, .donut-chart {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    /* e.g., 60% spent (red), 40% remaining (green) */
+    /* 60% spent (red), 40% remaining (green) */
     background: conic-gradient(#d9534f 0% 60%, #5cb85c 60% 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
 }
-.bilgiyapar-mcc-donut::after {
+.bilgiyapar-mcc-donut::after, .donut-chart::after {
     content: "";
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     background: #ffffff;
     border-radius: 50%;
     position: absolute;
@@ -196,7 +196,7 @@
     font-weight: bold;
 }
 
-/* NEW: Action Plan Grid */
+/* Action Plan Grid Defaults */
 .bilgiyapar-mcc-action-grid {
     display: grid;
     grid-template-columns: 200px 1fr 1fr 1fr;
@@ -313,3 +313,18 @@
 .bilgiyapar-mcc-btn i {
     margin-right: 6px;
 }
+
+/* RULE 1: Specific Grid Classes */
+.bilgiyapar-mcc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.bilgiyapar-mcc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.bilgiyapar-mcc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+
+/* RULE 3: Kanboard Sidebar Menu Order Trick */
+.sidebar ul.no-bullets { display: flex; flex-direction: column; }
+.sidebar ul.no-bullets > li { order: 10; }
+.sidebar ul.no-bullets > li:nth-child(1) { order: 1; }
+.sidebar ul.no-bullets > li:nth-child(2) { order: 2; }
+.sidebar ul.no-bullets > li:nth-child(3) { order: 3; }
+.sidebar ul.no-bullets > li:nth-child(4) { order: 4; }
+.sidebar ul.no-bullets > li:nth-child(5) { order: 5; }
+.sidebar ul.no-bullets > li:has(a[href*="TodoNotes"]) { order: 6 !important; }
