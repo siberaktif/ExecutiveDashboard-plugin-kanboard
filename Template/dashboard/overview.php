@@ -203,7 +203,7 @@
         <div class="bilgiyapar-mcc-section-title"><?= t('AI DESTEKLİ OPERASYONEL ÖNERİLER') ?></div>
         <div class="bilgiyapar-mcc-ai-grid">
             <!-- Öneri 1 -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getAiRecommendations', array('plugin' => 'ExecutiveDashboard')) ?>">
+            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Lütfen 'Olympos Projesi' için tasarım ekibinden 1 kişiyi bu projeye atamak üzere bir görev oluştur. Darboğazı çözmek için acil durum belirt.", ENT_QUOTES) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
                     <div class="bilgiyapar-mcc-card-title">Kapasite Dengeleme</div>
@@ -211,12 +211,12 @@
                 <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
                     "Olympos Projesi"nde darboğaz var. Tasarım ekibinden 1 kişiyi buraya kaydırabilirsiniz.
                     <br>
-                    <button class="bilgiyapar-mcc-btn"><i class="fa fa-plus"></i> GÖREV OLUŞTUR VE ATA</button>
+                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;"><i class="fa fa-copy"></i> PROMPT KOPYALA</button>
                 </div>
-            </a>
+            </div>
             
             <!-- Öneri 2 -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getAiRecommendations', array('plugin' => 'ExecutiveDashboard')) ?>">
+            <div class="bilgiyapar-mcc-card bilgiyapar-mcc-ai-prompt" style="display:block; cursor:pointer;" data-prompt="<?= htmlspecialchars("Geçen ayki sunucu maliyetleri ve bütçe planlamasının %15 üzerindeki harcama oranları için detaylı bir analiz oluştur, optimizasyon önerilerini listele.", ENT_QUOTES) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-magic bilgiyapar-mcc-text-primary"></i>
                     <div class="bilgiyapar-mcc-card-title">Bütçe Optimizasyonu</div>
@@ -224,10 +224,37 @@
                 <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
                     Harcanan bütçe planlananın %15 üzerinde seyrediyor. Sunucu maliyetlerini gözden geçirin.
                     <br>
-                    <button class="bilgiyapar-mcc-btn"><i class="fa fa-bar-chart"></i> RAPORU İNCELE</button>
+                    <button class="bilgiyapar-mcc-btn bilgiyapar-mcc-copy-btn" onclick="return false;"><i class="fa fa-copy"></i> PROMPT KOPYALA</button>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var promptCards = document.querySelectorAll('.bilgiyapar-mcc-ai-prompt');
+    promptCards.forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            e.preventDefault();
+            var promptText = this.getAttribute('data-prompt');
+            var btn = this.querySelector('.bilgiyapar-mcc-copy-btn');
+            
+            // Panoya kopyala
+            navigator.clipboard.writeText(promptText).then(function() {
+                var originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa fa-check"></i> KOPYALANDI!';
+                btn.style.backgroundColor = '#28a745';
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalText;
+                    btn.style.backgroundColor = '';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Kopyalama başarısız: ', err);
+            });
+        });
+    });
+});
+</script>
