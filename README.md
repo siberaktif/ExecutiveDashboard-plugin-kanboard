@@ -17,3 +17,10 @@
 2. Place the `ExecutiveDashboard` folder into the `plugins/` directory of your Kanboard installation.
 3. Ensure the folder is named exactly `ExecutiveDashboard`.
 4. Log into Kanboard and verify the plugin is active in **Settings -> Plugins**.
+
+## Kurumsal Dokümantasyon
+* [Güvenlik Politikası](SECURITY.md)
+* [Katkıda Bulunma](CONTRIBUTING.md)
+* [Davranış Kuralları](CODE_OF_CONDUCT.md)
+* [Değişim Günlüğü](CHANGELOG.md)
+* [Lisans](LICENSE)
