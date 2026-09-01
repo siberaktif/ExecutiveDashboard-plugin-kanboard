@@ -22,15 +22,15 @@
                             <td style="padding:10px;"><a href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => $line['project_id'])) ?>" target="_blank"><strong><?= htmlspecialchars($line['project_name']) ?></strong></a></td>
                             <td style="padding:10px;"><?= htmlspecialchars($line['comment']) ?></td>
                             <td style="padding:10px;"><?= date('Y-m-d', $line['date'] ?? time()) ?></td>
-                            <td style="padding:10px;"><strong><?= $this->helper->dashboardFormat->currency($line['amount']) ?></strong></td>
+                            <td style="padding:10px;"><strong><?= number_format($line['amount'], 2, ',', '.') ?> TL</strong></td>
                             <td style="padding:10px;">
-                                <span style="background:#fce8e6; color:#d9534f; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:bold;">Gerçekleşen Harcama</span>
+                                <span style="background:#fce8e6; color:#d9534f; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:bold;"><?= t('Gerçekleşen Harcama') ?></span>
                             </td>
                         </tr>
                         <?php endforeach; ?>
                         <tr style="background:#f9f9f9; border-top:2px solid #ddd;">
                             <td colspan="3" style="padding:15px; text-align:right;"><strong><?= t('Genel Toplam (Tüm Projeler):') ?></strong></td>
-                            <td colspan="2" style="padding:15px; font-size:18px; color:#d9534f;"><strong><?= $this->helper->dashboardFormat->currency($total) ?></strong></td>
+                            <td colspan="2" style="padding:15px; font-size:18px; color:#d9534f;"><strong><?= number_format($total, 2, ',', '.') ?> TL</strong></td>
                         </tr>
                     <?php else: ?>
                         <tr>

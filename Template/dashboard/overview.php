@@ -216,10 +216,11 @@
         <div class="bilgiyapar-mcc-section-title"><?= t('ZAMAN SINIRLI EYLEM PLANI') ?></div>
         <div class="bilgiyapar-mcc-action-grid">
             <!-- Başlıklar -->
-            <div class="bilgiyapar-mcc-action-header bilgiyapar-mcc-role-header">Kişiler / Roller</div>
-            <div class="bilgiyapar-mcc-action-header">BUGÜN (P1 Acil)</div>
-            <div class="bilgiyapar-mcc-action-header">BU HAFTA (Sprint Hedefi)</div>
-            <div class="bilgiyapar-mcc-action-header">BU AY (Stratejik)</div>
+            <div class="bilgiyapar-mcc-action-header bilgiyapar-mcc-role-header"><?= t('Kişiler / Roller') ?></div>
+            <div class="bilgiyapar-mcc-action-header"><?= t('GECİKENLER (Alarm)') ?></div>
+            <div class="bilgiyapar-mcc-action-header"><?= t('BUGÜN (P1 Acil)') ?></div>
+            <div class="bilgiyapar-mcc-action-header"><?= t('BU HAFTA (Sprint Hedefi)') ?></div>
+            <div class="bilgiyapar-mcc-action-header"><?= t('BU AY (Stratejik)') ?></div>
 
             <?php if(isset($users) && !empty($users)): ?>
                 <?php foreach($users as $u): ?>
@@ -235,6 +236,26 @@
                         <div class="bilgiyapar-mcc-role-item" style="font-weight:bold; padding:10px;"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($uNameRaw) ?></div>
                     </div>
                     
+                    <!-- GECİKENLER -->
+                    <div class="bilgiyapar-mcc-action-col" style="border-bottom:1px solid #eee; padding:10px; background:#fff5f5;">
+                        <?php 
+                        $hasOverdue = false; $count = 0;
+                        if(isset($tasks_overdue)) {
+                            foreach($tasks_overdue as $t) {
+                                if($t['owner_id'] == $u['id']) {
+                                    if($count >= 4) {
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open due:<=yesterday')).'" target="_blank" style="font-size:11px; color:#d9534f; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
+                                        break;
+                                    }
+                                    $hasOverdue = true; $count++;
+                                    echo '<a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; border:1px solid #e1e4e8; border-radius:4px; padding:8px; margin-bottom:5px; background:#fff; border-left:3px solid #d9534f;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('TaskViewController', 'show', array('task_id' => $t['id'])).'"><div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600;"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-calendar-times-o" style="color:#d9534f;"></i></div></a>';
+                                }
+                            }
+                        }
+                        if(!$hasOverdue) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">'.t('Temiz').'</div>';
+                        ?>
+                    </div>
+
                     <!-- BUGÜN -->
                     <div class="bilgiyapar-mcc-action-col" style="border-bottom:1px solid #eee; padding:10px;">
                         <?php 

@@ -76,6 +76,7 @@ class ExecutiveDashboardController extends BaseController
         $month_end = strtotime('last day of this month', $now) + 86399;
 
         // Gerçek görevlerin date_due filtrelemesiyle çekilmesi
+        $tasks_overdue = $this->db->table('tasks')->eq('is_active', 1)->lt('date_due', $today_start)->neq('date_due', 0)->findAll();
         $tasks_today = $this->db->table('tasks')->eq('is_active', 1)->gte('date_due', $today_start)->lte('date_due', $today_end)->findAll();
         $tasks_week = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $today_end)->lte('date_due', $week_end)->findAll();
         $tasks_month = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $week_end)->lte('date_due', $month_end)->findAll();
@@ -211,6 +212,7 @@ class ExecutiveDashboardController extends BaseController
             'blocker_links' => $blocker_links,
             'global_burn_rate' => $global_burn_rate,
             'budget_spent' => $budget_spent,
+            'tasks_overdue' => $tasks_overdue,
             'tasks_today' => $tasks_today,
             'tasks_week' => $tasks_week,
             'tasks_month' => $tasks_month,
