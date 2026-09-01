@@ -88,7 +88,8 @@
                 ['title' => 'Kategoriler', 'total' => $kpi['categories'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => '#'],
                 ['title' => 'Otomatik Eylemler', 'total' => $kpi['auto_actions'], 'sub' => '', 'color' => '#005cc5', 'icon' => 'fa-cogs', 'url' => '#'],
                 ['title' => 'Eklentiler', 'total' => $kpi['plugins'], 'sub' => '', 'color' => '#28a745', 'icon' => 'fa-plug', 'url' => $this->url->href('PluginController', 'show')],
-                ['title' => 'Görevler', 'total' => $kpi['tasks_active']+$kpi['tasks_closed'], 'sub' => 'Açık:'.$kpi['tasks_active'].' Kpl:'.$kpi['tasks_closed'], 'color' => '#e36209', 'icon' => 'fa-tasks', 'url' => $this->url->href('SearchController', 'index', array('search'=>'status:all'))],
+                ['title' => 'Görevler (Açık)', 'total' => $kpi['tasks_active'], 'sub' => '', 'color' => '#e36209', 'icon' => 'fa-tasks', 'url' => $this->url->href('SearchController', 'index', array('search'=>'status:open'))],
+                ['title' => 'Görevler (Kapalı)', 'total' => $kpi['tasks_closed'], 'sub' => '', 'color' => '#e36209', 'icon' => 'fa-check-square-o', 'url' => $this->url->href('SearchController', 'index', array('search'=>'status:closed'))],
                 ['title' => 'Yorumlar', 'total' => $kpi['comments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-comments', 'url' => '#'],
                 ['title' => 'Ekler', 'total' => $kpi['attachments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-paperclip', 'url' => '#'],
                 ['title' => 'Etiketler', 'total' => $kpi['tags'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => $this->url->href('TagController', 'index')],
@@ -226,14 +227,13 @@
                 <?php foreach($users as $u): ?>
                     <?php 
                         $uNameRaw = $u['name'] ?: $u['username'];
-                        $uName = strtolower($uNameRaw);
-                        // "Tüm Projeler", "Yönetici" veya "admin" kullanıcılarını gizle
-                        if (strpos($uName, 'tüm projeler') !== false || strpos($uName, 'yönetici') !== false || strpos($uName, 'admin') !== false) {
-                            continue;
-                        }
                     ?>
                     <div class="bilgiyapar-mcc-action-col" style="display:flex; align-items:center; border-bottom:1px solid #eee;">
-                        <div class="bilgiyapar-mcc-role-item" style="font-weight:bold; padding:10px;"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($uNameRaw) ?></div>
+                        <div class="bilgiyapar-mcc-role-item" style="font-weight:bold; padding:10px;">
+                            <a href="<?= $this->url->href('DashboardController', 'show', array('user_id' => $u['id'])) ?>" target="_blank" style="text-decoration:none; color:#24292e;">
+                                <i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($uNameRaw) ?>
+                            </a>
+                        </div>
                     </div>
                     
                     <!-- GECİKENLER -->
@@ -323,9 +323,9 @@
     <!-- 5. ŞİRKET PROJELERİ & ÇEVİK MATRİSLER -->
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('ŞİRKET PROJELERİ & ÇEVİK MATRİSLER (Halka şirket portföyü)') ?></div>
-        <div class="bilgiyapar-mcc-grid-4">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px;">
             <?php if(isset($projects) && !empty($projects)): ?>
-                <?php $p_count = 0; foreach($projects as $p): if($p_count++ >= 4) break; ?>
+                <?php foreach($projects as $p): ?>
                     <div style="background:#fff; border:1px solid #e1e4e8; border-radius:8px; display:flex; flex-direction:column; position:relative;">
                         <div style="padding:15px; border-bottom:1px solid #eee;">
                             <div style="display:flex; justify-content:space-between; align-items:flex-start;">

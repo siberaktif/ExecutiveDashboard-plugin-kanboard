@@ -82,7 +82,7 @@ class ExecutiveDashboardController extends BaseController
         $tasks_month = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $week_end)->lte('date_due', $month_end)->findAll();
 
         $users = $this->db->table('users')->eq('is_active', 1)->findAll();
-        $projects_raw = $this->db->table('projects')->eq('is_active', 1)->findAll();
+        $projects_raw = $this->db->table('projects')->eq('is_active', 1)->desc('id')->findAll();
         
         $projects = array();
         $ai_velocity_alert = null;
