@@ -82,22 +82,28 @@
             </a>
             
             <!-- Hiyerarşik Ağaç -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
+            <div class="bilgiyapar-mcc-card" style="border:1px solid #e1e4e8; border-radius:6px; background:#fff;">
+                <div class="bilgiyapar-mcc-card-header" style="padding:15px; border-bottom:1px solid #eee;">
                     <i class="fa fa-sitemap bilgiyapar-mcc-text-warning"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Blokaj Ağacı') ?></div>
+                    <div class="bilgiyapar-mcc-card-title" style="display:inline-block; margin-left:10px; font-weight:bold;"><?= t('Blokaj Ağacı') ?></div>
                 </div>
-                <div class="bilgiyapar-mcc-card-content">
+                <div class="bilgiyapar-mcc-card-content" style="padding:15px;">
                     <div class="bilgiyapar-mcc-tree" style="font-family:'Courier New', Courier, monospace; white-space:pre-wrap; line-height:1.6; font-size:13px; color:#333; background:#f9f9f9; padding:15px; border-radius:6px; border:1px solid #e1e4e8;">
-<span style="font-weight:bold; color:#1a73e8; font-size:14px;">A.Ş. Resmi İşlemler (Ana Proje)</span>
-|-- <span style="color:#d9534f; font-weight:bold;">Vergi Yapılandırması</span> <span style="color:#888;">(P1 - Bloke)</span>
-|   └─ <span style="color:#d9534f;">Evrak Teslimi (Gecikmeli)</span>
+<?php if(!empty($blocker_tree)): ?>
+<?php foreach($blocker_tree as $pid => $project): ?>
+<a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $pid)) ?>" target="_blank" style="text-decoration:none;"><span style="font-weight:bold; color:#1a73e8; font-size:14px;"><?= htmlspecialchars($project['name']) ?> (Ana Proje)</span></a>
+<?php foreach($project['tasks'] as $task): ?>
+|-- <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocked_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f; font-weight:bold;"><?= htmlspecialchars($task['blocked_task_title']) ?></span> <span style="color:#888;">(P1 - Bloke)</span></a>
+|   └─ <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocker_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f;"><?= htmlspecialchars($task['blocker_task_title']) ?> (Bekleniyor)</span></a>
 |
-|-- <span style="font-weight:bold; color:#333;">İK İşe Alım Modülü</span>
-    └─ <span style="color:#f0ad4e;">Bütçe Onayı Bekleniyor</span>
+<?php endforeach; ?>
+<?php endforeach; ?>
+<?php else: ?>
+<span style="color:#5cb85c; font-weight:bold;"><?= t('Harika! Sistemde aktif bir blokaj (darboğaz) bulunmuyor.') ?></span>
+<?php endif; ?>
 </div>
                 </div>
-            </a>
+            </div>
         </div>
     </div>
 
