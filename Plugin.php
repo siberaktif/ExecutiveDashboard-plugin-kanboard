@@ -9,8 +9,8 @@ class Plugin extends Base
     public function initialize()
     {
         // Add CSS and JS hooks
-        $this->hook->on('template:layout:css', array('template' => 'plugins/ExecutiveDashboard/assets/css/dashboard.css'));
-        $this->hook->on('template:layout:js', array('template' => 'plugins/ExecutiveDashboard/assets/js/sidedrawer.js'));
+        $this->hook->on('template:layout:css', array('template' => 'plugins/ExecutiveDashboard/Asset/css/dashboard.css'));
+        $this->hook->on('template:layout:js', array('template' => 'plugins/ExecutiveDashboard/Asset/js/sidedrawer.js'));
 
         // Add 'Yönetici Kontrol Merkezi' to the dashboard sidebar
         // Note: The prompt requested 'dashboard:sidebar' hook. In Kanboard, it's typically template:dashboard:sidebar.

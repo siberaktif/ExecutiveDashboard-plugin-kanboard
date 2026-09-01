@@ -1,0 +1,8 @@
+/vendor
+/.vscode
+/.idea
+/logs
+/cache
+/.dfmt
+/.claude
+*.log
