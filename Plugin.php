@@ -15,10 +15,8 @@ class Plugin extends Base
         // Register Helper
         $this->helper->register('dashboardFormat', '\Kanboard\Plugin\ExecutiveDashboard\Helper\DashboardFormatHelper');
 
-        // Add 'Yönetici Kontrol Merkezi' to the dashboard sidebar
-        // Note: The prompt requested 'dashboard:sidebar' hook. In Kanboard, it's typically template:dashboard:sidebar.
-        // We will create the sidebar template next to render the link.
-        $this->template->hook->attach('template:dashboard:sidebar', 'ExecutiveDashboard:dashboard/sidebar');
+        // Add 'Yönetici Kontrol Merkezi' to the dashboard sidebar by overriding it
+        $this->template->setTemplateOverride('dashboard/sidebar', 'ExecutiveDashboard:dashboard/sidebar');
     }
 
     public function getPluginName()
@@ -28,12 +26,17 @@ class Plugin extends Base
 
     public function getPluginDescription()
     {
-        return 'Yönetici Kontrol Merkezi ve Metrik Paneli';
+        return 'Kanboard CEO Operasyon ve Yönetici Kontrol Merkezi.';
+    }
+
+    public function getPluginHomepage()
+    {
+        return 'http://localhost:3010/sencarto/ExecutiveDashboard-plugin-kanboard';
     }
 
     public function getPluginAuthor()
     {
-        return 'Bilgiyapar Tosun';
+        return 'DediTeknoloji.com Bilgiyapar.com Sencar Tosun';
     }
 
     public function getPluginVersion()

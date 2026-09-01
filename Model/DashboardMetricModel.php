@@ -12,7 +12,7 @@ class DashboardMetricModel extends Base
      */
     public function getTotalActiveProjects()
     {
-        return $this->projectModel->getActiveProjectCount();
+        return $this->db->table('projects')->eq('is_active', 1)->count();
     }
 
     /**
