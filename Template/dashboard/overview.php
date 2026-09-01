@@ -77,6 +77,11 @@
         <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:12px;">
             <?php
             $kpi_cards = [
+                ['title' => 'Genel Proje Performansı', 'total' => '%'.$kpi['performance_avg'], 'sub' => '', 'color' => '#1a73e8', 'icon' => 'fa-line-chart', 'url' => '#'],
+                ['title' => 'Proje Sağlığı', 'total' => $kpi['health_status'], 'sub' => 'Uyarı', 'color' => $kpi['health_color'], 'icon' => 'fa-heartbeat', 'url' => '#'],
+                ['title' => 'Genel Skor', 'total' => '%'.$kpi['overall_score'], 'sub' => '', 'color' => '#f0ad4e', 'icon' => 'fa-trophy', 'url' => '#'],
+                ['title' => 'Geciken Görevler', 'total' => $kpi['overdue_total_count'], 'sub' => 'Dikkat Gerektiriyor', 'color' => '#d73a49', 'icon' => 'fa-calendar-times-o', 'url' => $this->url->href('TaskController', 'task_overdue', array('project_id'=>2, 'plugin'=>'KPI'))],
+                
                 ['title' => 'Projeler', 'total' => $kpi['projects_active']+$kpi['projects_inactive'], 'sub' => 'A:'.$kpi['projects_active'].' P:'.$kpi['projects_inactive'], 'color' => '#0366d6', 'icon' => 'fa-folder-open-o', 'url' => $this->url->href('ProjectListController', 'show')],
                 ['title' => 'Kişisel Projeler', 'total' => $kpi['projects_private'], 'sub' => '', 'color' => '#0366d6', 'icon' => 'fa-lock', 'url' => $this->url->href('ProjectListController', 'show')],
                 ['title' => 'Herkese Açık Projeler', 'total' => $kpi['projects_public'], 'sub' => '', 'color' => '#0366d6', 'icon' => 'fa-globe', 'url' => $this->url->href('ProjectListController', 'show')],

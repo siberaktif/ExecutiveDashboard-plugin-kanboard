@@ -117,6 +117,30 @@ class ExecutiveDashboardController extends BaseController
 
         // --- SİSTEM & KÜRESEL KPI MATRİSİ (System Metrics) ---
         $kpi = array();
+        
+        // 1. Yeni Genel Metrikler (KPI)
+        $total_project_count_for_avg = count($projects);
+        $total_progress_sum = 0;
+        foreach ($projects as $p) {
+            $total_progress_sum += $p['progress'];
+        }
+        $kpi['performance_avg'] = $total_project_count_for_avg > 0 ? round($total_progress_sum / $total_project_count_for_avg) : 0;
+        $kpi['overall_score'] = $kpi['performance_avg']; // Şimdilik performans ile eşdeğer
+        
+        $kpi['overdue_total_count'] = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->neq('date_due', 0)
+            ->lt('date_due', $now)
+            ->count();
+            
+        if ($total_blockers > 0 || $kpi['overdue_total_count'] > 10) {
+            $kpi['health_status'] = 'Uyarı';
+            $kpi['health_color'] = '#d73a49';
+        } else {
+            $kpi['health_status'] = 'İyi';
+            $kpi['health_color'] = '#28a745';
+        }
+
         $kpi['projects_active'] = $this->db->table('projects')->eq('is_active', 1)->count();
         $kpi['projects_inactive'] = $this->db->table('projects')->eq('is_active', 0)->count();
         $kpi['projects_private'] = $this->db->table('projects')->eq('is_private', 1)->count();
