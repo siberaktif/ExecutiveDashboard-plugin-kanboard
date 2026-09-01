@@ -11,4 +11,4 @@ Currently, the 1.x version of the ExecutiveDashboard plugin is actively supporte
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within this plugin, please do not disclose it publicly. Instead, send an email to Sencar Tosun or report it via private channel. We will prioritize and resolve security issues promptly.
+If you discover a security vulnerability within this plugin, please do not disclose it publicly. Instead, send an email to Bilgiyapar Tosun or report it via private channel. We will prioritize and resolve security issues promptly.

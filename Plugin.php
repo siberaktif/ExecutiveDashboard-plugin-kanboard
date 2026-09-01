@@ -30,7 +30,7 @@ class Plugin extends Base
 
     public function getPluginAuthor()
     {
-        return 'Sencar Tosun';
+        return 'Bilgiyapar Tosun';
     }
 
     public function getPluginVersion()

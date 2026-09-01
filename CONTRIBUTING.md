@@ -15,4 +15,4 @@ Thank you for investing your time in contributing to our project!
 
 * All PHP code must adhere strictly to **PSR-12** coding standards.
 * Avoid making changes to Kanboard core files.
-* When adding UI elements, always use the prefix `.sencar-mcc-` for CSS classes to avoid conflicts.
+* When adding UI elements, always use the prefix `.bilgiyapar-mcc-` for CSS classes to avoid conflicts.

@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var cards = document.querySelectorAll('.sencar-mcc-card');
-    var drawer = document.getElementById('sencar-mcc-sidedrawer');
-    var closeBtn = document.querySelector('.sencar-mcc-sidedrawer-close');
-    var contentArea = document.querySelector('.sencar-mcc-sidedrawer-content');
+    var cards = document.querySelectorAll('.bilgiyapar-mcc-card');
+    var drawer = document.getElementById('bilgiyapar-mcc-sidedrawer');
+    var closeBtn = document.querySelector('.bilgiyapar-mcc-sidedrawer-close');
+    var contentArea = document.querySelector('.bilgiyapar-mcc-sidedrawer-content');
 
     cards.forEach(function(card) {
         card.addEventListener('click', function() {
             var url = card.getAttribute('data-url');
-            if(url) {
+            if(url && url !== '#') {
                 // Show drawer
-                drawer.classList.add('sencar-mcc-sidedrawer-open');
-                contentArea.innerHTML = '<div class="sencar-mcc-loading">Yükleniyor...</div>';
+                drawer.classList.add('bilgiyapar-mcc-sidedrawer-open');
+                contentArea.innerHTML = '<div class="bilgiyapar-mcc-loading">Yükleniyor...</div>';
                 
                 // Fetch data
                 fetch(url, {
@@ -18,13 +18,24 @@ document.addEventListener("DOMContentLoaded", function() {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    // Very simple render just to show it's working
-                    contentArea.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
                 })
-                .catch(error => {
-                    contentArea.innerHTML = '<div class="sencar-mcc-text-danger">Hata oluştu!</div>';
+                .then(function(htmlOrJson) {
+                    // Try parsing as JSON first
+                    try {
+                        var data = JSON.parse(htmlOrJson);
+                        contentArea.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    } catch (e) {
+                        // If it's HTML, just inject it
+                        contentArea.innerHTML = htmlOrJson;
+                    }
+                })
+                .catch(function(error) {
+                    contentArea.innerHTML = '<div class="bilgiyapar-mcc-text-danger" style="padding: 20px;">Veri alınırken hata oluştu! Detay: ' + error.message + '</div>';
                 });
             }
         });
@@ -32,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if(closeBtn) {
         closeBtn.addEventListener('click', function() {
-            drawer.classList.remove('sencar-mcc-sidedrawer-open');
+            drawer.classList.remove('bilgiyapar-mcc-sidedrawer-open');
         });
     }
 });

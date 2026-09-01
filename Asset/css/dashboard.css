@@ -1,99 +1,141 @@
-.sencar-mcc-dashboard-container {
+.bilgiyapar-mcc-dashboard-container {
     padding: 20px;
-    background-color: #f9f9f9; /* Light theme background */
-}
-
-.sencar-mcc-dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.sencar-mcc-card {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.sencar-mcc-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.sencar-mcc-card-title {
-    font-size: 16px;
-    font-weight: bold;
+    background-color: #f4f5f7;
     color: #333;
-    margin-bottom: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-.sencar-mcc-card-value {
+.bilgiyapar-mcc-dashboard-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.bilgiyapar-mcc-section {
+    margin-bottom: 30px;
+}
+
+.bilgiyapar-mcc-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e1e4e8;
+    padding-bottom: 5px;
+}
+
+.bilgiyapar-mcc-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.bilgiyapar-mcc-card {
+    background-color: #ffffff;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.bilgiyapar-mcc-card:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.bilgiyapar-mcc-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.bilgiyapar-mcc-card-header i {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #555;
+}
+
+.bilgiyapar-mcc-card-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.bilgiyapar-mcc-card-content {
     font-size: 24px;
     font-weight: bold;
 }
 
-/* Warning Colors */
-.sencar-mcc-text-danger { color: #d9534f; }
-.sencar-mcc-text-warning { color: #f0ad4e; }
-.sencar-mcc-text-success { color: #5cb85c; }
+.bilgiyapar-mcc-card-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.bilgiyapar-mcc-card-content li {
+    margin-bottom: 5px;
+}
+
+/* Status Colors */
+.bilgiyapar-mcc-text-danger { color: #d9534f !important; }
+.bilgiyapar-mcc-text-warning { color: #f0ad4e !important; }
+.bilgiyapar-mcc-text-success { color: #5cb85c !important; }
 
 /* Side Drawer Styles */
-.sencar-mcc-sidedrawer {
+.bilgiyapar-mcc-sidedrawer {
     position: fixed;
     top: 0;
-    right: -400px;
-    width: 400px;
+    right: 0;
+    width: 450px;
+    max-width: 90%;
     height: 100vh;
-    background: #ffffff;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-    z-index: 9999;
+    background-color: #ffffff;
+    border-left: 1px solid #e1e4e8;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 10000;
     display: flex;
     flex-direction: column;
 }
 
-.sencar-mcc-sidedrawer.sencar-mcc-sidedrawer-open {
-    right: 0;
+.bilgiyapar-mcc-sidedrawer-open {
+    transform: translateX(0);
 }
 
-.sencar-mcc-sidedrawer-header {
+.bilgiyapar-mcc-sidedrawer-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: #f1f1f1;
-    border-bottom: 1px solid #ddd;
+    background-color: #f4f5f7;
+    border-bottom: 1px solid #e1e4e8;
 }
 
-.sencar-mcc-sidedrawer-title {
+.bilgiyapar-mcc-sidedrawer-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.sencar-mcc-sidedrawer-close {
+.bilgiyapar-mcc-sidedrawer-close {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
-    color: #888;
+    color: #555;
 }
 
-.sencar-mcc-sidedrawer-close:hover {
-    color: #333;
-}
-
-.sencar-mcc-sidedrawer-content {
+.bilgiyapar-mcc-sidedrawer-content {
     padding: 20px;
     overflow-y: auto;
     flex-grow: 1;
 }
 
-.sencar-mcc-loading {
+.bilgiyapar-mcc-loading {
     text-align: center;
+    padding: 20px;
     color: #888;
-    font-style: italic;
 }
