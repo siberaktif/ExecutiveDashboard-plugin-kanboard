@@ -1,14 +1,12 @@
-# Security Policy
+# Güvenlik Politikası
 
-## Supported Versions
+## Desteklenen Sürümler
+Sadece en güncel sürüm için güvenlik güncellemeleri sağlanmaktadır.
 
-Currently, the 1.x version of the ExecutiveDashboard plugin is actively supported for security updates.
+| Sürüm | Destekleniyor mu? |
+| ----- | ----------------- |
+| 1.0.x | Evet              |
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0   | :x:                |
-
-## Reporting a Vulnerability
-
-If you discover a security vulnerability within this plugin, please do not disclose it publicly. Instead, send an email to Bilgiyapar Tosun or report it via private channel. We will prioritize and resolve security issues promptly.
+## Güvenlik Açığı Bildirimi
+Eğer bir güvenlik açığı tespit ederseniz, lütfen doğrudan depo sahibi (Sencar Tosun / Bilgiyapar) ile iletişime geçin. 
+Herkese açık bir Issue (Talep) açmadan önce güvenlik problemlerinin özel olarak çözülmesini tercih ediyoruz.

@@ -1,26 +1,21 @@
-# Executive Dashboard Plugin for Kanboard
+# Kanboard Executive Dashboard Plugin
 
-**Executive Dashboard** (CEO Operasyon Merkezi) is a specialized plugin for Kanboard that aggregates financial metrics, bottlenecks, and AI-driven recommendations into a single, unified view.
+Kanboard CEO Operasyon ve Yönetici Kontrol Merkezi. Bu eklenti, Kanboard arayüzünüzü üst düzey yöneticiler için stratejik bir gösterge paneline dönüştürür. 
 
-## Requirements
-* Kanboard >= 1.2.0
-* PHP >= 8.1.0
+## Ekran Görüntüsü
+<!-- Ekran görüntüsünü aşağıya kendi resim linkiniz/path'iniz ile ekleyebilirsiniz -->
+![Executive Dashboard Ekran Görüntüsü](screenshot.jpg)
 
-## Features
-* **Global Burn Rate:** Monitor financial performance.
-* **Critical Blockers:** Immediately identify P1 and blocked tasks.
-* **AI Recommendations:** (Future) Intelligent insights based on project metrics.
-* **Progressive Disclosure:** Fast loading UI using asynchronous AJAX requests.
+## Özellikler
+- **Finans ve Strateji Paneli:** Küresel Nakit Yakım Hızı ve Performans Metrikleri.
+- **Kritik Blokajlar:** Projelerdeki tıkanıklıkları hiyerarşik ağaç formatında görme.
+- **Görev Bağımlılıkları ve Kritik Yol:** Süreçlerdeki darboğazların ağ analizi.
+- **Zaman Sınırlı Eylem Planı (Action Plan):** Tüm takım üyelerinin Bugün (P1), Bu Hafta ve Bu Ayki hedeflerini tek bir ızgarada dinamik veriyle görme.
+- **Şirket Projeleri ve Çevik Matrisler:** Aktif projelerin Velocity ve WIP (Work in Progress) limit uyarıları.
+- **AI Destekli Operasyonel Öneriler:** Tek tıkla çözüm prompt'larını bilgisayar panosuna kopyalama.
 
-## Installation
-1. Clone or download this repository.
-2. Place the `ExecutiveDashboard` folder into the `plugins/` directory of your Kanboard installation.
-3. Ensure the folder is named exactly `ExecutiveDashboard`.
-4. Log into Kanboard and verify the plugin is active in **Settings -> Plugins**.
-
-## Kurumsal Dokümantasyon
-* [Güvenlik Politikası](SECURITY.md)
-* [Katkıda Bulunma](CONTRIBUTING.md)
-* [Davranış Kuralları](CODE_OF_CONDUCT.md)
-* [Değişim Günlüğü](CHANGELOG.md)
-* [Lisans](LICENSE)
+## Kurulum
+1. Bu depoyu klonlayın veya zip olarak indirin.
+2. Klasör adını `ExecutiveDashboard` olarak değiştirin.
+3. Kanboard'un kurulu olduğu dizindeki `plugins/` klasörünün içine yerleştirin.
+4. Kanboard'u yeniden başlatın / sayfayı yenileyin. Sol menüde **Yönetici Kontrol Merkezi** bağlantısını göreceksiniz.

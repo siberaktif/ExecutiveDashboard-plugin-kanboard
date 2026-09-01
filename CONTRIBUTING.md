@@ -1,18 +1,15 @@
-# Contributing to ExecutiveDashboard
+# Katkıda Bulunma (Contributing)
 
-Thank you for investing your time in contributing to our project!
+Executive Dashboard eklentisine katkıda bulunmak istediğiniz için teşekkür ederiz!
 
-## Contribution Workflow
+## Geliştirme Adımları
+1. Bu depoyu kendi çalışma alanınıza forklayın.
+2. Yeni bir özellik dalı oluşturun (`git checkout -b feature/HarikaOzellik`).
+3. Değişikliklerinizi standartlara (PSR-4) uygun olarak kodlayın. CSS yazarken `.bilgiyapar-mcc-` önekini (prefix) KESİNLİKLE kullanın.
+4. Yaptığınız değişiklikleri commit edin (`git commit -m 'feat: harika özellik eklendi'`).
+5. Dalınızı pushlayın (`git push origin feature/HarikaOzellik`).
+6. Bir Pull Request (PR) açın.
 
-1. **Fork** the repository.
-2. Create a new **Branch** for your feature or bug fix (`git checkout -b feature-name`).
-3. Make your changes.
-4. **Commit** your changes with descriptive messages (`git commit -m "feat: added new metric"`).
-5. Push to the branch (`git push origin feature-name`).
-6. Submit a Pull Request.
-
-## Coding Standards
-
-* All PHP code must adhere strictly to **PSR-12** coding standards.
-* Avoid making changes to Kanboard core files.
-* When adding UI elements, always use the prefix `.bilgiyapar-mcc-` for CSS classes to avoid conflicts.
+## Kod Standartları
+- Kanboard çekirdek (core) dosyalarını asla değiştirmeyin.
+- Hataları önlemek için şablon içine iş mantığı (business logic) yazmaktan kaçının, Controller veya Model katmanlarını kullanın.

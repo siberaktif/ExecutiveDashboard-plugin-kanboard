@@ -1,13 +1,15 @@
-# Changelog
+# Değişim Günlüğü (Changelog)
 
-All notable changes to this project will be documented in this file.
+Bu dosyada Kanboard Executive Dashboard eklentisindeki tüm önemli değişiklikler belgelenmektedir.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [Unreleased] - Sürüm Adayı (v1.0.0)
 
-## [0.1.0] - 2026-09-01
-### Added
-- Initial project structure.
-- Dashboard UI with side-drawer mechanism.
-- Controller methods for P1 critical tasks and blockers.
-- Security, Contributing, and Code of Conduct documents.
+### Eklenenler
+- "Yönetici Kontrol Merkezi" ana panosu oluşturuldu.
+- Kanboard sol menüsüne (sidebar) CSS order mimarisiyle en üste özel menü linki eklendi (TodoNotes çakışması çözüldü).
+- CSS Grid yapıları ile 6 ana bölüm (Finans, Blokaj, Relationgraph, Eylem Planı, Projeler, AI) eklendi.
+- Küresel Nakit Yakım Hızı için dinamik CSS tabanlı Donut Chart tasarımı geliştirildi.
+- "Zaman Sınırlı Eylem Planı"na gerçek zamanlı Kanboard veritabanı kullanıcı eşleşmesi sağlandı; görevler `date_due` (bitiş tarihi) filtrelerine göre (Bugün, Bu Hafta, Bu Ay) kartlara yansıtıldı.
+- AI Destekli Operasyonel Öneriler modülüne "Pano'ya Prompt Kopyalama" özelliği getirildi.
+- Eklentinin sağ sekme (side-drawer) karmaşası iptal edilip doğrudan hızlı, yeni sekmeli HTML (standalone) kart raporlama yapısı kuruldu.
+- PHP `sprintf` kaynaklı `Translator.php:68 ArgumentCountError (500)` hatası çözüldü ve çeviriler aktifleştirildi.
