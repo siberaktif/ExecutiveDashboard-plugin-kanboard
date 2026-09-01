@@ -23,6 +23,23 @@ class ExecutiveDashboardController extends BaseController
         $global_burn_rate = 150000; 
         $budget_spent = 90000; 
 
+        // ZAMAN SINIRLI EYLEM PLANI (Time Bound Action Plan) data
+        $now = time();
+        $today_start = strtotime('today', $now);
+        $today_end = strtotime('tomorrow', $now) - 1;
+        $week_start = strtotime('monday this week', $now);
+        $week_end = strtotime('sunday this week', $now) + 86399;
+        $month_start = strtotime('first day of this month', $now);
+        $month_end = strtotime('last day of this month', $now) + 86399;
+
+        // Fetch tasks
+        $tasks_today = $this->db->table('tasks')->eq('is_active', 1)->eq('priority', 1)->gte('date_due', $today_start)->lte('date_due', $today_end)->findAll();
+        $tasks_week = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $today_end)->lte('date_due', $week_end)->findAll();
+        $tasks_month = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $week_end)->lte('date_due', $month_end)->findAll();
+
+        // Get all active users for the action plan
+        $users = $this->db->table('users')->eq('is_active', 1)->findAll();
+
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),
             'user' => $user,
@@ -30,22 +47,37 @@ class ExecutiveDashboardController extends BaseController
             'total_p1' => $total_p1,
             'total_blockers' => $total_blockers,
             'global_burn_rate' => $global_burn_rate,
-            'budget_spent' => $budget_spent
+            'budget_spent' => $budget_spent,
+            'tasks_today' => $tasks_today,
+            'tasks_week' => $tasks_week,
+            'tasks_month' => $tasks_month,
+            'users' => $users
         )));
     }
 
-    // --- SIDE DRAWER ENDPOINTS (JSON) ---
+    // --- HTML ENDPOINTS FOR NEW TABS ---
+
+    private function renderStandalone($title, $content) {
+        $html = '<!DOCTYPE html><html><head><title>' . htmlspecialchars($title) . '</title>';
+        $html .= '<style>body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; padding: 40px; color: #333; background: #f4f5f7; } .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e1e4e8; }</style>';
+        $html .= '</head><body>';
+        $html .= '<div class="card">';
+        $html .= '<h2>' . htmlspecialchars($title) . '</h2>';
+        $html .= $content;
+        $html .= '</div></body></html>';
+        $this->response->html($html);
+    }
 
     public function getFinanceDetails() {
-        $this->response->json(array('html' => '<h2>' . t('Global Burn Rate') . '</h2><p>Finans detayları yapım aşamasında...</p>'));
+        $this->renderStandalone(t('Küresel Nakit Yakım Hızı'), '<p>Finans detayları yapım aşamasında...</p>');
     }
 
     public function getMetrics() {
-        $this->response->json(array('html' => '<h2>' . t('Kritik Metrikler') . '</h2><p>Metrik detayları hesaplanıyor...</p>'));
+        $this->renderStandalone(t('Kritik Metrikler'), '<p>Metrik detayları hesaplanıyor...</p>');
     }
 
     public function getFunding() {
-        $this->response->json(array('html' => '<h2>' . t('Fonlama') . '</h2><p>Fonlama detayları hazırlanıyor...</p>'));
+        $this->renderStandalone(t('Fonlama'), '<p>Fonlama detayları hazırlanıyor...</p>');
     }
 
     public function getBlockersList() {
@@ -56,48 +88,44 @@ class ExecutiveDashboardController extends BaseController
             ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
             ->findAll();
 
-        $html = "<h2>" . t('Critical Blockers') . "</h2><ul>";
+        $content = "<ul>";
         if (empty($tasks)) {
-            $html .= "<li>Bloke olmuş görev bulunamadı (Tüm yollar açık).</li>";
+            $content .= "<li>Bloke olmuş görev bulunamadı (Tüm yollar açık).</li>";
         } else {
             foreach ($tasks as $t) {
-                $html .= "<li>Görev #" . $t['task_id'] . " - " . htmlspecialchars($t['title']) . "</li>";
+                $content .= "<li>Görev #" . $t['task_id'] . " - " . htmlspecialchars($t['title']) . "</li>";
             }
         }
-        $html .= "</ul>";
-
-        $this->response->html($html);
+        $content .= "</ul>";
+        $this->renderStandalone(t('Critical Blockers'), $content);
     }
 
     public function getCriticalPath() {
-        $this->response->json(array('html' => '<h2>' . t('Critical Path') . '</h2><p>Kritik yol analizi (Relationgraph verileri) yükleniyor...</p>'));
+        $this->renderStandalone(t('Critical Path'), '<p>Kritik yol analizi (Relationgraph verileri) yükleniyor...</p>');
     }
 
     public function getActionPlan() {
-        $this->response->json(array('html' => '<h2>' . t('Action Plan') . '</h2><p>Geciken görevler ve kişi bazlı sprint hedefleri listesi...</p>'));
+        $this->renderStandalone(t('Action Plan'), '<p>Geciken görevler ve kişi bazlı sprint hedefleri listesi...</p>');
     }
 
     public function getProjectMatrix() {
         $projects = $this->projectModel->getAll();
         
-        $html = "<h2>" . t('Active Projects') . "</h2><ul>";
+        $content = "<ul>";
         if (empty($projects)) {
-             $html .= "<li>Aktif proje bulunamadı.</li>";
+             $content .= "<li>Aktif proje bulunamadı.</li>";
         } else {
             foreach ($projects as $p) {
                 if ($p['is_active']) {
-                    $html .= "<li>" . htmlspecialchars($p['name']) . "</li>";
+                    $content .= "<li>" . htmlspecialchars($p['name']) . "</li>";
                 }
             }
         }
-        $html .= "</ul>";
-        
-        $this->response->html($html);
+        $content .= "</ul>";
+        $this->renderStandalone(t('Active Projects'), $content);
     }
 
     public function getAiRecommendations() {
-        $html = "<h2>" . t('AI Recommendations') . "</h2>";
-        $html .= "<p>Sistem, darboğazları çözmek için Proje B'den Proje A'ya 2 kaynak aktarılmasını öneriyor.</p>";
-        $this->response->html($html);
+        $this->renderStandalone(t('AI Recommendations'), '<p>Sistem, darboğazları çözmek için Proje B\'den Proje A\'ya 2 kaynak aktarılmasını öneriyor.</p>');
     }
 }

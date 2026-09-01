@@ -19,8 +19,8 @@
                         <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 90000) ?></div>
                         <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
                         <div style="margin-top: 5px;">
-                            <span style="background: #d9534f;"></span> <?= t('Harcanan') ?> (%60)<br>
-                            <span style="background: #5cb85c;"></span> <?= t('Kalan') ?> (%40)
+                            <span style="background: #d9534f; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Harcanan') ?> (%60)<br>
+                            <span style="background: #5cb85c; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Kalan') ?> (%40)
                         </div>
                     </div>
                 </div>
@@ -102,60 +102,61 @@
             <div class="bilgiyapar-mcc-action-header">BU HAFTA (Sprint Hedefi)</div>
             <div class="bilgiyapar-mcc-action-header">BU AY (Stratejik)</div>
 
-            <!-- Satır 1: Sencar Tosun -->
-            <div class="bilgiyapar-mcc-action-col">
-                <div class="bilgiyapar-mcc-role-item"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> Sencar Tosun</div>
-            </div>
-            
-            <div class="bilgiyapar-mcc-action-col">
-                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
-                    <div class="bilgiyapar-mcc-mini-card-top">
-                        <span class="bilgiyapar-mcc-mini-card-title">Müşteri Sunumu Hazırlığı</span>
-                        <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
+            <?php if(isset($users) && !empty($users)): ?>
+                <?php foreach($users as $u): ?>
+                    <div class="bilgiyapar-mcc-action-col">
+                        <div class="bilgiyapar-mcc-role-item"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($u['name'] ?: $u['username']) ?></div>
                     </div>
-                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 25%; background-color:#d9534f;"></div></div>
-                </a>
-            </div>
+                    
+                    <!-- BUGÜN -->
+                    <div class="bilgiyapar-mcc-action-col">
+                        <?php 
+                        $hasToday = false;
+                        if(isset($tasks_today)) {
+                            foreach($tasks_today as $t) {
+                                if($t['owner_id'] == $u['id']) {
+                                    $hasToday = true;
+                                    echo '<a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')).'"><div class="bilgiyapar-mcc-mini-card-top"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-warning bilgiyapar-mcc-text-danger"></i></div><div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 25%; background-color:#d9534f;"></div></div></a>';
+                                }
+                            }
+                        }
+                        if(!$hasToday) echo '<div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>';
+                        ?>
+                    </div>
 
-            <div class="bilgiyapar-mcc-action-col">
-                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
-                    <div class="bilgiyapar-mcc-mini-card-top">
-                        <span class="bilgiyapar-mcc-mini-card-title">V2 Yayın Sürümü Kontrolü</span>
-                        <i class="fa fa-check-circle bilgiyapar-mcc-text-success"></i>
+                    <!-- BU HAFTA -->
+                    <div class="bilgiyapar-mcc-action-col">
+                        <?php 
+                        $hasWeek = false;
+                        if(isset($tasks_week)) {
+                            foreach($tasks_week as $t) {
+                                if($t['owner_id'] == $u['id']) {
+                                    $hasWeek = true;
+                                    echo '<a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')).'"><div class="bilgiyapar-mcc-mini-card-top"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-check-circle bilgiyapar-mcc-text-success"></i></div><div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 50%; background-color:#5cb85c;"></div></div></a>';
+                                }
+                            }
+                        }
+                        if(!$hasWeek) echo '<div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>';
+                        ?>
                     </div>
-                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 80%; background-color:#5cb85c;"></div></div>
-                </a>
-            </div>
 
-            <div class="bilgiyapar-mcc-action-col">
-                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
-                    <div class="bilgiyapar-mcc-mini-card-top">
-                        <span class="bilgiyapar-mcc-mini-card-title">Q3 Bütçe Planlaması</span>
-                        <i class="fa fa-clock-o bilgiyapar-mcc-text-primary"></i>
+                    <!-- BU AY -->
+                    <div class="bilgiyapar-mcc-action-col">
+                        <?php 
+                        $hasMonth = false;
+                        if(isset($tasks_month)) {
+                            foreach($tasks_month as $t) {
+                                if($t['owner_id'] == $u['id']) {
+                                    $hasMonth = true;
+                                    echo '<a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')).'"><div class="bilgiyapar-mcc-mini-card-top"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-clock-o bilgiyapar-mcc-text-primary"></i></div><div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 10%; background-color:#007bff;"></div></div></a>';
+                                }
+                            }
+                        }
+                        if(!$hasMonth) echo '<div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>';
+                        ?>
                     </div>
-                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 10%; background-color:#007bff;"></div></div>
-                </a>
-            </div>
-
-            <!-- Satır 2: Yazılım Ekibi -->
-            <div class="bilgiyapar-mcc-action-col">
-                <div class="bilgiyapar-mcc-role-item"><i class="fa fa-users" style="margin-right:8px; color:#666;"></i> Yazılım Ekibi</div>
-            </div>
-            <div class="bilgiyapar-mcc-action-col">
-                <a target="_blank" style="text-decoration:none; display:flex; color:inherit;" class="bilgiyapar-mcc-mini-card" href="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
-                    <div class="bilgiyapar-mcc-mini-card-top">
-                        <span class="bilgiyapar-mcc-mini-card-title">Hotfix 1.2.4</span>
-                        <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
-                    </div>
-                    <div class="bilgiyapar-mcc-progress-bg"><div class="bilgiyapar-mcc-progress-bar" style="width: 90%; background-color:#d9534f;"></div></div>
-                </a>
-            </div>
-            <div class="bilgiyapar-mcc-action-col">
-                <div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>
-            </div>
-            <div class="bilgiyapar-mcc-action-col">
-                <div style="font-size:12px; color:#999; text-align:center; padding:10px;">Hedef Bulunmuyor</div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 
