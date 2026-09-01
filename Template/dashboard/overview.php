@@ -6,21 +6,26 @@
         <div class="bilgiyapar-mcc-section-title"><?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
         <div class="bilgiyapar-mcc-grid-4">
             <!-- 1. FİNANS KARTI (CostControl Eklentisine Bağlı) -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('BudgetController', 'index', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
+            <?php 
+                $spent_ratio = $global_burn_rate > 0 ? round(($budget_spent / $global_burn_rate) * 100) : 0;
+                $rem_ratio = 100 - $spent_ratio;
+                if ($spent_ratio > 100) { $spent_ratio = 100; $rem_ratio = 0; }
+            ?>
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
                     <div class="bilgiyapar-mcc-card-title"><?= t('Küresel Nakit Yakım Hızı') ?></div>
                 </div>
                 <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-donut-wrapper">
-                    <div class="bilgiyapar-mcc-donut" style="width:60px; height:60px; border-radius:50%; background: conic-gradient(#d9534f 0% 60%, #5cb85c 60% 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:12px;">
-                        <span>%60</span>
+                    <div class="bilgiyapar-mcc-donut" style="width:60px; height:60px; border-radius:50%; background: conic-gradient(#d9534f 0% <?= $spent_ratio ?>%, #5cb85c <?= $spent_ratio ?>% 100%); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:12px;">
+                        <span>%<?= $spent_ratio ?></span>
                     </div>
                     <div class="bilgiyapar-mcc-donut-legend">
-                        <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 90000) ?></div>
+                        <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 0) ?></div>
                         <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
                         <div style="margin-top: 5px; font-size:11px;">
-                            <span style="background: #d9534f; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Harcanan') ?> (%60)<br>
-                            <span style="background: #5cb85c; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Kalan') ?> (%40)
+                            <span style="background: #d9534f; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Harcanan') ?> (%<?= $spent_ratio ?>)<br>
+                            <span style="background: #5cb85c; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Kalan') ?> (%<?= $rem_ratio ?>)
                         </div>
                     </div>
                 </div>

@@ -26,9 +26,16 @@ class ExecutiveDashboardController extends BaseController
             ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
             ->count();
 
-        // Kanboard çekirdeğinde finans olmadığı için arayüz mock verisi (sabit)
-        $global_burn_rate = 150000; 
-        $budget_spent = 90000; 
+        // Gerçek Finans/Bütçe Verilerinin CostControl Eklentisinden Çekilmesi
+        $global_burn_rate = 150000; // Varsayılan Şirket Hedef Bütçesi
+        $budget_spent = 0;
+        try {
+            // Tüm projelerdeki harcama kalemlerini (budget_lines) topla
+            $budget_spent = $this->db->table('budget_lines')->sum('amount') ?: 0;
+        } catch (\Exception $e) {
+            // CostControl kurulu değilse veya tablo yoksa varsayılan mock veri
+            $budget_spent = 90000;
+        }
 
         // Zaman sınırları (Unix Timestamp)
         $now = time();

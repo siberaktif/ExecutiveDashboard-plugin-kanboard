@@ -2,7 +2,7 @@
     <ul class="no-bullets">
         <!-- 1. En üstte Yönetici Kontrol Merkezi -->
         <li <?= $this->app->checkMenuSelection('ExecutiveDashboardController', 'index', 'ExecutiveDashboard') ? 'class="active"' : '' ?>>
-            <?= $this->url->link('<i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> <strong>' . t('Yönetici Kontrol Merkezi') . '</strong>', 'ExecutiveDashboardController', 'index') ?>
+            <?= $this->url->link('<i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> <strong>' . t('Yönetici Kontrol Merkezi') . '</strong>', 'ExecutiveDashboardController', 'index', ['plugin' => 'ExecutiveDashboard']) ?>
         </li>
         
         <!-- 2. Orijinal Kanboard Menüleri (Şablon Helper ile Güvenli ID) -->
