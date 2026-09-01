@@ -56,14 +56,10 @@
         <div class="bilgiyapar-mcc-section-title"><?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
         <div class="bilgiyapar-mcc-grid-2">
             <!-- Blokaj Özet -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Toplam Kritik Blokaj') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-text-danger" style="font-size:24px; font-weight:bold;">
-                    <?= isset($total_blockers) ? $total_blockers : 3 ?> <?= t('Görev') ?>
-                </div>
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
+                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-warning bilgiyapar-mcc-text-danger"></i> <?= t('Toplam Kritik Blokaj') ?></div>
+                <div style="font-size:36px; font-weight:bold; color:#d9534f;"><?= isset($total_blockers) ? $total_blockers : 3 ?></div>
+                <div style="font-size:12px; color:#999; margin-top:5px;"><?= t('Görev birbirini bekliyor') ?></div>
             </a>
             
             <!-- Hiyerarşik Ağaç -->
@@ -73,14 +69,14 @@
                     <div class="bilgiyapar-mcc-card-title"><?= t('Blokaj Ağacı') ?></div>
                 </div>
                 <div class="bilgiyapar-mcc-card-content">
-                    <div class="bilgiyapar-mcc-tree" style="font-family:monospace; line-height:1.5; font-size:13px; color:#333;">
-<span style="font-weight:bold; color:#000;">A.Ş. Resmi İşlemler (Ana Proje)</span><br>
-|-- <span style="color:#d9534f; font-weight:bold;">Vergi Yapılandırması</span> (P1 - Bloke)<br>
-|   └─ Evrak Teslimi (Gecikmeli)<br>
-|<br>
-|-- İK İşe Alım Modülü<br>
-    └─ Bütçe Onayı Bekleniyor
-                    </div>
+                    <div class="bilgiyapar-mcc-tree" style="font-family:'Courier New', Courier, monospace; white-space:pre-wrap; line-height:1.6; font-size:13px; color:#333; background:#f9f9f9; padding:15px; border-radius:6px; border:1px solid #e1e4e8;">
+<span style="font-weight:bold; color:#1a73e8; font-size:14px;">A.Ş. Resmi İşlemler (Ana Proje)</span>
+|-- <span style="color:#d9534f; font-weight:bold;">Vergi Yapılandırması</span> <span style="color:#888;">(P1 - Bloke)</span>
+|   └─ <span style="color:#d9534f;">Evrak Teslimi (Gecikmeli)</span>
+|
+|-- <span style="font-weight:bold; color:#333;">İK İşe Alım Modülü</span>
+    └─ <span style="color:#f0ad4e;">Bütçe Onayı Bekleniyor</span>
+</div>
                 </div>
             </a>
         </div>
