@@ -19,8 +19,8 @@
                         <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 90000) ?></div>
                         <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
                         <div style="margin-top: 5px;">
-                            <span style="background: #d9534f;"></span> <?= t('Harcanan (%60)') ?><br>
-                            <span style="background: #5cb85c;"></span> <?= t('Kalan (%40)') ?>
+                            <span style="background: #d9534f;"></span> <?= t('Harcanan') ?> (%60)<br>
+                            <span style="background: #5cb85c;"></span> <?= t('Kalan') ?> (%40)
                         </div>
                     </div>
                 </div>
