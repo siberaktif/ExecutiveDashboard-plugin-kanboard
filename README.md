@@ -20,6 +20,17 @@ This plugin transforms your Kanboard interface into a strategic, high-level exec
 3. Move the `ExecutiveDashboard` folder into your Kanboard `plugins/` directory.
 4. Restart your server or refresh the Kanboard page. You will see the new **Manager Control Center** link in the sidebar.
 
+### Required Plugins (Gerekli Eklentiler)
+Bu eklentinin (Executive Dashboard) tüm fonksiyonlarıyla kusursuz çalışabilmesi için aşağıdaki Kanboard eklentilerinin sistemde kurulu olması gerekmektedir:
+
+1. **CostControl**: Küresel Finans Sayfası (/mcc/finance), Bütçe Kullanımı (Burn Rate) hesaplamaları ve gerçekleşen harcama verileri için zorunludur.
+2. **KPI**: Genel Proje Performansı, Sistem Sağlığı, Genel Skor ve Geciken İşler (Overdue Tasks) modüllerinin yönlendirmeleri için gereklidir.
+3. **Relationgraph (Opsiyonel)**: Görev bağımlılıkları ve Kritik Yol analizlerinin görsel olarak daha iyi çizilebilmesi için tavsiye edilir.
+
+**Nasıl Yüklenir? (Kısayol)**
+- Kanboard sağ üst menüden **Eklentiler (Plugins) > Eklenti Dizini (Plugin Directory)** yolunu izleyin.
+- Arama kutusuna eklenti isimlerini yazıp **Kur (Install)** butonuna basarak tek tıkla yükleyebilirsiniz.
+
 ## Compatibility
 - Requires Kanboard version >= 1.2.20
 - Compatible with all standard Kanboard themes (integrates seamlessly without overriding core CSS globally).
