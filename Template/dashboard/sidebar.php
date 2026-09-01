@@ -6,22 +6,22 @@
                 <i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> <strong><?= t('Yönetici Kontrol Merkezi') ?></strong>
             </a>
         </li>
-
-        <!-- 2. Orijinal Kanboard Menüleri -->
+        
+        <!-- 2. Orijinal Kanboard Menüleri (Şablon Helper ile Güvenli ID) -->
         <li <?= $this->app->checkMenuSelection('DashboardController', 'show') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('Overview'), 'DashboardController', 'show', ['user_id' => $this->userSession->getId()]) ?>
+            <?= $this->url->link(t('Overview'), 'DashboardController', 'show', ['user_id' => $this->user->getId()]) ?>
         </li>
         <li <?= $this->app->checkMenuSelection('DashboardController', 'projects') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My projects'), 'DashboardController', 'projects', ['user_id' => $this->userSession->getId()]) ?>
+            <?= $this->url->link(t('My projects'), 'DashboardController', 'projects', ['user_id' => $this->user->getId()]) ?>
         </li>
         <li <?= $this->app->checkMenuSelection('DashboardController', 'tasks') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My tasks'), 'DashboardController', 'tasks', ['user_id' => $this->userSession->getId()]) ?>
+            <?= $this->url->link(t('My tasks'), 'DashboardController', 'tasks', ['user_id' => $this->user->getId()]) ?>
         </li>
         <li <?= $this->app->checkMenuSelection('DashboardController', 'subtasks') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My subtasks'), 'DashboardController', 'subtasks', ['user_id' => $this->userSession->getId()]) ?>
+            <?= $this->url->link(t('My subtasks'), 'DashboardController', 'subtasks', ['user_id' => $this->user->getId()]) ?>
         </li>
 
-        <!-- 3. KRİTİK KOD: Diğer Tüm Eklentilerin (P1-P5, TodoNotes) Menülerini Geri Getiren Hook -->
-        <?= $this->hook->render('template:dashboard:sidebar') ?>
+        <!-- 3. TodoNotes ve Diğerleri İçin $user Değişkenini Hook'a Dahil Ediyoruz -->
+        <?= $this->hook->render('template:dashboard:sidebar', array('user' => isset($user) ? $user : array('id' => $this->user->getId()))) ?>
     </ul>
 </div>
