@@ -76,7 +76,7 @@ class ExecutiveDashboardController extends BaseController
         $month_end = strtotime('last day of this month', $now) + 86399;
 
         // Gerçek görevlerin date_due filtrelemesiyle çekilmesi
-        $tasks_overdue = $this->db->table('tasks')->eq('is_active', 1)->lt('date_due', $today_start)->neq('date_due', 0)->findAll();
+        $tasks_overdue = $this->db->table('tasks')->eq('is_active', 1)->lte('date_due', $today_end)->neq('date_due', 0)->findAll();
         $tasks_today = $this->db->table('tasks')->eq('is_active', 1)->gte('date_due', $today_start)->lte('date_due', $today_end)->findAll();
         $tasks_week = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $today_end)->lte('date_due', $week_end)->findAll();
         $tasks_month = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $week_end)->lte('date_due', $month_end)->findAll();
@@ -130,7 +130,7 @@ class ExecutiveDashboardController extends BaseController
         
         $kpi['overdue_total_count'] = 0;
         try {
-            $kpi['overdue_total_count'] = $this->db->table('tasks')->eq('is_active', 1)->neq('date_due', 0)->lt('date_due', $now)->count();
+            $kpi['overdue_total_count'] = $this->db->table('tasks')->eq('is_active', 1)->neq('date_due', 0)->lte('date_due', $today_end)->count();
         } catch (\Exception $e) {}
             
         if ($total_blockers > 0 || $kpi['overdue_total_count'] > 10) {
@@ -191,7 +191,7 @@ class ExecutiveDashboardController extends BaseController
         $overdue_tasks = $this->db->table('tasks')
             ->eq('is_active', 1)
             ->neq('date_due', 0)
-            ->lt('date_due', $now)
+            ->lte('date_due', $today_end)
             ->limit(5)
             ->findAll();
 
