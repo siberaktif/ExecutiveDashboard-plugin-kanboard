@@ -110,49 +110,36 @@
     <!-- 3. GÖREV BAĞIMLILIKLARI & KRİTİK YOL (RELATIONGRAPH) -->
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-link"></i> <?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL (Relationgraph)') ?></div>
-        <div class="bilgiyapar-mcc-card" style="background: #fdfdfd;">
-            <div class="bilgiyapar-mcc-card-content" style="display:flex; justify-content:center; align-items:center; padding:30px 10px;">
-                <div style="display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 800px; position:relative;">
-                    
-                    <!-- Sol Sütun -->
-                    <div style="display: flex; flex-direction: column; gap: 40px; z-index:2;">
-                        <div style="background:#fff; color:#3b5998; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #aebcda; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
-                            <i class="fa fa-building-o"></i> [A.Ş. Resmi İşlemler] <i class="fa fa-flag" style="color:#d9534f;"></i>
-                        </div>
-                        <div style="background:#fff; color:#333; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #f0ad4e; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
-                            <i class="fa fa-cube" style="color:#f0ad4e;"></i> [FMHSCS v2.6] <i class="fa fa-refresh" style="color:#f0ad4e;"></i>
-                        </div>
-                    </div>
+        <div class="bilgiyapar-mcc-card" style="background: #fdfdfd; padding:20px;">
+            <?php if(!empty($blocker_links)): ?>
+                <div style="display:flex; flex-direction:column; gap:25px; align-items:center;">
+                    <?php foreach($blocker_links as $link): ?>
+                        <div style="display:flex; align-items:center; gap:15px; justify-content:center; width:100%; max-width:800px; flex-wrap:wrap;">
+                            <!-- Blocker Task (Neden Olan) -->
+                            <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['blocker_task_id'])) ?>" target="_blank" style="text-decoration:none; background:#fff; color:#333; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #f0ad4e; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px; transition: transform 0.2s;">
+                                <i class="fa fa-cube" style="color:#f0ad4e;"></i> [<?= htmlspecialchars($link['blocker_task_title']) ?>]
+                            </a>
+                            
+                            <!-- Arrow & Relation -->
+                            <div style="display:flex; align-items:center; gap:5px;">
+                                <div style="background:#fce8e6; color:#d9534f; border:1px dashed #d9534f; padding:5px 12px; border-radius:12px; font-size:11px; font-weight:bold; white-space:nowrap;">
+                                    %100 Engeller (blocks) ➔
+                                </div>
+                            </div>
 
-                    <!-- Orta Sütun (Bağlantılar) -->
-                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; z-index:2;">
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <div style="background:#fce8e6; color:#d9534f; border:1px dashed #d9534f; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:bold;">%100 Engeller ➔</div>
+                            <!-- Blocked Task (Mağdur) -->
+                            <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['blocked_task_id'])) ?>" target="_blank" style="text-decoration:none; background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px; transition: transform 0.2s;">
+                                <i class="fa fa-lock" style="color:#8ab4f8;"></i> [<?= htmlspecialchars($link['blocked_task_title']) ?>]
+                            </a>
                         </div>
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <div style="background:#fcf8e3; color:#8a6d3b; border:1px dashed #f0ad4e; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:bold;">relates to ➔</div>
-                        </div>
-                    </div>
-
-                    <!-- Sağ Sütun -->
-                    <div style="display: flex; flex-direction: column; gap: 40px; z-index:2;">
-                        <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
-                            <i class="fa fa-android"></i> [ISAMA Play Store Yayını] <i class="fa fa-lock" style="color:#8ab4f8;"></i>
-                        </div>
-                        <div style="background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px;">
-                            <i class="fa fa-user-o"></i> [ISAMA Web] <i class="fa fa-credit-card" style="color:#8ab4f8;"></i>
-                        </div>
-                    </div>
-
-                    <!-- Arka Plan Ok Çizgileri (Görsel Zenginlik) -->
-                    <svg style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;" preserveAspectRatio="none">
-                        <line x1="25%" y1="25%" x2="75%" y2="25%" stroke="#d9534f" stroke-width="2" stroke-dasharray="5,5" />
-                        <line x1="25%" y1="25%" x2="75%" y2="75%" stroke="#333" stroke-width="2" />
-                        <line x1="25%" y1="75%" x2="75%" y2="25%" stroke="#333" stroke-width="2" />
-                        <line x1="25%" y1="75%" x2="75%" y2="75%" stroke="#f0ad4e" stroke-width="2" stroke-dasharray="5,5" />
-                    </svg>
+                    <?php endforeach; ?>
                 </div>
-            </div>
+            <?php else: ?>
+                <div style="text-align:center; padding:30px; color:#888;">
+                    <i class="fa fa-check-circle fa-3x" style="color:#5cb85c; margin-bottom:15px; display:block;"></i>
+                    <?= t('Şu anda birbirine bağımlı (blokaj) hiçbir görev bulunmuyor.') ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
