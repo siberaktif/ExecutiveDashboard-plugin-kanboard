@@ -132,17 +132,17 @@
             <!-- Kırmızı Uyarı Kartı 1: Blokajlar -->
             <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-warning" style="color:#d73a49;"></i> Sistem Blokajları</div>
-                    <div style="font-size:12px; color:#586069;">Birbirini engelleyen kritik görevler</div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-warning" style="color:#d73a49;"></i> <?= t('Sistem Blokajları') ?></div>
+                    <div style="font-size:12px; color:#586069;"><?= t('Birbirini engelleyen kritik görevler') ?></div>
                 </div>
                 <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($total_blockers) ? $total_blockers : 0 ?></div>
             </a>
 
             <!-- Kırmızı Uyarı Kartı 2: Gecikmiş Görevler -->
-            <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
+            <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open due:<=yesterday')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-calendar-times-o" style="color:#d73a49;"></i> Gecikmiş İşlemler</div>
-                    <div style="font-size:12px; color:#586069;">Teslim tarihi geçmiş görevler</div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-calendar-times-o" style="color:#d73a49;"></i> <?= t('Gecikmiş İşlemler') ?></div>
+                    <div style="font-size:12px; color:#586069;"><?= t('Teslim tarihi geçmiş görevler') ?></div>
                 </div>
                 <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($overdue_tasks) ? count($overdue_tasks) : 0 ?></div>
             </a>
@@ -243,7 +243,7 @@
                             foreach($tasks_today as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
                                         break;
                                     }
                                     $hasToday = true; $count++;
@@ -251,7 +251,7 @@
                                 }
                             }
                         }
-                        if(!$hasToday) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">Hedef Bulunmuyor</div>';
+                        if(!$hasToday) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">'.t('Hedef Bulunmuyor').'</div>';
                         ?>
                     </div>
 
@@ -263,7 +263,7 @@
                             foreach($tasks_week as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
                                         break;
                                     }
                                     $hasWeek = true; $count++;
@@ -271,7 +271,7 @@
                                 }
                             }
                         }
-                        if(!$hasWeek) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">Hedef Bulunmuyor</div>';
+                        if(!$hasWeek) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">'.t('Hedef Bulunmuyor').'</div>';
                         ?>
                     </div>
 
@@ -283,7 +283,7 @@
                             foreach($tasks_month as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
                                         break;
                                     }
                                     $hasMonth = true; $count++;
@@ -291,7 +291,7 @@
                                 }
                             }
                         }
-                        if(!$hasMonth) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">Hedef Bulunmuyor</div>';
+                        if(!$hasMonth) echo '<div style="font-size:12px; color:#aaa; text-align:center; font-style:italic;">'.t('Hedef Bulunmuyor').'</div>';
                         ?>
                     </div>
                 <?php endforeach; ?>
@@ -316,37 +316,41 @@
                             </div>
                             
                             <div style="display:flex; align-items:center; gap:5px; margin-top:10px; font-size:12px; color:#555;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#5cb85c;"></div>
-                                Saúde
+                                <?= $p['wip_alert'] ? '<div style="width:8px; height:8px; border-radius:50%; background:#d9534f;"></div> '.t('Riskli') : '<div style="width:8px; height:8px; border-radius:50%; background:#5cb85c;"></div> '.t('Sağlıklı') ?>
                             </div>
 
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; font-weight:bold;">
-                                <span>Progress</span>
+                                <span><?= t('İlerleme') ?></span>
                             </div>
                             <div class="bilgiyapar-mcc-progress-bg" style="height:6px; background:#e1e4e8; border-radius:3px; overflow:hidden; margin-top:4px;">
                                 <div class="bilgiyapar-mcc-progress-bar" style="width: <?= $p['progress'] ?>%; background-color:#1a73e8; height:100%;"></div>
                             </div>
 
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; color:#555;">
-                                <span>Burn Rate</span>
-                                <span style="font-weight:bold;">%<?= $p['burn_rate'] ?> stat</span>
+                                <span><?= t('Bütçe Kullanımı') ?></span>
+                                <span style="font-weight:bold;">%<?= $p['burn_rate'] ?></span>
                             </div>
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; font-size:11px; color:#555;">
-                                <span>Velocity</span>
-                                <span style="font-weight:bold;">C<?= $p['velocity'] ?> stat</span>
+                                <span><?= t('Üretim Hızı') ?></span>
+                                <span style="font-weight:bold;"><?= $p['velocity'] ?> <?= t('Görev') ?></span>
                             </div>
 
                             <?php if($p['wip_alert']): ?>
                             <div style="margin-top:10px; background:#fce8e6; color:#d9534f; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:bold; display:inline-block;">
-                                WIP alert
+                                <?= t('Darboğaz (WIP)') ?>
                             </div>
                             <?php else: ?>
                             <div style="margin-top:10px; height:20px;"></div> <!-- Yer tutucu -->
                             <?php endif; ?>
                         </div>
-                        <a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $p['id'])) ?>" target="_blank" style="display:block; padding:10px; text-align:center; font-size:12px; font-weight:bold; color:#555; text-decoration:none; background:#f9f9f9; border-radius:0 0 8px 8px;">
-                            <i class="fa fa-external-link"></i> Yan Sekme Aç
-                        </a>
+                        <div style="display:flex; background:#f9f9f9; border-radius:0 0 8px 8px;">
+                            <a href="<?= $this->url->href('ProjectViewController', 'show', array('project_id' => $p['id'])) ?>" target="_blank" style="flex:1; padding:10px; text-align:center; font-size:12px; font-weight:bold; color:#555; text-decoration:none; border-right:1px solid #e1e4e8;">
+                                <i class="fa fa-pie-chart"></i> <?= t('Özet') ?>
+                            </a>
+                            <a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $p['id'])) ?>" target="_blank" style="flex:1; padding:10px; text-align:center; font-size:12px; font-weight:bold; color:#555; text-decoration:none;">
+                                <i class="fa fa-th"></i> <?= t('Tahta') ?>
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
