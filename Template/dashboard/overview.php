@@ -155,18 +155,30 @@
 
             <?php if(isset($users) && !empty($users)): ?>
                 <?php foreach($users as $u): ?>
+                    <?php 
+                        $uNameRaw = $u['name'] ?: $u['username'];
+                        $uName = strtolower($uNameRaw);
+                        // "Tüm Projeler", "Yönetici" veya "admin" kullanıcılarını gizle
+                        if (strpos($uName, 'tüm projeler') !== false || strpos($uName, 'yönetici') !== false || strpos($uName, 'admin') !== false) {
+                            continue;
+                        }
+                    ?>
                     <div class="bilgiyapar-mcc-action-col" style="display:flex; align-items:center; border-bottom:1px solid #eee;">
-                        <div class="bilgiyapar-mcc-role-item" style="font-weight:bold; padding:10px;"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($u['name'] ?: $u['username']) ?></div>
+                        <div class="bilgiyapar-mcc-role-item" style="font-weight:bold; padding:10px;"><i class="fa fa-user" style="margin-right:8px; color:#007bff;"></i> <?= htmlspecialchars($uNameRaw) ?></div>
                     </div>
                     
                     <!-- BUGÜN -->
                     <div class="bilgiyapar-mcc-action-col" style="border-bottom:1px solid #eee; padding:10px;">
                         <?php 
-                        $hasToday = false;
+                        $hasToday = false; $count = 0;
                         if(isset($tasks_today)) {
                             foreach($tasks_today as $t) {
                                 if($t['owner_id'] == $u['id']) {
-                                    $hasToday = true;
+                                    if($count >= 4) {
+                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        break;
+                                    }
+                                    $hasToday = true; $count++;
                                     echo '<a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; border:1px solid #e1e4e8; border-radius:4px; padding:8px; margin-bottom:5px; background:#fff;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('TaskViewController', 'show', array('task_id' => $t['id'])).'"><div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600;"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-warning" style="color:#d9534f;"></i></div><div class="bilgiyapar-mcc-progress-bg" style="height:4px; background:#e1e4e8; border-radius:2px; margin-top:5px;"><div class="bilgiyapar-mcc-progress-bar" style="width: 25%; background-color:#d9534f; height:100%; border-radius:2px;"></div></div></a>';
                                 }
                             }
@@ -178,11 +190,15 @@
                     <!-- BU HAFTA -->
                     <div class="bilgiyapar-mcc-action-col" style="border-bottom:1px solid #eee; padding:10px;">
                         <?php 
-                        $hasWeek = false;
+                        $hasWeek = false; $count = 0;
                         if(isset($tasks_week)) {
                             foreach($tasks_week as $t) {
                                 if($t['owner_id'] == $u['id']) {
-                                    $hasWeek = true;
+                                    if($count >= 4) {
+                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        break;
+                                    }
+                                    $hasWeek = true; $count++;
                                     echo '<a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; border:1px solid #e1e4e8; border-radius:4px; padding:8px; margin-bottom:5px; background:#fff;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('TaskViewController', 'show', array('task_id' => $t['id'])).'"><div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600;"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-check-circle" style="color:#5cb85c;"></i></div><div class="bilgiyapar-mcc-progress-bg" style="height:4px; background:#e1e4e8; border-radius:2px; margin-top:5px;"><div class="bilgiyapar-mcc-progress-bar" style="width: 50%; background-color:#5cb85c; height:100%; border-radius:2px;"></div></div></a>';
                                 }
                             }
@@ -194,11 +210,15 @@
                     <!-- BU AY -->
                     <div class="bilgiyapar-mcc-action-col" style="border-bottom:1px solid #eee; padding:10px;">
                         <?php 
-                        $hasMonth = false;
+                        $hasMonth = false; $count = 0;
                         if(isset($tasks_month)) {
                             foreach($tasks_month as $t) {
                                 if($t['owner_id'] == $u['id']) {
-                                    $hasMonth = true;
+                                    if($count >= 4) {
+                                        echo '<div style="font-size:11px; color:#888; text-align:center;">+ Diğer Görevler...</div>';
+                                        break;
+                                    }
+                                    $hasMonth = true; $count++;
                                     echo '<a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; border:1px solid #e1e4e8; border-radius:4px; padding:8px; margin-bottom:5px; background:#fff;" class="bilgiyapar-mcc-mini-card" href="'.$this->url->href('TaskViewController', 'show', array('task_id' => $t['id'])).'"><div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600;"><span class="bilgiyapar-mcc-mini-card-title">'.htmlspecialchars($t['title']).'</span><i class="fa fa-clock-o" style="color:#007bff;"></i></div><div class="bilgiyapar-mcc-progress-bg" style="height:4px; background:#e1e4e8; border-radius:2px; margin-top:5px;"><div class="bilgiyapar-mcc-progress-bar" style="width: 10%; background-color:#007bff; height:100%; border-radius:2px;"></div></div></a>';
                                 }
                             }
