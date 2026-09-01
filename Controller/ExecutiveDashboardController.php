@@ -81,7 +81,35 @@ class ExecutiveDashboardController extends BaseController
         $tasks_month = $this->db->table('tasks')->eq('is_active', 1)->gt('date_due', $week_end)->lte('date_due', $month_end)->findAll();
 
         $users = $this->db->table('users')->eq('is_active', 1)->findAll();
-        $projects = $this->db->table('projects')->eq('is_active', 1)->findAll();
+        $projects_raw = $this->db->table('projects')->eq('is_active', 1)->findAll();
+        
+        $projects = array();
+        foreach ($projects_raw as $p) {
+            $total = $this->db->table('tasks')->eq('project_id', $p['id'])->count();
+            $closed = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 0)->count();
+            $open = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 1)->count();
+            
+            // 1. Progress Hesaplaması
+            $p['progress'] = $total > 0 ? round(($closed / $total) * 100) : 0;
+            
+            // 2. Velocity (Son 7 günde kapanan görevler)
+            $week_ago = time() - 604800;
+            $p['velocity'] = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 0)->gte('date_completed', $week_ago)->count();
+            
+            // 3. WIP Alert (Eğer 5'ten fazla açık görev varsa uyarı ver)
+            $p['wip_alert'] = $open > 5;
+            
+            // 4. Burn Rate (Harcanan Bütçe Oranı)
+            $spent = 0;
+            try {
+                $spent = $this->db->table('budget_lines')->eq('project_id', $p['id'])->sum('amount');
+            } catch (\Exception $e) {}
+            // Varsayılan hedef bütçeyi 50000 varsayarak % hesapla
+            $p['burn_rate'] = $spent > 0 ? round(($spent / 50000) * 100) : 0;
+            if($p['burn_rate'] > 100) $p['burn_rate'] = 100;
+            
+            $projects[] = $p;
+        }
 
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),

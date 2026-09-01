@@ -233,27 +233,53 @@
 
     <!-- 5. ŞİRKET PROJELERİ & ÇEVİK MATRİSLER -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('ŞİRKET PROJELERİ & ÇEVİK MATRİSLER') ?></div>
+        <div class="bilgiyapar-mcc-section-title"><?= t('ŞİRKET PROJELERİ & ÇEVİK MATRİSLER (Halka şirket portföyü)') ?></div>
         <div class="bilgiyapar-mcc-grid-4">
             <?php if(isset($projects) && !empty($projects)): ?>
                 <?php $p_count = 0; foreach($projects as $p): if($p_count++ >= 4) break; ?>
-                    <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $p['id'])) ?>">
-                        <div class="bilgiyapar-mcc-card-header">
-                            <i class="fa fa-cubes"></i>
-                            <div class="bilgiyapar-mcc-card-title"><?= htmlspecialchars($p['name']) ?></div>
-                        </div>
-                        <div class="bilgiyapar-mcc-card-content" style="font-size:14px; font-weight:normal;">
-                            <div class="bilgiyapar-mcc-velocity-badge" style="background:#f0f0f0; color:#333; padding:2px 6px; border-radius:4px; font-size:12px; display:inline-block; margin-bottom:8px;">Velocity C35</div>
-                            
-                            <div class="bilgiyapar-mcc-progress-bg" style="height:8px; margin-top:10px; background:#e1e4e8; border-radius:4px; overflow:hidden;">
-                                <div class="bilgiyapar-mcc-progress-bar" style="width: <?= rand(30,80) ?>%; background-color:#5cb85c; height:100%;"></div>
+                    <div style="background:#fff; border:1px solid #e1e4e8; border-radius:8px; display:flex; flex-direction:column; position:relative;">
+                        <div style="padding:15px; border-bottom:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <i class="fa fa-product-hunt" style="color:#1a73e8; font-size:16px;"></i>
+                                    <div style="font-weight:bold; font-size:14px; line-height:1.2;"><?= htmlspecialchars($p['name']) ?></div>
+                                </div>
+                                <i class="fa fa-ellipsis-v" style="color:#aaa; cursor:pointer;"></i>
                             </div>
                             
-                            <div class="bilgiyapar-mcc-wip-alert" style="margin-top:10px; border:1px dashed #d9534f; color:#d9534f; padding:5px; border-radius:4px; font-size:12px; font-weight:bold;">
-                                <i class="fa fa-exclamation-triangle"></i> WIP Limit Aşımı (Tasarım)
+                            <div style="display:flex; align-items:center; gap:5px; margin-top:10px; font-size:12px; color:#555;">
+                                <div style="width:8px; height:8px; border-radius:50%; background:#5cb85c;"></div>
+                                Saúde
                             </div>
+
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; font-weight:bold;">
+                                <span>Progress</span>
+                            </div>
+                            <div class="bilgiyapar-mcc-progress-bg" style="height:6px; background:#e1e4e8; border-radius:3px; overflow:hidden; margin-top:4px;">
+                                <div class="bilgiyapar-mcc-progress-bar" style="width: <?= $p['progress'] ?>%; background-color:#1a73e8; height:100%;"></div>
+                            </div>
+
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-size:11px; color:#555;">
+                                <span>Burn Rate</span>
+                                <span style="font-weight:bold;">%<?= $p['burn_rate'] ?> stat</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px; font-size:11px; color:#555;">
+                                <span>Velocity</span>
+                                <span style="font-weight:bold;">C<?= $p['velocity'] ?> stat</span>
+                            </div>
+
+                            <?php if($p['wip_alert']): ?>
+                            <div style="margin-top:10px; background:#fce8e6; color:#d9534f; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:bold; display:inline-block;">
+                                WIP alert
+                            </div>
+                            <?php else: ?>
+                            <div style="margin-top:10px; height:20px;"></div> <!-- Yer tutucu -->
+                            <?php endif; ?>
                         </div>
-                    </a>
+                        <a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $p['id'])) ?>" target="_blank" style="display:block; padding:10px; text-align:center; font-size:12px; font-weight:bold; color:#555; text-decoration:none; background:#f9f9f9; border-radius:0 0 8px 8px;">
+                            <i class="fa fa-external-link"></i> Yan Sekme Aç
+                        </a>
+                    </div>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
