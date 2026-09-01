@@ -66,22 +66,11 @@
     font-weight: bold;
 }
 
-.bilgiyapar-mcc-card-content ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    font-size: 14px;
-    font-weight: normal;
-    margin: 0;
-}
-
-.bilgiyapar-mcc-card-content li {
-    margin-bottom: 5px;
-}
-
 /* Status Colors */
 .bilgiyapar-mcc-text-danger { color: #d9534f !important; }
 .bilgiyapar-mcc-text-warning { color: #f0ad4e !important; }
 .bilgiyapar-mcc-text-success { color: #5cb85c !important; }
+.bilgiyapar-mcc-text-primary { color: #007bff !important; }
 
 /* Side Drawer Styles */
 .bilgiyapar-mcc-sidedrawer {
@@ -140,25 +129,187 @@
     color: #888;
 }
 
-/* Mevcut kodların en altına ekleyin */
-
-.bilgiyapar-mcc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-.bilgiyapar-mcc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-.bilgiyapar-mcc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
-
-.card-label { font-size: 13px; color: #666; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
-.card-value { font-size: 22px; font-weight: bold; }
-.card-sub { font-size: 12px; color: #888; }
-.card-stats span { display: block; font-size: 14px; margin-bottom: 4px; }
-.bilgiyapar-mcc-text-primary { color: #0366d6 !important; }
-
-.alert-red { background-color: #ffeef0; border-color: #d9534f; color: #d9534f; display: flex; align-items: center; }
-.alert-red i { margin-right: 10px; font-size: 18px; }
-
-.bilgiyapar-mcc-list-card {
-    background: #fff; border: 1px solid #d9534f; border-left: 4px solid #d9534f;
-    padding: 15px; margin-top: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+/* NEW: Donut Chart */
+.bilgiyapar-mcc-donut-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
-.mcc-blocker-list { margin: 0; padding-left: 20px; color: #333; }
-.mcc-blocker-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
-.mcc-blocker-list li:last-child { border-bottom: none; }
+.bilgiyapar-mcc-donut {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* e.g., 60% spent (red), 40% remaining (green) */
+    background: conic-gradient(#d9534f 0% 60%, #5cb85c 60% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.bilgiyapar-mcc-donut::after {
+    content: "";
+    width: 60px;
+    height: 60px;
+    background: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+}
+.bilgiyapar-mcc-donut-text {
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+.bilgiyapar-mcc-donut-legend {
+    font-size: 13px;
+    font-weight: normal;
+}
+.bilgiyapar-mcc-donut-legend div {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+.bilgiyapar-mcc-donut-legend span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 3px;
+}
+
+/* NEW: Tree View */
+.bilgiyapar-mcc-tree {
+    font-family: monospace;
+    font-size: 13px;
+    white-space: pre;
+    line-height: 1.6;
+    color: #444;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    overflow-x: auto;
+}
+.bilgiyapar-mcc-tree .highlight {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* NEW: Action Plan Grid */
+.bilgiyapar-mcc-action-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr;
+    gap: 15px;
+    overflow-x: auto;
+}
+.bilgiyapar-mcc-action-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.bilgiyapar-mcc-action-header {
+    background: #e1e4e8;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+}
+.bilgiyapar-mcc-role-header {
+    background: transparent;
+    text-align: left;
+    border: none;
+}
+.bilgiyapar-mcc-role-item {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.bilgiyapar-mcc-mini-card {
+    background: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+}
+.bilgiyapar-mcc-mini-card-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.bilgiyapar-mcc-mini-card-title {
+    font-weight: bold;
+    color: #333;
+}
+.bilgiyapar-mcc-progress-bg {
+    background: #e1e4e8;
+    height: 6px;
+    border-radius: 3px;
+    width: 100%;
+    margin-top: auto;
+    overflow: hidden;
+}
+.bilgiyapar-mcc-progress-bar {
+    height: 100%;
+}
+
+/* NEW: Project Velocity & WIP */
+.bilgiyapar-mcc-velocity-badge {
+    font-size: 11px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: #eee;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #333;
+}
+.bilgiyapar-mcc-wip-alert {
+    color: #d9534f;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #e1e4e8;
+    display: flex;
+    align-items: center;
+}
+.bilgiyapar-mcc-wip-alert i {
+    margin-right: 5px;
+}
+
+/* NEW: AI Recommendations */
+.bilgiyapar-mcc-ai-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.bilgiyapar-mcc-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+.bilgiyapar-mcc-btn:hover {
+    background: #0056b3;
+}
+.bilgiyapar-mcc-btn i {
+    margin-right: 6px;
+}

@@ -11,31 +11,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Show drawer
                 drawer.classList.add('bilgiyapar-mcc-sidedrawer-open');
                 contentArea.innerHTML = '<div class="bilgiyapar-mcc-loading">Yükleniyor...</div>';
-                
+
                 // Fetch data
                 fetch(url, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
                 })
-                .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
+                .then(response => response.json())
+                .then(data => {
+                    contentArea.innerHTML = data.html ? data.html : JSON.stringify(data);
                 })
-                .then(function(htmlOrJson) {
-                    // Try parsing as JSON first
-                    try {
-                        var data = JSON.parse(htmlOrJson);
-                        contentArea.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
-                    } catch (e) {
-                        // If it's HTML, just inject it
-                        contentArea.innerHTML = htmlOrJson;
-                    }
-                })
-                .catch(function(error) {
-                    contentArea.innerHTML = '<div class="bilgiyapar-mcc-text-danger" style="padding: 20px;">Veri alınırken hata oluştu! Detay: ' + error.message + '</div>';
+                .catch(error => {
+                    contentArea.innerHTML = '<div class="bilgiyapar-mcc-text-danger" style="padding: 20px;">Veri alınırken hata oluştu! Controller metodunu kontrol edin.</div>';
                 });
             }
         });

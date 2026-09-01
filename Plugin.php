@@ -19,6 +19,12 @@ class Plugin extends Base
         $this->template->setTemplateOverride('dashboard/sidebar', 'ExecutiveDashboard:dashboard/sidebar');
     }
 
+    public function onStartup()
+    {
+        // Çeviri dosyalarını sisteme yükler
+        \Kanboard\Core\Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
+    }
+
     public function getPluginName()
     {
         return 'ExecutiveDashboard';

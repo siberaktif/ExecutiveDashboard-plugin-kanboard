@@ -18,7 +18,43 @@ class ExecutiveDashboardController extends BaseController
         $total_projects = $metricModel->getTotalActiveProjects();
         $total_p1 = $metricModel->getTotalP1Tasks();
         $total_blockers = $metricModel->getBlockedTasksCount();
-        $budget_total = 0; // Replace with Budget plugin query if needed
+        $budget_total = 150000; // Mock total budget
+        $budget_spent = 90000;  // Mock spent (60%)
+
+        // ZAMAN SINIRLI EYLEM PLANI (Time Bound Action Plan) data
+        $now = time();
+        $today_start = strtotime('today', $now);
+        $today_end = strtotime('tomorrow', $now) - 1;
+        
+        // Bu Hafta (Next 7 days or until end of week)
+        $week_start = strtotime('monday this week', $now);
+        $week_end = strtotime('sunday this week', $now) + 86399;
+        
+        // Bu Ay
+        $month_start = strtotime('first day of this month', $now);
+        $month_end = strtotime('last day of this month', $now) + 86399;
+
+        // BUGÜN (P1 Acil) - Today & Priority 1
+        $tasks_today = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->eq('priority', 1)
+            ->gte('date_due', $today_start)
+            ->lte('date_due', $today_end)
+            ->findAll();
+
+        // BU HAFTA (Sprint Hedefi)
+        $tasks_week = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->gt('date_due', $today_end)
+            ->lte('date_due', $week_end)
+            ->findAll();
+
+        // BU AY (Stratejik)
+        $tasks_month = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->gt('date_due', $week_end)
+            ->lte('date_due', $month_end)
+            ->findAll();
 
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),
@@ -26,7 +62,11 @@ class ExecutiveDashboardController extends BaseController
             'total_projects' => $total_projects,
             'total_p1' => $total_p1,
             'total_blockers' => $total_blockers,
-            'budget_total' => $budget_total
+            'budget_total' => $budget_total,
+            'budget_spent' => $budget_spent,
+            'tasks_today' => $tasks_today,
+            'tasks_week' => $tasks_week,
+            'tasks_month' => $tasks_month
         )));
     }
 
@@ -91,4 +131,8 @@ class ExecutiveDashboardController extends BaseController
     public function getActionPlan() { $this->response->json(array('html' => '<h4>' . t('Action Plan') . '</h4><p>' . t('Action plan under construction.') . '</p>')); }
     public function getProjectMatrix() { return $this->projectDetails(); }
     public function getAiRecommendations() { return $this->aiRecommendations(); }
+    
+    // Legacy fallback endpoints from previous designs
+    public function getMetrics() { $this->response->json(['html' => '<h3>Kritik Metrikler</h3><p>Aktif Proje: 5, Açık Görev: 54</p>']); }
+    public function getFunding() { $this->response->json(['html' => '<h3>Fonlama</h3><p>Fonlama detayları hazırlanıyor...</p>']); }
 }
