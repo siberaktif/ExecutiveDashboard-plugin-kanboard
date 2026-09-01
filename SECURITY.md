@@ -1,12 +1,12 @@
-# Güvenlik Politikası
+# Security Policy
 
-## Desteklenen Sürümler
-Sadece en güncel sürüm için güvenlik güncellemeleri sağlanmaktadır.
+## Supported Versions
+Security updates are provided only for the latest stable release.
 
-| Sürüm | Destekleniyor mu? |
-| ----- | ----------------- |
-| 1.0.x | Evet              |
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0.x   | Yes                |
 
-## Güvenlik Açığı Bildirimi
-Eğer bir güvenlik açığı tespit ederseniz, lütfen doğrudan depo sahibi (Sencar Tosun / Bilgiyapar) ile iletişime geçin. 
-Herkese açık bir Issue (Talep) açmadan önce güvenlik problemlerinin özel olarak çözülmesini tercih ediyoruz.
+## Reporting a Vulnerability
+If you discover a security vulnerability, please contact the repository maintainer directly via email or private channels. 
+Please do not open a public issue for security-related matters until they have been resolved.
