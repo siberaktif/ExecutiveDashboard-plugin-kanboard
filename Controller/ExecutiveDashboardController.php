@@ -8,62 +8,66 @@ use Kanboard\Plugin\ExecutiveDashboard\Model\DashboardMetricModel;
 class ExecutiveDashboardController extends BaseController
 {
     /**
-     * Main dashboard view
+     * Ana Dashboard Görünümü
      */
     public function index()
     {
         $user = $this->getUser();
         $metricModel = new DashboardMetricModel($this->container);
-        
-        $total_projects = $metricModel->getTotalActiveProjects();
-        $total_p1 = $metricModel->getTotalP1Tasks();
-        $total_blockers = $metricModel->getBlockedTasksCount();
-        $budget_total = 150000; // Mock total budget
-        $budget_spent = 90000;  // Mock spent (60%)
 
-        // ZAMAN SINIRLI EYLEM PLANI (Time Bound Action Plan) data
+        $total_projects = $metricModel->getTotalActiveProjects() ?? 0;
+        $total_p1 = $this->db->table('tasks')->eq('is_active', 1)->eq('priority', 1)->count();
+
+        // Blokajları güvenli çekelim
+        try {
+            $total_blockers = $this->db->table('task_has_links')
+                ->join('tasks', 'id', 'task_id', 'task_has_links')
+                ->eq('tasks.is_active', 1)
+                ->in('link_id', [2, 3]) // Genellikle 2 ve 3 numaralı ID'ler 'blocks' ve 'is blocked by' içindir
+                ->count();
+        } catch (\Exception $e) {
+            $total_blockers = 0;
+        }
+
+        // Bütçe - CostControl Eklentisi varsa veriyi çeker, yoksa 0 döner
+        try {
+            $budget_total = $this->db->table('budget_lines')->sum('amount') ?: 0;
+        } catch (\Exception $e) {
+            $budget_total = 0;
+        }
+
+        // ZAMAN SINIRLI EYLEM PLANI
         $now = time();
         $today_start = strtotime('today', $now);
         $today_end = strtotime('tomorrow', $now) - 1;
-        
-        // Bu Hafta (Next 7 days or until end of week)
-        $week_start = strtotime('monday this week', $now);
         $week_end = strtotime('sunday this week', $now) + 86399;
-        
-        // Bu Ay
-        $month_start = strtotime('first day of this month', $now);
         $month_end = strtotime('last day of this month', $now) + 86399;
 
-        // BUGÜN (P1 Acil) - Today & Priority 1
+        // BUGÜN (P1 Acil)
         $tasks_today = $this->db->table('tasks')
-            ->eq('is_active', 1)
-            ->eq('priority', 1)
-            ->gte('date_due', $today_start)
-            ->lte('date_due', $today_end)
+            ->eq('is_active', 1)->eq('priority', 1)
+            ->gte('date_due', $today_start)->lte('date_due', $today_end)
             ->findAll();
 
-        // BU HAFTA (Sprint Hedefi)
+        // BU HAFTA
         $tasks_week = $this->db->table('tasks')
             ->eq('is_active', 1)
-            ->gt('date_due', $today_end)
-            ->lte('date_due', $week_end)
+            ->gt('date_due', $today_end)->lte('date_due', $week_end)
             ->findAll();
 
-        // BU AY (Stratejik)
+        // BU AY
         $tasks_month = $this->db->table('tasks')
             ->eq('is_active', 1)
-            ->gt('date_due', $week_end)
-            ->lte('date_due', $month_end)
+            ->gt('date_due', $week_end)->lte('date_due', $month_end)
             ->findAll();
 
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
-            'title' => t('Manager Control Center'),
+            'title' => t('Yönetici Kontrol Merkezi'),
             'user' => $user,
             'total_projects' => $total_projects,
             'total_p1' => $total_p1,
             'total_blockers' => $total_blockers,
-            'budget_total' => $budget_total,
-            'budget_spent' => $budget_spent,
+            'global_burn_rate' => $budget_total,
             'tasks_today' => $tasks_today,
             'tasks_week' => $tasks_week,
             'tasks_month' => $tasks_month
@@ -71,68 +75,108 @@ class ExecutiveDashboardController extends BaseController
     }
 
     /**
-     * Project Details for Side Drawer
+     * PROJELER (Yan Sekme) - Gerçek Kanboard Proje Linkleri
      */
-    public function projectDetails()
+    public function getProjectMatrix()
     {
-        $projects = $this->projectModel->getAll();
-        
-        $html = "<h4>" . t('Active Projects') . "</h4><ul>";
+        $projects = $this->projectModel->getActive();
+
+        $html = "<h4 style='border-bottom:1px solid #eee; padding-bottom:10px;'>" . t('Aktif Şirket Projeleri') . "</h4><ul style='list-style:none; padding:0;'>";
         foreach ($projects as $p) {
-            if ($p['is_active']) {
-                $html .= "<li>" . htmlspecialchars($p['name']) . "</li>";
-            }
+            // Kanboard'un orijinal proje panosuna giden link
+            $url = $this->helper->url->to('BoardViewController', 'show', ['project_id' => $p['id']]);
+            $html .= "<li style='margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:4px;'>";
+            $html .= "<a href='{$url}' target='_blank' style='text-decoration:none; color:#0366d6; font-weight:bold;'><i class='fa fa-columns'></i> " . htmlspecialchars($p['name']) . "</a>";
+            $html .= "</li>";
         }
         $html .= "</ul>";
-        
-        $this->response->json(array('html' => $html));
+
+        $this->response->json(['html' => $html]);
     }
 
     /**
-     * Blocker Details for Side Drawer
+     * BLOKAJLAR (Yan Sekme) - Gerçek Kanboard Görev Linkleri
      */
-    public function blockerDetails()
+    public function getBlockersList()
     {
-        $tasks = $this->db->table('task_has_links')
-            ->join('links', 'id', 'link_id', 'task_has_links')
-            ->join('tasks', 'id', 'task_id', 'task_has_links')
-            ->eq('tasks.is_active', 1)
-            ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
-            ->findAll();
+        try {
+            $tasks = $this->db->table('task_has_links')
+                ->join('tasks', 'id', 'task_id', 'task_has_links')
+                ->eq('tasks.is_active', 1)
+                ->findAll();
+        } catch (\Exception $e) {
+            $tasks = [];
+        }
 
-        $html = "<h4>" . t('Critical Blockers') . "</h4><ul>";
+        $html = "<h4 style='border-bottom:1px solid #eee; padding-bottom:10px; color:#d9534f;'><i class='fa fa-ban'></i> " . t('Kritik Blokajlar') . "</h4><ul style='list-style:none; padding:0;'>";
+
         if (empty($tasks)) {
-            $html .= "<li>" . t('No blocked tasks found.') . "</li>";
+            $html .= "<li>" . t('Bloke olmuş görev bulunmuyor. Harika!') . "</li>";
         } else {
             foreach ($tasks as $t) {
-                $html .= "<li>Task #" . $t['task_id'] . " - " . htmlspecialchars($t['title']) . "</li>";
+                // Kanboard'un orijinal görev detay sayfasına giden link
+                $url = $this->helper->url->to('TaskViewController', 'show', ['task_id' => $t['task_id'], 'project_id' => $t['project_id']]);
+                $html .= "<li style='margin-bottom:10px; padding:10px; border-left:3px solid #d9534f; background:#fff;'>";
+                $html .= "<a href='{$url}' target='_blank' style='text-decoration:none; color:#333;'><strong>Görev #" . $t['task_id'] . "</strong><br>" . htmlspecialchars($t['title']) . "</a>";
+                $html .= "</li>";
             }
         }
         $html .= "</ul>";
 
-        $this->response->json(array('html' => $html));
+        $this->response->json(['html' => $html]);
     }
 
     /**
-     * AI Recommendations for Side Drawer
+     * ZAMAN SINIRLI EYLEM PLANI (Yan Sekme) - Geciken Görevler
      */
-    public function aiRecommendations()
+    public function getActionPlan()
     {
-        $html = "<h4>" . t('AI Recommendations') . "</h4>";
-        $html .= "<p>" . t('System suggests moving 2 resources from Project B to Project A to resolve current blockers.') . "</p>";
-        
-        $this->response->json(array('html' => $html));
+        $now = time();
+        $delayed_tasks = $this->db->table('tasks')
+            ->eq('is_active', 1)
+            ->neq('date_due', 0)
+            ->lt('date_due', $now)
+            ->findAll();
+
+        $html = "<h4 style='border-bottom:1px solid #eee; padding-bottom:10px;'><i class='fa fa-clock-o'></i> " . t('Geciken Görevler (Acil Eylem)') . "</h4><ul style='list-style:none; padding:0;'>";
+
+        if (empty($delayed_tasks)) {
+            $html .= "<li><i class='fa fa-check-circle' style='color:#5cb85c;'></i> " . t('Geciken görev yok.') . "</li>";
+        } else {
+            foreach ($delayed_tasks as $t) {
+                $url = $this->helper->url->to('TaskViewController', 'show', ['task_id' => $t['id'], 'project_id' => $t['project_id']]);
+                $html .= "<li style='margin-bottom:10px; padding:10px; background:#fff8e5; border-radius:4px;'>";
+                $html .= "<a href='{$url}' target='_blank' style='text-decoration:none; color:#d9534f; font-weight:bold;'>#" . $t['id'] . " - " . htmlspecialchars($t['title']) . "</a>";
+                $html .= "</li>";
+            }
+        }
+        $html .= "</ul>";
+
+        $this->response->json(['html' => $html]);
     }
 
-    // Dummy endpoints for other cards to prevent 404s
-    public function getFinanceDetails() { $this->response->json(array('html' => '<h4>' . t('Global Burn Rate') . '</h4><p>' . t('Finance details are under construction.') . '</p>')); }
-    public function getBlockersList() { return $this->blockerDetails(); }
-    public function getCriticalPath() { $this->response->json(array('html' => '<h4>' . t('Critical Path') . '</h4><p>' . t('Critical path analysis under construction.') . '</p>')); }
-    public function getActionPlan() { $this->response->json(array('html' => '<h4>' . t('Action Plan') . '</h4><p>' . t('Action plan under construction.') . '</p>')); }
-    public function getProjectMatrix() { return $this->projectDetails(); }
-    public function getAiRecommendations() { return $this->aiRecommendations(); }
-    
-    // Legacy fallback endpoints from previous designs
-    public function getMetrics() { $this->response->json(['html' => '<h3>Kritik Metrikler</h3><p>Aktif Proje: 5, Açık Görev: 54</p>']); }
-    public function getFunding() { $this->response->json(['html' => '<h3>Fonlama</h3><p>Fonlama detayları hazırlanıyor...</p>']); }
+    /**
+     * FİNANS & METRİKLER (Diğer yan sekmeler)
+     */
+    public function getFinanceDetails() {
+        $this->response->json(['html' => '<h4><i class="fa fa-money"></i> ' . t('Finansal Kırılımlar') . '</h4><p>' . t('Bütçe eklentisi (CostControl) ile entegrasyon sağlandığında harcama kırılımları burada listelenecektir.') . '</p>']);
+    }
+
+    public function getMetrics() {
+        $this->response->json(['html' => '<h4><i class="fa fa-pie-chart"></i> ' . t('Kritik Metrikler') . '</h4><p>' . t('Tüm projelerinizdeki genel durum özetidir. Detaylar için Projeler sekmesini kullanın.') . '</p>']);
+    }
+
+    public function getFunding() {
+        $this->response->json(['html' => '<h4><i class="fa fa-rocket"></i> ' . t('Fonlama ve Gelir') . '</h4><p>' . t('Kitlesel fonlama kampanya detayları ve hedef/gerçekleşen tutarlar.') . '</p>']);
+    }
+
+    public function getCriticalPath() {
+        return $this->getBlockersList();
+    }
+
+    public function getAiRecommendations() {
+        $html = "<h4><i class='fa fa-magic'></i> " . t('AI Operasyonel Öneriler') . "</h4>";
+        $html .= "<p style='padding:10px; background:#e1f0fa; border-radius:4px;'>" . t('Otonom ajan (Hermes) sistem analizi sonucunda, A.Ş. kuruluş sürecinin hızlandırılmasını önermektedir. Bu işlem ISAMA mobil uygulamasının yayınlanmasını doğrudan etkilemektedir.') . "</p>";
+        $this->response->json(['html' => $html]);
+    }
 }
