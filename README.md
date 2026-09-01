@@ -23,3 +23,16 @@ This plugin transforms your Kanboard interface into a strategic, high-level exec
 ## Compatibility
 - Requires Kanboard version >= 1.2.20
 - Compatible with all standard Kanboard themes (integrates seamlessly without overriding core CSS globally).
+
+## Documentation & Repository Guidelines
+Please refer to the following documents for more details on project standards and contributions:
+- [CHANGELOG.md](CHANGELOG.md) - History of releases, new features, and bug fixes.
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Guidelines and instructions for developers who want to contribute to the codebase.
+- [SECURITY.md](SECURITY.md) - Our security policies and instructions on how to report vulnerabilities.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Behavioral standards expected from all contributors.
+
+## Author & Credits
+Created and maintained by:
+- **Sencar Tosun**
+- [DediTeknoloji.com](https://dediteknoloji.com)
+- [Bilgiyapar.com](https://bilgiyapar.com)
