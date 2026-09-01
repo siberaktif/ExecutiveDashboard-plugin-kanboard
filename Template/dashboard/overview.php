@@ -5,7 +5,7 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ (Finans Zirvesi)') ?></div>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+        <div class="bilgiyapar-mcc-grid-3-responsive">
             <!-- 1. Bar Chart Kartı -->
             <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('ExecutiveDashboardController', 'finance', array('plugin' => 'ExecutiveDashboard')) ?>">
                 <div style="font-weight:bold; font-size:14px; margin-bottom:15px;"><?= t('Küresel Nakit Yakım Hızı') ?></div>
@@ -146,7 +146,7 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('ACİL DURUM & KRİTİK BLOKAJLAR') ?></div>
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:15px;">
+        <div class="bilgiyapar-mcc-grid-2-responsive" style="margin-bottom:15px;">
             <!-- Kırmızı Uyarı Kartı 1: Blokajlar -->
             <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="text-decoration:none; background:#ffeef0; border-left:4px solid #d73a49; padding:15px; border-radius:4px; color:#24292e; display:flex; justify-content:space-between; align-items:center;">
                 <div>
@@ -401,7 +401,7 @@
             <i class="fa fa-android fa-2x" style="color:#007bff;"></i> 
             <?= t('MCP ÖNERİLERİ | DANIŞMANLIK') ?>
         </div>
-        <div class="bilgiyapar-mcc-ai-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+        <div class="bilgiyapar-mcc-ai-grid">
             
             <?php if(!empty($ai_suggestion_1)): ?>
             <!-- Öneri 1 (Dinamik Darboğaz) -->

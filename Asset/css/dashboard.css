@@ -315,9 +315,46 @@
 }
 
 /* RULE 1: Specific Grid Classes */
-.bilgiyapar-mcc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.bilgiyapar-mcc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.bilgiyapar-mcc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+.bilgiyapar-mcc-grid-3-responsive {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+}
+.bilgiyapar-mcc-grid-2-responsive {
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px;
+}
+
+/* RESPONSIVE DESIGN (Mobile, Tablet, Fluid) */
+@media screen and (max-width: 1024px) {
+    .bilgiyapar-mcc-grid-3-responsive {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .bilgiyapar-mcc-grid-3-responsive,
+    .bilgiyapar-mcc-grid-2-responsive,
+    .bilgiyapar-mcc-ai-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .bilgiyapar-mcc-action-grid {
+        /* Keep it horizontally scrollable but add momentum */
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .bilgiyapar-mcc-donut-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .bilgiyapar-mcc-dashboard-container {
+        padding: 10px;
+    }
+}
 
 /* RULE 3: Kanboard Sidebar Menu Order Trick */
 .sidebar ul.no-bullets { display: flex; flex-direction: column; }
