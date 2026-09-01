@@ -139,3 +139,26 @@
     padding: 20px;
     color: #888;
 }
+
+/* Mevcut kodların en altına ekleyin */
+
+.bilgiyapar-mcc-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.bilgiyapar-mcc-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.bilgiyapar-mcc-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+
+.card-label { font-size: 13px; color: #666; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+.card-value { font-size: 22px; font-weight: bold; }
+.card-sub { font-size: 12px; color: #888; }
+.card-stats span { display: block; font-size: 14px; margin-bottom: 4px; }
+.bilgiyapar-mcc-text-primary { color: #0366d6 !important; }
+
+.alert-red { background-color: #ffeef0; border-color: #d9534f; color: #d9534f; display: flex; align-items: center; }
+.alert-red i { margin-right: 10px; font-size: 18px; }
+
+.bilgiyapar-mcc-list-card {
+    background: #fff; border: 1px solid #d9534f; border-left: 4px solid #d9534f;
+    padding: 15px; margin-top: 15px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.mcc-blocker-list { margin: 0; padding-left: 20px; color: #333; }
+.mcc-blocker-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
+.mcc-blocker-list li:last-child { border-bottom: none; }

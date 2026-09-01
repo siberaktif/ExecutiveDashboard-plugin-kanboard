@@ -3,112 +3,61 @@
 
     <!-- 1. YÖNETİCİ FİNANS & STRATEJİ PANELİ -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('EXECUTIVE FINANCE & STRATEGY PANEL') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
+        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('EXECUTIVE FINANCE & STRATEGY PANEL') ?></div>
+        <div class="bilgiyapar-mcc-grid-4">
             <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getFinanceDetails', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Global Burn Rate') ?></div>
+                <div class="card-label"><?= t('Global Burn Rate') ?></div>
+                <div class="card-value bilgiyapar-mcc-text-primary"><?= $this->helper->dashboardFormat->currency(isset($budget_total) ? $budget_total : 15000) ?> <small>/mo</small></div>
+            </div>
+            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getMetrics', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="card-label"><?= t('Critical Metrics') ?></div>
+                <div class="card-stats">
+                    <span><strong>5</strong> <?= t('Active Projects') ?></span>
+                    <span><strong>54</strong> <?= t('Open Tasks') ?></span>
                 </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <?= $this->helper->dashboardFormat->currency(isset($budget_total) ? $budget_total : 0) ?>
-                </div>
+            </div>
+            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getFunding', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <div class="card-label"><?= t('Funding & Revenue') ?></div>
+                <div class="card-value">14 Gün Kaldı</div>
+                <div class="card-sub">Hedef: 500.000 TL</div>
             </div>
         </div>
     </div>
 
     <!-- 2. ACİL DURUM & KRİTİK BLOKAJLAR -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('EMERGENCY & CRITICAL BLOCKERS') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getBlockersList', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-warning bilgiyapar-mcc-text-danger"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Total Critical Blockers') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content bilgiyapar-mcc-text-danger">
-                    <?= isset($total_blockers) ? $total_blockers : 0 ?> <?= t('Tasks') ?>
-                </div>
+        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-warning" style="color:#d9534f"></i> <?= t('EMERGENCY & CRITICAL BLOCKERS') ?></div>
+        <div class="bilgiyapar-mcc-grid-2">
+            <div class="bilgiyapar-mcc-card alert-red" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getBlockersList', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <i class="fa fa-ban"></i> <?= t('Total Critical Blockers') ?>: <strong>3</strong>
             </div>
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getBlockersList', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-ban bilgiyapar-mcc-text-warning"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Blocker Summary') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <ul>
-                        <li><?= isset($total_p1) ? $total_p1 : 0 ?> <?= t('Emergency (P1) tasks pending.') ?></li>
-                        <li><?= t('Dependency lock detected.') ?></li>
-                    </ul>
-                </div>
+            <div class="bilgiyapar-mcc-card alert-red">
+                <i class="fa fa-file-text"></i> <?= t('Delayed Invoices') ?>: <strong>1</strong>
             </div>
         </div>
-    </div>
-
-    <!-- 3. GÖREV BAĞIMLILIKLARI & KRİTİK YOL -->
-    <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('TASK DEPENDENCIES & CRITICAL PATH') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getCriticalPath', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-road"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Critical Path Analysis') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <?= t('View Analysis') ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. ZAMAN SINIRLI EYLEM PLANI -->
-    <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('TIME BOUND ACTION PLAN') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getActionPlan', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-clock-o"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Delayed Tasks') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <?= t('Examine Details') ?>
-                </div>
-            </div>
+        <div class="bilgiyapar-mcc-list-card">
+            <ul class="mcc-blocker-list">
+                <li><strong>A.Ş. NACE Onayı: Mali Müşavir Bekleniyor</strong> (A.Ş. Kuruluşu Bloke) (3 Gün)</li>
+                <li><strong>DUNS Numarası Evrak Eksik</strong> (ISAMA Bloke)</li>
+            </ul>
         </div>
     </div>
 
     <!-- 5. ŞİRKET PROJELERİ & ÇEVİK MATRİSLER -->
     <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('COMPANY PROJECTS & AGILE MATRIX') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getProjectMatrix', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-cubes"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Active Projects') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <?= isset($total_projects) ? $total_projects : 0 ?> <?= t('Projects') ?>
-                </div>
+        <div class="bilgiyapar-mcc-section-title"><i class="fa fa-cubes"></i> <?= t('COMPANY PROJECTS & AGILE MATRIX') ?></div>
+        <div class="bilgiyapar-mcc-grid-5">
+            <?php
+            $mock_projects = ['ISAMA Hardware', 'FMHSCS SaaS', 'ISO 9001 Şablonu', '3D Pop-up Katalog', 'ISAMA Pazarlama'];
+            foreach($mock_projects as $p): ?>
+            <div class="bilgiyapar-mcc-card project-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getProjectMatrix', array('plugin' => 'ExecutiveDashboard')) ?>">
+                <strong><?= $p ?></strong>
+                <div class="project-health bilgiyapar-mcc-text-success"><i class="fa fa-circle"></i> Sağlıklı</div>
+                <div class="project-burn" style="font-size:12px; margin-top:5px; color:#666;">Burn Rate: %5</div>
             </div>
+            <?php endforeach; ?>
         </div>
     </div>
-
-    <!-- 6. AI DESTEKLİ OPERASYONEL ÖNERİLER -->
-    <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('AI SUPPORTED OPERATIONAL RECOMMENDATIONS') ?></div>
-        <div class="bilgiyapar-mcc-dashboard-grid">
-            <div class="bilgiyapar-mcc-card" data-url="<?= $this->url->href('ExecutiveDashboardController', 'getAiRecommendations', array('plugin' => 'ExecutiveDashboard')) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-magic"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('System Recommendations') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <?= t('Show Recommendations') ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- Side Drawer HTML -->
