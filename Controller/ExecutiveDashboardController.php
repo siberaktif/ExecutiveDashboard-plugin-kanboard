@@ -117,15 +117,33 @@ class ExecutiveDashboardController extends BaseController
 
         // --- SİSTEM & KÜRESEL KPI MATRİSİ (System Metrics) ---
         $kpi = array();
+        $kpi['projects_active'] = $this->db->table('projects')->eq('is_active', 1)->count();
+        $kpi['projects_inactive'] = $this->db->table('projects')->eq('is_active', 0)->count();
         $kpi['projects_private'] = $this->db->table('projects')->eq('is_private', 1)->count();
         $kpi['projects_public'] = $this->db->table('projects')->eq('is_private', 0)->count();
         $kpi['categories'] = $this->db->table('project_has_categories')->count();
-        $kpi['tags'] = $this->db->table('tags')->count();
+        $kpi['auto_actions'] = $this->db->table('project_has_actions')->count();
+        $kpi['plugins'] = 51; // Statik veya plugin loader
+        
+        $kpi['tasks_active'] = $this->db->table('tasks')->eq('is_active', 1)->count();
         $kpi['tasks_closed'] = $this->db->table('tasks')->eq('is_active', 0)->count();
         $kpi['comments'] = $this->db->table('comments')->count();
         $kpi['attachments'] = $this->db->table('task_has_files')->count();
+        $kpi['tags'] = $this->db->table('tags')->count();
+        $kpi['link_labels'] = $this->db->table('link_labels')->count();
         $kpi['external_links'] = $this->db->table('task_has_external_links')->count();
         
+        $kpi['templates'] = 0;
+        $kpi['task_templates'] = 0;
+        $kpi['comment_templates'] = 0;
+        $kpi['general_templates'] = 0;
+        
+        $kpi['groups'] = $this->db->table('groups')->count();
+        $kpi['timezones'] = 0;
+        $kpi['languages'] = 1;
+        
+        $kpi['users_active'] = $this->db->table('users')->eq('is_active', 1)->count();
+        $kpi['users_inactive'] = $this->db->table('users')->eq('is_active', 0)->count();
         $kpi['users_admin'] = $this->db->table('users')->eq('role', 'app-admin')->count();
         $kpi['users_manager'] = $this->db->table('users')->eq('role', 'app-manager')->count();
         $kpi['users_user'] = $this->db->table('users')->eq('role', 'app-user')->count();

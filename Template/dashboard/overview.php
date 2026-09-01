@@ -74,89 +74,48 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('KAPSAMLI SİSTEM & KÜRESEL KPI MATRİSİ') ?></div>
         
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px;">
-            <!-- Projeler -->
-            <a href="<?= $this->url->href('ProjectListController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border:1px solid #d1d5da; border-radius:8px; padding:15px; color:#24292e; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">Projeler</div>
-                    <div style="display:flex; gap:5px;">
-                        <span style="background:#28a745; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Aktif"><?= $total_projects ?></span>
-                        <span style="background:#586069; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Özel"><?= $kpi['projects_private'] ?></span>
-                    </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:12px;">
+            <?php
+            $kpi_cards = [
+                ['title' => 'Projeler', 'total' => $kpi['projects_active']+$kpi['projects_inactive'], 'sub' => 'A:'.$kpi['projects_active'].' P:'.$kpi['projects_inactive'], 'color' => '#0366d6', 'icon' => 'fa-folder-open-o', 'url' => $this->url->href('ProjectListController', 'show')],
+                ['title' => 'Kişisel Projeler', 'total' => $kpi['projects_private'], 'sub' => '', 'color' => '#0366d6', 'icon' => 'fa-lock', 'url' => $this->url->href('ProjectListController', 'show')],
+                ['title' => 'Herkese Açık Projeler', 'total' => $kpi['projects_public'], 'sub' => '', 'color' => '#0366d6', 'icon' => 'fa-globe', 'url' => $this->url->href('ProjectListController', 'show')],
+                ['title' => 'Kategoriler', 'total' => $kpi['categories'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => '#'],
+                ['title' => 'Otomatik Eylemler', 'total' => $kpi['auto_actions'], 'sub' => '', 'color' => '#005cc5', 'icon' => 'fa-cogs', 'url' => '#'],
+                ['title' => 'Eklentiler', 'total' => $kpi['plugins'], 'sub' => '', 'color' => '#28a745', 'icon' => 'fa-plug', 'url' => $this->url->href('PluginController', 'show')],
+                ['title' => 'Görevler', 'total' => $kpi['tasks_active']+$kpi['tasks_closed'], 'sub' => 'Açık:'.$kpi['tasks_active'].' Kpl:'.$kpi['tasks_closed'], 'color' => '#e36209', 'icon' => 'fa-tasks', 'url' => $this->url->href('SearchController', 'index', array('search'=>'status:all'))],
+                ['title' => 'Yorumlar', 'total' => $kpi['comments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-comments', 'url' => '#'],
+                ['title' => 'Ekler', 'total' => $kpi['attachments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-paperclip', 'url' => '#'],
+                ['title' => 'Etiketler', 'total' => $kpi['tags'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => $this->url->href('TagController', 'index')],
+                ['title' => 'Bağlantı Etiketleri', 'total' => $kpi['link_labels'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-link', 'url' => '#'],
+                ['title' => 'External Links', 'total' => $kpi['external_links'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-external-link', 'url' => '#'],
+                ['title' => 'Templates', 'total' => $kpi['templates'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-file-text-o', 'url' => '#'],
+                ['title' => 'Task Templates', 'total' => $kpi['task_templates'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-file-text-o', 'url' => '#'],
+                ['title' => 'Yorum Şablonları', 'total' => $kpi['comment_templates'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-file-text-o', 'url' => '#'],
+                ['title' => 'Genel Şablonlar', 'total' => $kpi['general_templates'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-file-text-o', 'url' => '#'],
+                ['title' => 'Kullanıcı Grupları', 'total' => $kpi['groups'], 'sub' => '', 'color' => '#d73a49', 'icon' => 'fa-users', 'url' => $this->url->href('GroupListController', 'index')],
+                ['title' => 'Saat Dilimleri', 'total' => $kpi['timezones'], 'sub' => '', 'color' => '#d73a49', 'icon' => 'fa-clock-o', 'url' => '#'],
+                ['title' => 'Diller', 'total' => $kpi['languages'], 'sub' => '', 'color' => '#d73a49', 'icon' => 'fa-language', 'url' => '#'],
+                ['title' => 'Kullanıcılar', 'total' => $kpi['users_active']+$kpi['users_inactive'], 'sub' => 'Aktif:'.$kpi['users_active'].' Pasif:'.$kpi['users_inactive'], 'color' => '#d73a49', 'icon' => 'fa-user', 'url' => $this->url->href('UserListController', 'show')],
+                ['title' => 'Üyeler', 'total' => $kpi['users_user'], 'sub' => 'Standart', 'color' => '#d73a49', 'icon' => 'fa-user-o', 'url' => $this->url->href('UserListController', 'show')],
+                ['title' => 'Yöneticiler', 'total' => $kpi['users_manager'], 'sub' => 'PM', 'color' => '#d73a49', 'icon' => 'fa-user-circle-o', 'url' => $this->url->href('UserListController', 'show')],
+                ['title' => 'Sistem Yöneticileri', 'total' => $kpi['users_admin'], 'sub' => 'Admin', 'color' => '#d73a49', 'icon' => 'fa-user-secret', 'url' => $this->url->href('UserListController', 'show')],
+            ];
+            ?>
+            <?php foreach($kpi_cards as $c): ?>
+            <a href="<?= $c['url'] ?>" target="_blank" style="text-decoration:none; background:#ffffff; border:1px solid #e1e4e8; border-left:3px solid <?= $c['color'] ?>; border-radius:4px; padding:12px; color:#24292e; display:flex; flex-direction:column; justify-content:space-between; min-height:80px; box-shadow:0 1px 3px rgba(0,0,0,0.02); transition: box-shadow 0.2s;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="font-weight:600; font-size:12px; color:#586069; line-height:1.2; padding-right:5px; word-break:break-word;"><?= $c['title'] ?></div>
+                    <i class="fa <?= $c['icon'] ?>" style="color:<?= $c['color'] ?>; font-size:14px; opacity:0.8;"></i>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-folder-open-o" style="font-size:24px; color:#1a73e8;"></i>
-                    <span style="font-size:20px; font-weight:bold;"><?= $total_projects + $kpi['projects_private'] ?></span>
-                </div>
-            </a>
-
-            <!-- Etiketler & Kategoriler -->
-            <a href="<?= $this->url->href('TagController', 'index') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #f3e7ff 0%, #e6d3fb 100%); border:1px solid #d0b0f0; border-radius:8px; padding:15px; color:#4b2771; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">Etiketler</div>
-                    <span style="background:#6f42c1; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $kpi['tags'] ?></span>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-tags" style="font-size:24px; color:#6f42c1;"></i>
-                    <span style="font-size:20px; font-weight:bold;"><?= $kpi['tags'] + $kpi['categories'] ?> Toplam</span>
-                </div>
-            </a>
-
-            <!-- Görevler -->
-            <a href="<?= $this->url->href('SearchController', 'index', array('search'=>'status:all')) ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border:1px solid #ffcc80; border-radius:8px; padding:15px; color:#e65100; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">Görevler</div>
-                    <div style="display:flex; gap:5px;">
-                        <span style="background:#e65100; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $open_tasks ?> Açık</span>
-                        <span style="background:#586069; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><?= $kpi['tasks_closed'] ?> Kpl</span>
-                    </div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-tasks" style="font-size:24px; color:#e65100;"></i>
-                    <span style="font-size:20px; font-weight:bold;"><?= $open_tasks + $kpi['tasks_closed'] ?> Toplam</span>
-                </div>
-            </a>
-
-            <!-- İletişim & Dosyalar -->
-            <div style="background:linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); border:1px solid #80deea; border-radius:8px; padding:15px; color:#006064; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">İletişim & Ekler</div>
-                    <div style="display:flex; gap:5px;">
-                        <span style="background:#00838f; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;"><i class="fa fa-comment"></i> <?= $kpi['comments'] ?></span>
-                    </div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-paperclip" style="font-size:24px; color:#00838f;"></i>
-                    <span style="font-size:15px; font-weight:bold;"><?= $kpi['attachments'] ?> Ek & <?= $kpi['external_links'] ?> Link</span>
-                </div>
-            </div>
-
-            <!-- Kullanıcı Demografisi -->
-            <a href="<?= $this->url->href('UserListController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #fbe9e7 0%, #ffccbc 100%); border:1px solid #ffab91; border-radius:8px; padding:15px; color:#bf360c; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">Kullanıcılar</div>
-                    <div style="display:flex; gap:5px;">
-                        <span style="background:#bf360c; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Admin">A:<?= $kpi['users_admin'] ?></span>
-                        <span style="background:#ff7043; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="Manager">M:<?= $kpi['users_manager'] ?></span>
-                        <span style="background:#ff8a65; color:#fff; border-radius:10px; padding:2px 6px; font-size:10px; font-weight:bold;" title="User">U:<?= $kpi['users_user'] ?></span>
-                    </div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-users" style="font-size:24px; color:#bf360c;"></i>
-                    <span style="font-size:20px; font-weight:bold;"><?= count($users) ?> Toplam</span>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px;">
+                    <span style="font-size:22px; font-weight:bold; color:#24292e; line-height:1;"><?= $c['total'] ?></span>
+                    <?php if($c['sub']): ?>
+                    <span style="font-size:10px; color:#6a737d; font-weight:500; background:#f6f8fa; padding:2px 4px; border-radius:3px;"><?= $c['sub'] ?></span>
+                    <?php endif; ?>
                 </div>
             </a>
-            
-            <!-- Eklentiler -->
-            <a href="<?= $this->url->href('PluginController', 'show') ?>" target="_blank" style="text-decoration:none; background:linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border:1px solid #a5d6a7; border-radius:8px; padding:15px; color:#1b5e20; display:flex; flex-direction:column; justify-content:space-between; min-height:90px; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-weight:bold; font-size:13px;">Eklentiler</div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-                    <i class="fa fa-plug" style="font-size:24px; color:#2e7d32;"></i>
-                    <span style="font-size:14px; font-weight:bold;">Sistem Yönetimi <i class="fa fa-arrow-right"></i></span>
-                </div>
-            </a>
+            <?php endforeach; ?>
         </div>
     </div>
 
