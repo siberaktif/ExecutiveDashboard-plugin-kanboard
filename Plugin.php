@@ -8,6 +8,12 @@ class Plugin extends Base
 {
     public function initialize()
     {
+        // 1. CLEAR URL: Çirkin linkleri temiz ve kısa bir rotaya bağlar
+        $this->route->addRoute('/mcc', 'ExecutiveDashboardController', 'index', 'ExecutiveDashboard');
+
+        // 2. CSP OVERRIDE: Kanboard'un satır içi JS kodlarını (Prompt Kopyala) engellemesini durdurur
+        $this->setContentSecurityPolicy(array('script-src' => "'self' 'unsafe-inline' 'unsafe-eval'"));
+
         // Add CSS and JS hooks
         $this->hook->on('template:layout:css', array('template' => 'plugins/ExecutiveDashboard/Asset/css/dashboard.css'));
         // $this->hook->on('template:layout:js', array('template' => 'plugins/ExecutiveDashboard/Asset/js/sidedrawer.js'));

@@ -5,8 +5,8 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ') ?></div>
         <div class="bilgiyapar-mcc-grid-4">
-            <!-- Finans Kartı (Donut Chart) -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $this->user->getId())) ?>">
+            <!-- 1. FİNANS KARTI (CostControl Eklentisine Bağlı) -->
+            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('BudgetController', 'index', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
                 <div class="bilgiyapar-mcc-card-header">
                     <i class="fa fa-money bilgiyapar-mcc-text-success"></i>
                     <div class="bilgiyapar-mcc-card-title"><?= t('Küresel Nakit Yakım Hızı') ?></div>
@@ -18,7 +18,7 @@
                     <div class="bilgiyapar-mcc-donut-legend">
                         <div class="card-value"><?= $this->helper->dashboardFormat->currency(isset($budget_spent) ? $budget_spent : 90000) ?></div>
                         <div class="card-sub"><?= t('Harcanan Bütçe') ?></div>
-                        <div style="margin-top: 5px;">
+                        <div style="margin-top: 5px; font-size:11px;">
                             <span style="background: #d9534f; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Harcanan') ?> (%60)<br>
                             <span style="background: #5cb85c; display:inline-block; width:10px; height:10px; border-radius:50%;"></span> <?= t('Kalan') ?> (%40)
                         </div>
@@ -26,17 +26,22 @@
                 </div>
             </a>
             
-            <!-- Ek Metrik Kartı -->
-            <a target="_blank" style="text-decoration:none; display:block; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'tasks', array('user_id' => $this->user->getId())) ?>">
-                <div class="bilgiyapar-mcc-card-header">
-                    <i class="fa fa-line-chart bilgiyapar-mcc-text-primary"></i>
-                    <div class="bilgiyapar-mcc-card-title"><?= t('Performans Metrikleri') ?></div>
-                </div>
-                <div class="bilgiyapar-mcc-card-content">
-                    <div class="card-value">Verimli</div>
-                    <div class="card-sub">Aktif Proje: <?= isset($total_projects) ? $total_projects : 0 ?></div>
-                    <div class="card-sub">Açık Görev: <?= isset($open_tasks) ? $open_tasks : 0 ?></div>
-                </div>
+            <!-- 2. AKTİF PROJELER KARTI -->
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>">
+                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-th"></i> <?= t('Aktif Projeler') ?></div>
+                <div style="font-size:36px; font-weight:bold; color:#1a73e8;"><?= isset($total_projects) ? $total_projects : 0 ?></div>
+            </a>
+
+            <!-- 3. AÇIK GÖREVLER KARTI (Search: status:open) -->
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>">
+                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-folder-open-o"></i> <?= t('Açık Görevler') ?></div>
+                <div style="font-size:36px; font-weight:bold; color:#f0ad4e;"><?= isset($open_tasks) ? $open_tasks : 0 ?></div>
+            </a>
+
+            <!-- 4. KAPATILMIŞ GÖREVLER KARTI (Search: status:closed) -->
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; justify-content:center; align-items:center; color:inherit;" class="bilgiyapar-mcc-card" href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:closed')) ?>">
+                <div style="font-size:14px; font-weight:bold; color:#586069; margin-bottom:10px;"><i class="fa fa-check-square-o"></i> <?= t('Kapatılmış Görevler') ?></div>
+                <div style="font-size:36px; font-weight:bold; color:#5cb85c;">142</div> <!-- Mock Veri: Controller'dan $closed_tasks çekilebilir -->
             </a>
         </div>
     </div>
