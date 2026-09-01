@@ -10,6 +10,7 @@ class Plugin extends Base
     {
         // 1. CLEAR URL: Çirkin linkleri temiz ve kısa bir rotaya bağlar
         $this->route->addRoute('/mcc', 'ExecutiveDashboardController', 'index', 'ExecutiveDashboard');
+        $this->route->addRoute('/mcc/finance', 'ExecutiveDashboardController', 'finance', 'ExecutiveDashboard');
 
         // 2. CSP OVERRIDE: Kanboard'un satır içi JS kodlarını (Prompt Kopyala) engellemesini durdurur
         $this->setContentSecurityPolicy(array('script-src' => "'self' 'unsafe-inline' 'unsafe-eval'"));

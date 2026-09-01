@@ -7,7 +7,7 @@
         
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
             <!-- 1. Bar Chart Kartı -->
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>">
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('ExecutiveDashboardController', 'finance', array('plugin' => 'ExecutiveDashboard')) ?>">
                 <div style="font-weight:bold; font-size:14px; margin-bottom:15px;"><?= t('Küresel Nakit Yakım Hızı') ?></div>
                 <div style="display:flex; align-items:flex-end; gap:8px; height:80px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:5px;">
                     <div style="width:20px; height:50%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
@@ -27,7 +27,7 @@
                 $rem_ratio = 100 - $spent_ratio;
                 if ($spent_ratio > 100) { $spent_ratio = 100; $rem_ratio = 0; }
             ?>
-            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => 2)) ?>">
+            <a target="_blank" style="text-decoration:none; display:flex; flex-direction:column; color:inherit; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;" href="<?= $this->url->href('ExecutiveDashboardController', 'finance', array('plugin' => 'ExecutiveDashboard')) ?>">
                 <div style="font-weight:bold; font-size:14px; margin-bottom:15px; text-align:center;"><?= t('Küresel Bütçe Durumu') ?></div>
                 <div style="display:flex; justify-content:center; align-items:center; flex:1;">
                     <div style="position:relative; width:100px; height:100px; border-radius:50%; background: conic-gradient(#4a90e2 0% <?= $rem_ratio ?>%, #4dd0e1 <?= $rem_ratio ?>% 100%); display:flex; align-items:center; justify-content:center;">

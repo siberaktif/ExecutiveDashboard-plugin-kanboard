@@ -69,4 +69,32 @@ class ExecutiveDashboardController extends BaseController
             'projects' => $projects
         )));
     }
+
+    /**
+     * Ortak ve genişletilmiş Bütçe/Finans raporlama sayfası
+     */
+    public function finance()
+    {
+        $user = $this->getUser();
+        $projects = $this->db->table('projects')->eq('is_active', 1)->findAll();
+        
+        $budget_lines = array();
+        try {
+            // CostControl kuruluysa tüm projelerin budget_lines tablosundan detayları çeker
+            $budget_lines = $this->db->table('budget_lines')
+                ->join('projects', 'id', 'project_id', 'budget_lines')
+                ->eq('projects.is_active', 1)
+                ->columns('budget_lines.*', 'projects.name AS project_name')
+                ->desc('budget_lines.date')
+                ->findAll();
+        } catch (\Exception $e) {
+            // Tablo bulunamazsa boş döner
+        }
+
+        $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/finance', array(
+            'title' => t('Küresel Finans ve Bütçe Kırılımları'),
+            'user' => $user,
+            'budget_lines' => $budget_lines
+        )));
+    }
 }
