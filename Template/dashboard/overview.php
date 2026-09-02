@@ -215,6 +215,9 @@
                         </div>
                     </div>
                     
+                    <?php if (!empty($relationgraph_dir)): ?>
+                        <link rel="stylesheet" href="<?= $this->url->dir() ?>plugins/<?= $relationgraph_dir ?>/Asset/Javascript/vis/vis.css" media="screen">
+                    <?php endif; ?>
                     <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/<?= $relationgraph_dir ?>/Asset/Javascript/vis/vis.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
