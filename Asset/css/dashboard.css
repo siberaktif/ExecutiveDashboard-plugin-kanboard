@@ -368,10 +368,10 @@
 
 /* NEW: Vis.js Relationgraph Container */
 #mcc-relationgraph-container {
-    height: 350px;
+    height: 500px;
     width: 100%;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     background: #ffffff;
 }
 

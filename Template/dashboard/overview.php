@@ -227,10 +227,25 @@
                                 edges: new vis.DataSet(<?= $graph_edges ?>)
                             };
                             var options = {
-                                layout: { hierarchical: { direction: "UD", sortMethod: "directed" } },
-                                physics: { hierarchicalRepulsion: { nodeDistance: 150 } },
-                                edges: { font: { size: 12, align: 'middle' }, smooth: { type: 'cubicBezier' } },
-                                nodes: { font: { color: '#ffffff', size: 14 } },
+                                nodes: {
+                                    shape: 'box',
+                                    margin: 12,
+                                    font: { multi: true, size: 13, color: '#0f172a' },
+                                    shadow: true
+                                },
+                                edges: {
+                                    font: { align: 'middle', size: 11, color: '#475569', background: '#ffffff' },
+                                    arrows: 'to',
+                                    smooth: { type: 'cubicBezier', roundness: 0.3 }
+                                },
+                                physics: {
+                                    barnesHut: {
+                                        gravitationalConstant: -2500,
+                                        centralGravity: 0.4,
+                                        springLength: 180,
+                                        avoidOverlap: 0.5
+                                    }
+                                },
                                 interaction: { hover: true, tooltipDelay: 200, navigationButtons: false, keyboard: true }
                             };
                             var network = new vis.Network(container, data, options);
