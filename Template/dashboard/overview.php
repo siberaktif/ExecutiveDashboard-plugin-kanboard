@@ -219,8 +219,9 @@
                     <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/js/vis-network.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
-                            var container = document.getElementById('mcc-relationgraph-container');
-                            var data = {
+                            if (typeof vis !== 'undefined') {
+                                var container = document.getElementById('mcc-relationgraph-container');
+                                var data = {
                                 nodes: new vis.DataSet(<?= $graph_nodes ?>),
                                 edges: new vis.DataSet(<?= $graph_edges ?>)
                             };
@@ -267,6 +268,13 @@
                             document.getElementById('btn-zoom-fit').onclick = function () {
                                 network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
                             };
+                            } else {
+                                console.warn("Vis.js library is not loaded. Relationgraph will not be rendered.");
+                                var container = document.getElementById('mcc-relationgraph-container');
+                                if (container) {
+                                    container.innerHTML = "<div style='padding:20px; text-align:center; color:#d9534f;'><i class='fa fa-warning'></i> " + <?= json_encode(t('Harita kütüphanesi (vis.js) yüklenemedi. Lütfen sayfayı yenileyin.')) ?> + "</div>";
+                                }
+                            }
                         });
                     </script>
                 <?php else: ?>
