@@ -29,7 +29,7 @@
                     </td>
                     <td style="padding:10px;">
                         <?php if($tag['project_id'] == 0): ?>
-                            <span style="color:#28a745; font-weight:bold;">Genel (Global)</span>
+                            <span style="color:#28a745; font-weight:bold;"><?= t('Genel (Global)') ?></span>
                         <?php else: ?>
                             <a href="<?= $this->url->href('ProjectViewController', 'show', ['project_id' => $tag['project_id']]) ?>" target="_blank" style="text-decoration:none; color:#0366d6;">
                                 <i class="fa fa-folder"></i> <?= htmlspecialchars($tag['project_name']) ?>
@@ -37,14 +37,14 @@
                         <?php endif; ?>
                     </td>
                     <td style="padding:10px;">
-                        <span style="color:#6a737d; font-family:monospace;"><?= $tag['color_id'] ? $tag['color_id'] : 'Varsayılan' ?></span>
+                        <span style="color:#6a737d; font-family:monospace;"><?= $tag['color_id'] ? $tag['color_id'] : '<?= t('Varsayılan') ?>' ?></span>
                     </td>
                 </tr>
                 <?php endforeach; ?>
                 
                 <?php if(empty($tags)): ?>
                 <tr>
-                    <td colspan="4" style="padding:20px; text-align:center; color:#6a737d;">Sistemde henüz hiçbir etiket bulunmuyor.</td>
+                    <td colspan="4" style="padding:20px; text-align:center; color:#6a737d;"><?= t('Sistemde henüz hiçbir etiket bulunmuyor.') ?></td>
                 </tr>
                 <?php endif; ?>
             </tbody>

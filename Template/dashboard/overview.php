@@ -17,7 +17,7 @@
                     <div style="width:20px; height:60%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
                     <div style="width:20px; height:30%; background:#b39ddb; border-radius:3px 3px 0 0;"></div>
                 </div>
-                <div style="font-weight:bold; font-size:16px;"><?= number_format($budget_spent, 2, ',', '.') ?> TL <span style="font-size:12px; font-weight:normal; color:#888;">(Toplam)</span></div>
+                <div style="font-weight:bold; font-size:16px;"><?= number_format($budget_spent, 2, ',', '.') ?> TL <span style="font-size:12px; font-weight:normal; color:#888;"><?= t('(Toplam)') ?></span></div>
                 <div style="font-size:12px; color:#555;"><?= t('Kalan Bütçe:') ?> <?= number_format(max(0, $global_burn_rate - $budget_spent), 2, ',', '.') ?> TL</div>
             </a>
 
@@ -35,8 +35,8 @@
                     </div>
                 </div>
                 <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:12px; font-weight:bold;">
-                    <div><span style="color:#4dd0e1;">%<?= $spent_ratio ?></span> Harcanan</div>
-                    <div><span style="color:#4a90e2;">%<?= $rem_ratio ?></span> Kalan</div>
+                    <div><span style="color:#4dd0e1;">%<?= $spent_ratio ?></span> <?= t('Harcanan') ?></div>
+                    <div><span style="color:#4a90e2;">%<?= $rem_ratio ?></span> <?= t('Kalan') ?></div>
                 </div>
             </a>
 
@@ -48,23 +48,23 @@
                     <div style="display:flex; gap:10px; text-align:center;">
                         <a href="<?= $this->url->href('DashboardController', 'projects', array('user_id' => $user['id'])) ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
                             <div style="font-size:24px; font-weight:bold; color:#333;"><?= isset($total_projects) ? $total_projects : 0 ?></div>
-                            <div style="font-size:11px; color:#666;">Aktif<br>Proje</div>
+                            <div style="font-size:11px; color:#666;"><?= t('Aktif') ?><br><?= t('Proje') ?></div>
                         </a>
                         <a href="<?= $this->url->href('SearchController', 'index', array('search' => 'status:open')) ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
                             <div style="font-size:24px; font-weight:bold; color:#333;"><?= isset($open_tasks) ? $open_tasks : 0 ?></div>
-                            <div style="font-size:11px; color:#666;">Açık<br>Görev</div>
+                            <div style="font-size:11px; color:#666;"><?= t('Açık') ?><br><?= t('Görev') ?></div>
                         </a>
                         <a href="<?= $this->url->href('UserListController', 'show') ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
                             <div style="font-size:24px; font-weight:bold; color:#333;"><?= count($users) ?></div>
-                            <div style="font-size:11px; color:#666;"><br>Kullanıcı</div>
+                            <div style="font-size:11px; color:#666;"><br><?= t('Kullanıcı') ?></div>
                         </a>
                     </div>
                 </div>
                 <!-- Genişletilmiş Fonlama -->
                 <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;">
                     <div style="font-weight:bold; font-size:13px; margin-bottom:5px;"><?= t('Genişletilmiş Fonlama & Gelir') ?></div>
-                    <div style="font-size:13px; color:#444; margin-bottom:5px;">Kitlesel Fonlama Lansmanı: <b>14 Gün Kaldı</b></div>
-                    <div style="font-size:13px; color:#444;">Hedef: <b>500.000 TL</b></div>
+                    <div style="font-size:13px; color:#444; margin-bottom:5px;"><?= t('Kitlesel Fonlama Lansmanı:') ?> <b><?= t('14 Gün Kaldı') ?></b></div>
+                    <div style="font-size:13px; color:#444;"><?= t('Hedef:') ?> <b>500.000 TL</b></div>
                 </div>
             </div>
         </div>
@@ -183,10 +183,10 @@
                     <div class="bilgiyapar-mcc-tree" style="font-family:'Courier New', Courier, monospace; white-space:pre-wrap; line-height:1.6; font-size:13px; color:#333; background:#f9f9f9; padding:15px; border-radius:6px; border:1px solid #e1e4e8;">
 <?php if(!empty($blocker_tree)): ?>
 <?php foreach($blocker_tree as $pid => $project): ?>
-<a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $pid)) ?>" target="_blank" style="text-decoration:none;"><span style="font-weight:bold; color:#1a73e8; font-size:14px;"><?= htmlspecialchars($project['name']) ?> (Ana Proje)</span></a>
+<a href="<?= $this->url->href('BoardViewController', 'show', array('project_id' => $pid)) ?>" target="_blank" style="text-decoration:none;"><span style="font-weight:bold; color:#1a73e8; font-size:14px;"><?= htmlspecialchars($project['name']) ?> <?= t('(Ana Proje)') ?></span></a>
 <?php foreach($project['tasks'] as $task): ?>
-|-- <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocked_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f; font-weight:bold;"><?= htmlspecialchars($task['blocked_task_title']) ?></span> <span style="color:#888;">(P1 - Bloke)</span></a>
-|   └─ <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocker_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f;"><?= htmlspecialchars($task['blocker_task_title']) ?> (Bekleniyor)</span></a>
+|-- <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocked_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f; font-weight:bold;"><?= htmlspecialchars($task['blocked_task_title']) ?></span> <span style="color:#888;"><?= t('(P1 - Bloke)') ?></span></a>
+|   └─ <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $task['blocker_task_id'])) ?>" target="_blank" style="text-decoration:none;"><span style="color:#d9534f;"><?= htmlspecialchars($task['blocker_task_title']) ?> <?= t('(Bekleniyor)') ?></span></a>
 |
 <?php endforeach; ?>
 <?php endforeach; ?>
@@ -335,7 +335,7 @@
                             foreach($tasks_overdue as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open due:<=today')).'" target="_blank" style="font-size:11px; color:#d9534f; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open due:<=today')).'" target="_blank" style="font-size:11px; color:#d9534f; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
                                         break;
                                     }
                                     $hasOverdue = true; $count++;
@@ -355,7 +355,7 @@
                             foreach($tasks_today as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
                                         break;
                                     }
                                     $hasToday = true; $count++;
@@ -375,7 +375,7 @@
                             foreach($tasks_week as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
                                         break;
                                     }
                                     $hasWeek = true; $count++;
@@ -395,7 +395,7 @@
                             foreach($tasks_month as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">+ Diğer Görevler...</a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
                                         break;
                                     }
                                     $hasMonth = true; $count++;

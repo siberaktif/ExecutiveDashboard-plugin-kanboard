@@ -163,7 +163,7 @@ class ExecutiveDashboardController extends BaseController
             $week_ago = time() - 604800;
             $p['velocity'] = $this->db->table('tasks')->eq('project_id', $p['id'])->eq('is_active', 0)->gte('date_completed', $week_ago)->count();
             if ($p['velocity'] == 0 && $open > 0 && !$ai_velocity_alert) {
-                $ai_velocity_alert = "{$p['name']} projesinde üretim hızı (Velocity) tamamen durmuş durumda. Ekipleri veya yeni süreçleri aktif edin.";
+                $ai_velocity_alert = sprintf(t('%s projesinde üretim hızı (Velocity) tamamen durmuş durumda. Ekipleri veya yeni süreçleri aktif edin.'), $p['name']);
             }
             
             // 3. WIP Alert (Eğer 5'ten fazla açık görev varsa uyarı ver)
