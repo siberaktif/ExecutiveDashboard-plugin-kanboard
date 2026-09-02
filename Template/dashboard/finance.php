@@ -20,7 +20,7 @@
                         <tr style="border-bottom:1px solid #eee;">
                             <td style="padding:10px;"><a href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => $line['project_id'])) ?>" target="_blank"><strong><?= htmlspecialchars($line['project_name']) ?></strong></a></td>
                             <td style="padding:10px;"><?= htmlspecialchars($line['comment']) ?></td>
-                            <td style="padding:10px;"><?= date('Y-m-d', $line['date'] ?? time()) ?></td>
+                            <td style="padding:10px;"><?php $d = $line['date'] ?? time(); echo is_numeric($d) ? date('Y-m-d', (int)$d) : htmlspecialchars($d); ?></td>
                             <td style="padding:10px;"><strong><?= number_format($line['amount'], 2, ',', '.') ?> TL</strong></td>
                             <td style="padding:10px;">
                                 <span style="background:#fce8e6; color:#d9534f; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:bold;"><?= t('Gerçekleşen Harcama') ?></span>
