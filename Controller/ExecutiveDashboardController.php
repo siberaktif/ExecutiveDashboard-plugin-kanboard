@@ -266,7 +266,15 @@ class ExecutiveDashboardController extends BaseController
             $ai_suggestion_1 = "[{$blocker_tree[$first_pid]['name']}] sürecinde ciddi bir darboğaz var. Ekip kaynaklarını acilen bu blokaja kaydırın.";
         }
 
-        $has_relationgraph = defined("PLUGINS_DIR") && file_exists(PLUGINS_DIR . "/Relationgraph");
+                $relationgraph_dir = '';
+        if (defined("PLUGINS_DIR")) {
+            if (file_exists(PLUGINS_DIR . '/Relationgraph')) {
+                $relationgraph_dir = 'Relationgraph';
+            } elseif (file_exists(PLUGINS_DIR . '/kanboard_plugin_relationgraph')) {
+                $relationgraph_dir = 'kanboard_plugin_relationgraph';
+            }
+        }
+        $has_relationgraph = !empty($relationgraph_dir);
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),
             'user' => $user,
@@ -275,6 +283,7 @@ class ExecutiveDashboardController extends BaseController
             'total_blockers' => $total_blockers,
             'blocker_tree' => $blocker_tree,
             'has_relationgraph' => $has_relationgraph,
+            'relationgraph_dir' => $relationgraph_dir,
             'blocker_links' => $blocker_links,
             'graph_nodes' => json_encode($graph_nodes),
             'graph_edges' => json_encode($graph_edges),
