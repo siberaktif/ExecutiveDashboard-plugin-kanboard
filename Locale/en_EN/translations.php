@@ -75,7 +75,6 @@ return array(
     'Bütçe kaydı bulunamadı veya CostControl eklentisi aktif değil.' => 'No budget records found or CostControl plugin is inactive.',
     'Kontrol Merkezine Dön' => 'Return to Control Center',
     'Kalan Bütçe:' => 'Remaining Budget:',
-,
     'Hedef (Fonlama) Görevi Bulunamadı:' => 'Target (Funding) Task Not Found:',
     'Tarih Yok' => 'No Date',
     'Belirtilmedi' => 'Not Specified',
