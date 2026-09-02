@@ -44,7 +44,7 @@ class Plugin extends Base
 
     public function getPluginHomepage()
     {
-        return 'http://localhost:3010/sencarto/ExecutiveDashboard-plugin-kanboard';
+        return 'https://github.com/sencarto/ExecutiveDashboard-plugin-kanboard';
     }
 
     public function getPluginAuthor()
