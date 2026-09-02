@@ -203,7 +203,7 @@
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-link"></i> <?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL (Relationgraph)') ?></div>
         <div class="bilgiyapar-mcc-card" style="background: #fdfdfd; padding:20px;">
-            <?php if(!empty($blocker_links)): ?>
+            <?php if(!empty($graph_nodes)): ?>
                 <?php if(isset($has_relationgraph) && $has_relationgraph): ?>
                     <!-- VIS.JS Container -->
                     <div id="mcc-relationgraph-container"></div>

@@ -54,43 +54,71 @@ class ExecutiveDashboardController extends BaseController
         } catch (\Exception $e) { }
 
         $blocker_tree = array();
-        $graph_nodes = array();
-        $graph_edges = array();
-        $node_ids = array();
-
         foreach ($blocker_links as $link) {
             $blocker_tree[$link['project_id']]['name'] = $link['project_name'];
             $blocker_tree[$link['project_id']]['tasks'][] = $link;
-
-            // Blocker Node
-            if (!isset($node_ids[$link['blocker_task_id']])) {
-                $graph_nodes[] = array(
-                    'id' => $link['blocker_task_id'],
-                    'label' => "#" . $link['blocker_task_id'] . "\n" . mb_substr($link['blocker_task_title'], 0, 15) . "...",
-                    'color' => '#f0ad4e',
-                    'shape' => 'box'
-                );
-                $node_ids[$link['blocker_task_id']] = true;
-            }
-            // Blocked Node
-            if (!isset($node_ids[$link['blocked_task_id']])) {
-                $graph_nodes[] = array(
-                    'id' => $link['blocked_task_id'],
-                    'label' => "#" . $link['blocked_task_id'] . "\n" . mb_substr($link['blocked_task_title'], 0, 15) . "...",
-                    'color' => '#8ab4f8',
-                    'shape' => 'box'
-                );
-                $node_ids[$link['blocked_task_id']] = true;
-            }
-            // Edge
-            $graph_edges[] = array(
-                'from' => $link['blocker_task_id'],
-                'to' => $link['blocked_task_id'],
-                'label' => 'blocks',
-                'arrows' => 'to',
-                'color' => array('color' => '#d9534f')
-            );
         }
+
+        $graph_nodes = array();
+        $graph_edges = array();
+        $node_ids = array();
+        $task_cache = array();
+
+        try {
+            $all_links = $this->db->table('task_has_links')
+                ->join('links', 'id', 'link_id', 'task_has_links')
+                ->findAll();
+
+            foreach ($all_links as $l) {
+                // Görev 1 (Kaynak)
+                if (!isset($task_cache[$l['task_id']])) {
+                    $task_cache[$l['task_id']] = $this->db->table('tasks')->eq('id', $l['task_id'])->eq('is_active', 1)->findOne();
+                }
+                $t1 = $task_cache[$l['task_id']];
+
+                // Görev 2 (Hedef)
+                if (!isset($task_cache[$l['opposite_task_id']])) {
+                    $task_cache[$l['opposite_task_id']] = $this->db->table('tasks')->eq('id', $l['opposite_task_id'])->eq('is_active', 1)->findOne();
+                }
+                $t2 = $task_cache[$l['opposite_task_id']];
+
+                if ($t1 && $t2) {
+                    if (!isset($node_ids[$t1['id']])) {
+                        $c = $this->colorModel->getColorProperties($t1['color_id']);
+                        $graph_nodes[] = array(
+                            'id' => $t1['id'],
+                            'label' => "#" . $t1['id'] . "\n" . mb_substr($t1['title'], 0, 20) . "...",
+                            'color' => isset($c['background']) ? $c['background'] : '#f0ad4e',
+                            'shape' => 'box'
+                        );
+                        $node_ids[$t1['id']] = true;
+                    }
+                    if (!isset($node_ids[$t2['id']])) {
+                        $c = $this->colorModel->getColorProperties($t2['color_id']);
+                        $graph_nodes[] = array(
+                            'id' => $t2['id'],
+                            'label' => "#" . $t2['id'] . "\n" . mb_substr($t2['title'], 0, 20) . "...",
+                            'color' => isset($c['background']) ? $c['background'] : '#8ab4f8',
+                            'shape' => 'box'
+                        );
+                        $node_ids[$t2['id']] = true;
+                    }
+                    $edge_color = '#999999';
+                    if ($l['link_id'] == 2 || $l['link_id'] == 3) {
+                        $edge_color = '#d9534f'; 
+                    } elseif ($l['link_id'] == 1) {
+                        $edge_color = '#1a73e8';
+                    }
+                    $graph_edges[] = array(
+                        'from' => $t1['id'],
+                        'to' => $t2['id'],
+                        'label' => t($l['label']),
+                        'arrows' => 'to',
+                        'color' => array('color' => $edge_color)
+                    );
+                }
+            }
+        } catch (\Exception $e) { }
 
         // Gerçek Finans/Bütçe Verilerinin CostControl Eklentisinden Çekilmesi
         $global_burn_rate = 150000; // Varsayılan Şirket Hedef Bütçesi
