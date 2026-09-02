@@ -313,4 +313,55 @@ class ExecutiveDashboardController extends BaseController
             'budget_lines' => $budget_lines
         )));
     }
+
+    /**
+     * Yardımcı Metod: Belirli bir görev için Vis.js Ağ Şeması verilerini (Düğüm/Kenar) üretir.
+     * @param int $task_id
+     * @return array
+     */
+    protected function getExecutiveGraphData($task_id)
+    {
+        $task = $this->taskFinderModel->getDetails($task_id);
+        if (empty($task)) {
+            return ['nodes' => [], 'edges' => []];
+        }
+
+        $nodes = [];
+        $edges = [];
+
+        // Düğüm (Node) ekleme
+        $nodes[$task['id']] = [
+            'id' => $task['id'],
+            'label' => '#' . $task['id'] . ' ' . $task['title'],
+            'color' => $this->colorModel->getColorProperties($task['color_id'])
+        ];
+
+        // Veritabanındaki task_has_links tablosundan ilişkileri tarama
+        $links = $this->taskLinkModel->getAllGroupedByLabel($task['id']);
+        foreach ($links as $type => $associated_links) {
+            foreach ($associated_links as $link) {
+                $linked_task = $this->taskFinderModel->getDetails($link['task_id']);
+                if (!empty($linked_task)) {
+                    $nodes[$linked_task['id']] = [
+                        'id' => $linked_task['id'],
+                        'label' => '#' . $linked_task['id'] . ' ' . $linked_task['title'],
+                        'color' => $this->colorModel->getColorProperties($linked_task['color_id'])
+                    ];
+
+                    // Kenar (Edge) bağı kurma
+                    $edges[] = [
+                        'from' => $task['id'],
+                        'to' => $linked_task['id'],
+                        'label' => $type,
+                        'arrows' => 'to'
+                    ];
+                }
+            }
+        }
+
+        return [
+            'nodes' => array_values($nodes),
+            'edges' => $edges
+        ];
+    }
 }

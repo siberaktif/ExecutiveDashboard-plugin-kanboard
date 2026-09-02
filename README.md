@@ -112,6 +112,81 @@ Yönetici Kontrol Merkezi ana sayfasında Relationgraph (SVG Ağ Şeması) kutus
 
 **Özet Kontrol:** Yönetici Kontrol Merkezi ana sayfasında Relationgraph kutusunun görünmesi için öncelikle Relationgraph eklentisinin eklentiler sayfasından kurulu ve aktif olduğundan ve projelerinizde en az bir adet görev bağı (bağlantısı) bulunduğundan emin olun. Bu iki şart sağlandığında SVG ağ şeması otomatik olarak kutunun içine oturacaktır.
 
+### Geliştiriciler İçin: Relationgraph Entegrasyon Rehberi
+Basılan kaynak kodlar ve Relationgraph eklentisinin yapıları incelendiğinde, bu görsel ağ şemasının veritabanında **"Görev Bağlantıları" (Task Links)** mekanizması üzerinden çalıştığı açıkça görülmektedir.
+
+#### 1. Veritabanında Görev İlişkisi (Task Links) Nasıl Kurulur?
+Kanboard veritabanında görevler arası ilişkiler `task_has_links` tablosu üzerinden yürütülür. Bu tablo şu alanları barındırır:
+* `id`: Benzersiz kayıt ID'si.
+* `link_id`: İlişkinin türünü belirler (Örn: *Blocks*, *Is blocked by*, *Relates to* vb. `link_id` değerleri `links` tablosunda tanımlıdır).
+* `task_id`: Kaynak (etkileyen/ana) görev ID'si.
+* `opposite_task_id`: Hedef (etkilenen/bağlı) görev ID'si.
+
+**Arayüzden (Kanboard Üzerinden) Kurulumu:**
+1. Herhangi bir görevin detay sayfasına gidin.
+2. Sağdaki menüde veya görev detay alanında bulunan **"İlişkiler" (Links)** sekmesine tıklayın.
+3. İlişki türünü seçin (Örn: *Engeller / Blocks* veya *Tarafından engellenir / Is blocked by*).
+4. Bağlamak istediğiniz hedef görevi seçip kaydedin. Bu işlem veritabanındaki `task_has_links` tablosuna gerçek bir satır ekler.
+
+#### 2. Relationgraph Verilerini Kod Üzerinden Çekmek İçin Gerekli Mantık
+Relationgraph eklentisi verileri toplarken `traverseGraph` isimli bir özyinelemeli (recursive) algoritma kullanır. Kodda görüldüğü üzere şu model fonksiyonu çağrılır:
+```php
+$this->taskLinkModel->getAllGroupedByLabel($task['id'])
+```
+Bu fonksiyon, ilgili göreve bağlı tüm alt ve üst görevleri etiketlerine göre (`blocks`, `relates to` vb.) gruplayarak getirir.
+
+#### 3. Executive Dashboard İçin Gerekli Kod Entegrasyonu
+Eğer Executive Dashboard içerisinden bu ilişki verilerini doğrudan çekip bir grafik (Vis.js node/edge dizisi) haline getirmek istiyorsanız, Controller katmanına şu kod bloğunu eklemeniz gerekir:
+
+```php
+protected function getExecutiveGraphData($task_id)
+{
+    $task = $this->taskFinderModel->getDetails($task_id);
+    if (empty($task)) {
+        return ['nodes' => [], 'edges' => []];
+    }
+
+    $nodes = [];
+    $edges = [];
+
+    // Düğüm (Node) ekleme
+    $nodes[$task['id']] = [
+        'id' => $task['id'],
+        'label' => '#' . $task['id'] . ' ' . $task['title'],
+        'color' => $this->colorModel->getColorProperties($task['color_id'])
+    ];
+
+    // Veritabanındaki task_has_links tablosundan ilişkileri tarama
+    $links = $this->taskLinkModel->getAllGroupedByLabel($task['id']);
+    foreach ($links as $type => $associated_links) {
+        foreach ($associated_links as $link) {
+            $linked_task = $this->taskFinderModel->getDetails($link['task_id']);
+            if (!empty($linked_task)) {
+                $nodes[$linked_task['id']] = [
+                    'id' => $linked_task['id'],
+                    'label' => '#' . $linked_task['id'] . ' ' . $linked_task['title'],
+                    'color' => $this->colorModel->getColorProperties($linked_task['color_id'])
+                ];
+
+                // Kenar (Edge) bağı kurma
+                $edges[] = [
+                    'from' => $task['id'],
+                    'to' => $linked_task['id'],
+                    'label' => $type,
+                    'arrows' => 'to'
+                ];
+            }
+        }
+    }
+
+    return [
+        'nodes' => array_values($nodes),
+        'edges' => $edges
+    ];
+}
+```
+Bu yapı sayesinde veritabanındaki `task_has_links` tabloları taranır, görevler arası "Engelleyen/Engellenen" bağları yakalanır ve Relationgraph kütüphanesinin JavaScript motorunun doğrudan çizebileceği bir dizi (JSON formatında) üretilmiş olur.
+
 ### Uyumluluk
 - Kanboard sürümü >= 1.2.20 gerektirir.
 - Tüm standart Kanboard temalarıyla uyumludur (çekirdek CSS'i global olarak bozmadan entegre olur).
