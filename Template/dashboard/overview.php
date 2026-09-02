@@ -168,7 +168,7 @@
                     <div style="font-weight:bold; font-size:14px; margin-bottom:5px;"><i class="fa fa-calendar-times-o" style="color:#d73a49;"></i> <?= t('Gecikmiş İşlemler') ?></div>
                     <div style="font-size:12px; color:#586069;"><?= t('Teslim tarihi geçmiş görevler') ?></div>
                 </div>
-                <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($overdue_tasks) ? count($overdue_tasks) : 0 ?></div>
+                <div style="font-size:28px; font-weight:bold; color:#d73a49;"><?= isset($tasks_overdue) ? count($tasks_overdue) : 0 ?></div>
             </a>
         </div>
 

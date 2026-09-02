@@ -23,7 +23,7 @@ class ExecutiveDashboardController extends BaseController
             ->join('links', 'id', 'link_id', 'task_has_links')
             ->join('tasks', 'id', 'task_id', 'task_has_links')
             ->eq('tasks.is_active', 1)
-            ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
+            ->in('link_id', array(2, 3))
             ->count();
 
         // Blokaj Ağacı (Blocker Tree) için gerçek veriler
@@ -31,7 +31,7 @@ class ExecutiveDashboardController extends BaseController
         try {
             $raw_links = $this->db->table('task_has_links')
                 ->join('links', 'id', 'link_id', 'task_has_links')
-                ->in('links.label', array('is blocked by', 'blocks', 'is_blocked_by'))
+                ->in('link_id', array(2, 3))
                 ->limit(20)
                 ->findAll();
 
@@ -196,7 +196,6 @@ class ExecutiveDashboardController extends BaseController
             ->eq('is_active', 1)
             ->neq('date_due', 0)
             ->lte('date_due', $today_end)
-            ->limit(5)
             ->findAll();
 
         // --- AI ÖNERİSİ OLUŞTUR (Dynamic AI Logic) ---
