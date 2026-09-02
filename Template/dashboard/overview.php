@@ -93,7 +93,7 @@
                 ['title' => 'Yorumlar', 'total' => $kpi['comments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-comments', 'url' => ''],
                 ['title' => 'Ekler', 'total' => $kpi['attachments'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-paperclip', 'url' => ''],
                 ['title' => 'External Links', 'total' => $kpi['external_links'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-external-link', 'url' => ''],
-                ['title' => 'Etiketler', 'total' => $kpi['tags'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => $this->url->href('TagController', 'index')],
+                ['title' => 'Etiketler', 'total' => $kpi['tags'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-tags', 'url' => $this->url->href('ExecutiveDashboardController', 'tags', ['plugin' => 'ExecutiveDashboard'])],
                 ['title' => 'Bağlantı Etiketleri', 'total' => $kpi['link_labels'], 'sub' => '', 'color' => '#6f42c1', 'icon' => 'fa-link', 'url' => ''],
                 ['title' => 'Kategoriler', 'total' => $kpi['categories'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-tags', 'url' => ''],
                 ['title' => 'Otomatik Eylemler', 'total' => $kpi['auto_actions'], 'sub' => '', 'color' => '#17a2b8', 'icon' => 'fa-cogs', 'url' => ''],

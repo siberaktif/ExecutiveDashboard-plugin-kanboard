@@ -232,6 +232,27 @@ class ExecutiveDashboardController extends BaseController
     /**
      * Ortak ve genişletilmiş Bütçe/Finans raporlama sayfası
      */
+        /**
+     * Tüm etiketleri (Global + Proje özel) listeleyen sayfa
+     */
+    public function tags()
+    {
+        $user = $this->getUser();
+        
+        $tags = $this->db->table('tags')
+            ->leftJoin('projects', 'id', 'project_id', 'tags')
+            ->columns('tags.id', 'tags.name', 'tags.color_id', 'tags.project_id', 'projects.name AS project_name')
+            ->asc('tags.project_id')
+            ->asc('tags.name')
+            ->findAll();
+
+        $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/tags', array(
+            'title' => t('Tüm Sistem Etiketleri'),
+            'user' => $user,
+            'tags' => $tags
+        )));
+    }
+
     public function finance()
     {
         $user = $this->getUser();
