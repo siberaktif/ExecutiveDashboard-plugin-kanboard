@@ -124,11 +124,17 @@
                     $is_link = !empty($c['url']) && $c['url'] !== '#';
                     $tag_start = $is_link ? '<a href="'.$c['url'].'" target="_blank"' : '<div';
                     $tag_end = $is_link ? '</a>' : '</div>';
+                    $bg_color = $is_link ? 'rgba(0, 173, 255, 0.03)' : '#ffffff';
                 ?>
-                <?= $tag_start ?> style="text-decoration:none; background:#ffffff; border:1px solid #e1e4e8; border-left:3px solid <?= $c['color'] ?>; border-radius:4px; padding:12px; color:#24292e; display:flex; flex-direction:column; justify-content:space-between; min-height:80px; box-shadow:0 1px 3px rgba(0,0,0,0.02); transition: box-shadow 0.2s;">
+                <?= $tag_start ?> style="text-decoration:none; background:<?= $bg_color ?>; border:1px solid #e1e4e8; border-left:3px solid <?= $c['color'] ?>; border-radius:4px; padding:12px; color:#24292e; display:flex; flex-direction:column; justify-content:space-between; min-height:80px; box-shadow:0 1px 3px rgba(0,0,0,0.02); transition: box-shadow 0.2s;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                         <div style="font-weight:600; font-size:12px; color:#586069; line-height:1.2; padding-right:5px; word-break:break-word;"><?= $c['title'] ?></div>
-                        <i class="fa <?= $c['icon'] ?>" style="color:<?= $c['color'] ?>; font-size:14px; opacity:0.8;"></i>
+                        <div style="display:flex; gap:5px; align-items:center;">
+                            <i class="fa <?= $c['icon'] ?>" style="color:<?= $c['color'] ?>; font-size:14px; opacity:0.8;"></i>
+                            <?php if($is_link): ?>
+                                <i class="fa fa-external-link" style="color:#00adff; font-size:10px; opacity:0.7;"></i>
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px;">
                         <span style="font-size:22px; font-weight:bold; color:#24292e; line-height:1;"><?= $c['total'] ?></span>
