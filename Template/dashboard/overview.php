@@ -17,8 +17,8 @@
                     <div style="width:20px; height:60%; background:#4dd0e1; border-radius:3px 3px 0 0;"></div>
                     <div style="width:20px; height:30%; background:#b39ddb; border-radius:3px 3px 0 0;"></div>
                 </div>
-                <div style="font-weight:bold; font-size:16px;">15,000 TL <span style="font-size:12px; font-weight:normal; color:#888;">/mo</span></div>
-                <div style="font-size:12px; color:#555;"><?= t('Kalan:') ?> 250.000 TL</div>
+                <div style="font-weight:bold; font-size:16px;"><?= number_format($budget_spent, 2, ',', '.') ?> TL <span style="font-size:12px; font-weight:normal; color:#888;">(Toplam)</span></div>
+                <div style="font-size:12px; color:#555;"><?= t('Kalan Bütçe:') ?> <?= number_format(max(0, $global_burn_rate - $budget_spent), 2, ',', '.') ?> TL</div>
             </a>
 
             <!-- 2. Donut Chart Kartı -->
