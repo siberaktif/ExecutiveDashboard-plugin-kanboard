@@ -38,6 +38,17 @@ To ensure the Executive Dashboard works flawlessly with all its features, the fo
 - In Kanboard, go to the top right menu and select **Plugins > Plugin Directory**.
 - Type the plugin names in the search box and click the **Install** button to load them with a single click.
 
+### Relationgraph (Critical Path) Configuration & Requirements
+For the interactive Vis.js SVG Network Graph to render on the Executive Dashboard, two operational requirements must be met. If they are not met, the system will safely fallback to a standard textual list view.
+
+1. **Relationgraph Plugin (JavaScript Engine):**
+   - **Status:** The UI container `<div id="mcc-relationgraph-container"></div>` relies on the Vis.js library. The official Relationgraph plugin provides these core libraries. If the plugin folder (`plugins/Relationgraph`) is not physically present, the graphical engine cannot be triggered.
+2. **Active Task Links in Database (`task_has_links`):**
+   - **Status:** If there are no `is blocked by` or `blocks` task relations defined across your projects, the map will not find any nodes to draw.
+   - **Solution:** Navigate to any task, add an internal Kanboard link specifying that it "blocks" or "is blocked by" another task to test the rendering.
+
+**Summary:** Ensure the Relationgraph plugin is installed and that you have at least one active blocker relation in your tasks. Once both conditions are met, the SVG network schema will automatically populate the container.
+
 ### Compatibility
 - Requires Kanboard version >= 1.2.20
 - Compatible with all standard Kanboard themes (integrates seamlessly without overriding core CSS globally).
@@ -89,6 +100,17 @@ Bu eklentinin (Executive Dashboard) tüm fonksiyonlarıyla kusursuz çalışabil
 **Nasıl Yüklenir? (Kısayol)**
 - Kanboard sağ üst menüden **Eklentiler (Plugins) > Eklenti Dizini (Plugin Directory)** yolunu izleyin.
 - Arama kutusuna eklenti isimlerini yazıp **Kur (Install)** butonuna basarak tek tıkla yükleyebilirsiniz.
+
+### Relationgraph (Kritik Yol) Yapılandırma ve Çalışma Şartları
+Yönetici Kontrol Merkezi ana sayfasında Relationgraph (SVG Ağ Şeması) kutusunun etkileşimli (Vis.js) olarak çizilebilmesi için iki teknik şartın sağlanması gerekir. Eğer bu şartlar sağlanmazsa, sistem çökmez; ancak harita yerine eski tip metinsel liste görünümü aktif kalır.
+
+1. **Relationgraph Eklentisi (JavaScript Motoru):**
+   - **Durum:** Arayüzdeki `<div id="mcc-relationgraph-container"></div>` alanına grafiğin basılabilmesi için tarayıcının Vis.js kütüphanesini yüklemiş olması gerekir. Relationgraph eklentisi bu kütüphaneyi klasör yapısında barındırır. Eklenti sistemde klasör olarak (`plugins/Relationgraph`) bulunmuyorsa grafik motoru tetiklenemez.
+2. **Veritabanında Aktif Görev Bağı (`task_has_links`) Olması:**
+   - **Durum:** Eğer sistemdeki görevler arasında `is blocked by` veya `blocks` türünde bir ilişki tanımlanmamışsa, harita çizilecek düğüm bulamayacağı için alan boş kalır.
+   - **Çözüm:** Herhangi bir görevin detayına girip başka bir görevi "Engelliyor" (blocks) veya "Tarafından engelleniyor" (is blocked by) şeklinde bağlayarak haritayı test edebilirsiniz.
+
+**Özet Kontrol:** Yönetici Kontrol Merkezi ana sayfasında Relationgraph kutusunun görünmesi için öncelikle Relationgraph eklentisinin eklentiler sayfasından kurulu ve aktif olduğundan ve projelerinizde en az bir adet görev bağı (bağlantısı) bulunduğundan emin olun. Bu iki şart sağlandığında SVG ağ şeması otomatik olarak kutunun içine oturacaktır.
 
 ### Uyumluluk
 - Kanboard sürümü >= 1.2.20 gerektirir.
