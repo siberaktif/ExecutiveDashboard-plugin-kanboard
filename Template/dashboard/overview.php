@@ -335,7 +335,7 @@
                             foreach($tasks_overdue as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open due:<=today')).'" target="_blank" style="font-size:11px; color:#d9534f; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open due:<=today')).'" target="_blank" style="font-size:11px; color:#d9534f; text-align:center; display:block; text-decoration:none;">' . t('+ Diğer Görevler...') . '</a>';
                                         break;
                                     }
                                     $hasOverdue = true; $count++;
@@ -355,7 +355,7 @@
                             foreach($tasks_today as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">' . t('+ Diğer Görevler...') . '</a>';
                                         break;
                                     }
                                     $hasToday = true; $count++;
@@ -375,7 +375,7 @@
                             foreach($tasks_week as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">' . t('+ Diğer Görevler...') . '</a>';
                                         break;
                                     }
                                     $hasWeek = true; $count++;
@@ -395,7 +395,7 @@
                             foreach($tasks_month as $t) {
                                 if($t['owner_id'] == $u['id']) {
                                     if($count >= 4) {
-                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;"><?= t('+ Diğer Görevler...') ?></a>';
+                                        echo '<a href="'.$this->url->href('SearchController', 'index', array('search' => 'assignee:"'.$u['username'].'" status:open')).'" target="_blank" style="font-size:11px; color:#007bff; text-align:center; display:block; text-decoration:none;">' . t('+ Diğer Görevler...') . '</a>';
                                         break;
                                     }
                                     $hasMonth = true; $count++;
