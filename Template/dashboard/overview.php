@@ -215,6 +215,7 @@
                         </div>
                     </div>
                     
+                    <link rel="stylesheet" href="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/css/vis-network.min.css" media="screen">
                     <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/js/vis-network.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
