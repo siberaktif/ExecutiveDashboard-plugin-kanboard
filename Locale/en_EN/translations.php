@@ -24,5 +24,8 @@ return array(
     'Show Recommendations' => 'Show Recommendations',
     'Details' => 'Details',
     'No blocked tasks found.' => 'No blocked tasks found.',
-    'System suggests moving 2 resources from Project B to Project A to resolve current blockers.' => 'System suggests moving 2 resources from Project B to Project A to resolve current blockers.'
+    'System suggests moving 2 resources from Project B to Project A to resolve current blockers.' => 'System suggests moving 2 resources from Project B to Project A to resolve current blockers.',
+    'Zoom In' => 'Zoom In',
+    'Zoom Out' => 'Zoom Out',
+    'Fit to Screen' => 'Fit to Screen'
 );

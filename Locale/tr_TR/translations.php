@@ -24,5 +24,8 @@ return array(
     'Show Recommendations' => 'Önerileri Göster',
     'Details' => 'Detaylar',
     'No blocked tasks found.' => 'Bloke olmuş görev bulunamadı.',
-    'System suggests moving 2 resources from Project B to Project A to resolve current blockers.' => 'Sistem, mevcut blokajları çözmek için Proje B\'den Proje A\'ya 2 kaynak aktarılmasını öneriyor.'
+    'System suggests moving 2 resources from Project B to Project A to resolve current blockers.' => 'Sistem, mevcut blokajları çözmek için Proje B\'den Proje A\'ya 2 kaynak aktarılmasını öneriyor.',
+    'Zoom In' => 'Yakınlaştır',
+    'Zoom Out' => 'Uzaklaştır',
+    'Fit to Screen' => 'Ekrana Sığdır'
 );

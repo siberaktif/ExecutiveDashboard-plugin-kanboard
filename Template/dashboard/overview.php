@@ -209,9 +209,9 @@
                     <div class="bilgiyapar-mcc-graph-wrapper" style="position: relative;">
                         <div id="mcc-relationgraph-container"></div>
                         <div id="mcc-graph-controls" style="position: absolute; bottom: 10px; left: 10px; z-index: 10; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 4px; border: 1px solid #cbd5e1;">
-                            <button type="button" id="btn-zoom-in" class="btn btn-default btn-xs" title="Yakınlaştır"><i class="fa fa-search-plus"></i></button>
-                            <button type="button" id="btn-zoom-out" class="btn btn-default btn-xs" title="Uzaklaştır"><i class="fa fa-search-minus"></i></button>
-                            <button type="button" id="btn-zoom-fit" class="btn btn-default btn-xs" title="Ekrana Sığdır"><i class="fa fa-compress"></i></button>
+                            <button type="button" id="btn-zoom-in" class="btn btn-default btn-xs" title="<?= t('Zoom In') ?>" ><i class="fa fa-search-plus"></i></button>
+                            <button type="button" id="btn-zoom-out" class="btn btn-default btn-xs" title="<?= t('Zoom Out') ?>" ><i class="fa fa-search-minus"></i></button>
+                            <button type="button" id="btn-zoom-fit" class="btn btn-default btn-xs" title="<?= t('Fit to Screen') ?>" ><i class="fa fa-compress"></i></button>
                         </div>
                     </div>
                     
