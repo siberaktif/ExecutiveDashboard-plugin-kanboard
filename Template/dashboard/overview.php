@@ -227,8 +227,7 @@
                             var options = {
                                 nodes: {
                                     shape: 'box',
-                                    margin: 12,
-                                    font: { multi: true, size: 13, color: '#0f172a' },
+                                    font: { size: 13, color: '#0f172a' },
                                     shadow: true
                                 },
                                 edges: {
