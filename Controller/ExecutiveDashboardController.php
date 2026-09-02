@@ -54,9 +54,42 @@ class ExecutiveDashboardController extends BaseController
         } catch (\Exception $e) { }
 
         $blocker_tree = array();
+        $graph_nodes = array();
+        $graph_edges = array();
+        $node_ids = array();
+
         foreach ($blocker_links as $link) {
             $blocker_tree[$link['project_id']]['name'] = $link['project_name'];
             $blocker_tree[$link['project_id']]['tasks'][] = $link;
+
+            // Blocker Node
+            if (!isset($node_ids[$link['blocker_task_id']])) {
+                $graph_nodes[] = array(
+                    'id' => $link['blocker_task_id'],
+                    'label' => "#" . $link['blocker_task_id'] . "\n" . mb_substr($link['blocker_task_title'], 0, 15) . "...",
+                    'color' => '#f0ad4e',
+                    'shape' => 'box'
+                );
+                $node_ids[$link['blocker_task_id']] = true;
+            }
+            // Blocked Node
+            if (!isset($node_ids[$link['blocked_task_id']])) {
+                $graph_nodes[] = array(
+                    'id' => $link['blocked_task_id'],
+                    'label' => "#" . $link['blocked_task_id'] . "\n" . mb_substr($link['blocked_task_title'], 0, 15) . "...",
+                    'color' => '#8ab4f8',
+                    'shape' => 'box'
+                );
+                $node_ids[$link['blocked_task_id']] = true;
+            }
+            // Edge
+            $graph_edges[] = array(
+                'from' => $link['blocker_task_id'],
+                'to' => $link['blocked_task_id'],
+                'label' => 'blocks',
+                'arrows' => 'to',
+                'color' => array('color' => '#d9534f')
+            );
         }
 
         // Gerçek Finans/Bütçe Verilerinin CostControl Eklentisinden Çekilmesi
@@ -213,6 +246,8 @@ class ExecutiveDashboardController extends BaseController
             'total_blockers' => $total_blockers,
             'blocker_tree' => $blocker_tree,
             'blocker_links' => $blocker_links,
+            'graph_nodes' => json_encode($graph_nodes),
+            'graph_edges' => json_encode($graph_edges),
             'global_burn_rate' => $global_burn_rate,
             'budget_spent' => $budget_spent,
             'tasks_overdue' => $tasks_overdue,

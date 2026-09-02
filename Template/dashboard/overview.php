@@ -204,28 +204,35 @@
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-link"></i> <?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL (Relationgraph)') ?></div>
         <div class="bilgiyapar-mcc-card" style="background: #fdfdfd; padding:20px;">
             <?php if(!empty($blocker_links)): ?>
-                <div style="display:flex; flex-direction:column; gap:25px; align-items:center;">
-                    <?php foreach($blocker_links as $link): ?>
-                        <div style="display:flex; align-items:center; gap:15px; justify-content:center; width:100%; max-width:800px; flex-wrap:wrap;">
-                            <!-- Blocker Task (Neden Olan) -->
-                            <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['blocker_task_id'])) ?>" target="_blank" style="text-decoration:none; background:#fff; color:#333; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #f0ad4e; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px; transition: transform 0.2s;">
-                                <i class="fa fa-cube" style="color:#f0ad4e;"></i> [<?= htmlspecialchars($link['blocker_task_title']) ?>]
-                            </a>
-                            
-                            <!-- Arrow & Relation -->
-                            <div style="display:flex; align-items:center; gap:5px;">
-                                <div style="background:#fce8e6; color:#d9534f; border:1px dashed #d9534f; padding:5px 12px; border-radius:12px; font-size:11px; font-weight:bold; white-space:nowrap;">
-                                    %100 Engeller (blocks) ➔
-                                </div>
-                            </div>
-
-                            <!-- Blocked Task (Mağdur) -->
-                            <a href="<?= $this->url->href('TaskViewController', 'show', array('task_id' => $link['blocked_task_id'])) ?>" target="_blank" style="text-decoration:none; background:#e8f0fe; color:#1a73e8; border-radius:20px; padding:10px 20px; font-weight:bold; border:2px solid #8ab4f8; box-shadow:0 2px 5px rgba(0,0,0,0.05); display:flex; align-items:center; gap:8px; transition: transform 0.2s;">
-                                <i class="fa fa-lock" style="color:#8ab4f8;"></i> [<?= htmlspecialchars($link['blocked_task_title']) ?>]
-                            </a>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                <!-- VIS.JS Container -->
+                <div id="mcc-relationgraph-container" style="height: 350px; width: 100%; border: 1px solid #e1e4e8; border-radius: 6px; background: #ffffff;"></div>
+                
+                <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+                <script type="text/javascript">
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var container = document.getElementById('mcc-relationgraph-container');
+                        var data = {
+                            nodes: new vis.DataSet(<?= $graph_nodes ?>),
+                            edges: new vis.DataSet(<?= $graph_edges ?>)
+                        };
+                        var options = {
+                            layout: { hierarchical: { direction: "UD", sortMethod: "directed" } },
+                            physics: { hierarchicalRepulsion: { nodeDistance: 150 } },
+                            edges: { font: { size: 12, align: 'middle' }, smooth: { type: 'cubicBezier' } },
+                            nodes: { font: { color: '#ffffff', size: 14 } },
+                            interaction: { hover: true, tooltipDelay: 200 }
+                        };
+                        var network = new vis.Network(container, data, options);
+                        
+                        // Open task on double click
+                        network.on("doubleClick", function (params) {
+                            if (params.nodes.length > 0) {
+                                var taskId = params.nodes[0];
+                                window.open('?controller=TaskViewController&action=show&task_id=' + taskId, '_blank');
+                            }
+                        });
+                    });
+                </script>
             <?php else: ?>
                 <div style="text-align:center; padding:30px; color:#888;">
                     <i class="fa fa-check-circle fa-3x" style="color:#5cb85c; margin-bottom:15px; display:block;"></i>
