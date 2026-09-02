@@ -30,9 +30,9 @@ This plugin transforms your Kanboard interface into a strategic, high-level exec
 ### Required Plugins
 To ensure the Executive Dashboard works flawlessly with all its features, the following Kanboard plugins must be installed:
 
-1. **CostControl**: Mandatory for the Global Finance Page (`/mcc/finance`), Burn Rate calculations, and realized expenditure data.
-2. **KPI**: Required for routing and displaying Global Project Performance, System Health, Overall Score, and Overdue Tasks modules.
-3. **Relationgraph (Optional)**: Recommended for better visual mapping of task dependencies and Critical Path analysis.
+1. **[CostControl](https://github.com/aljawaid/CostControl/blob/master/README.md)**: Mandatory for the Global Finance Page (`/mcc/finance`), Burn Rate calculations, and realized expenditure data.
+2. **[KPI](https://github.com/rmsbal/kpi/blob/main/README.md)**: Required for routing and displaying Global Project Performance, System Health, Overall Score, and Overdue Tasks modules.
+3. **[Relationgraph](https://github.com/TimoStahl/kanboard_plugin_relationgraph) (Optional)**: Recommended for better visual mapping of task dependencies and Critical Path analysis.
 
 **How to Install (Shortcut):**
 - In Kanboard, go to the top right menu and select **Plugins > Plugin Directory**.
@@ -82,9 +82,9 @@ Bu eklenti, Kanboard arayüzünüzü stratejik, üst düzey bir yönetici kontro
 ### Gerekli Eklentiler (Required Plugins)
 Bu eklentinin (Executive Dashboard) tüm fonksiyonlarıyla kusursuz çalışabilmesi için aşağıdaki Kanboard eklentilerinin sistemde kurulu olması gerekmektedir:
 
-1. **CostControl**: Küresel Finans Sayfası (`/mcc/finance`), Bütçe Kullanımı (Burn Rate) hesaplamaları ve gerçekleşen harcama verileri için zorunludur.
-2. **KPI**: Genel Proje Performansı, Sistem Sağlığı, Genel Skor ve Geciken İşler (Overdue Tasks) modüllerinin yönlendirmeleri için gereklidir.
-3. **Relationgraph (Opsiyonel)**: Görev bağımlılıkları ve Kritik Yol analizlerinin görsel olarak daha iyi çizilebilmesi için tavsiye edilir.
+1. **[CostControl](https://github.com/aljawaid/CostControl/blob/master/README.md)**: Küresel Finans Sayfası (`/mcc/finance`), Bütçe Kullanımı (Burn Rate) hesaplamaları ve gerçekleşen harcama verileri için zorunludur.
+2. **[KPI](https://github.com/rmsbal/kpi/blob/main/README.md)**: Genel Proje Performansı, Sistem Sağlığı, Genel Skor ve Geciken İşler (Overdue Tasks) modüllerinin yönlendirmeleri için gereklidir.
+3. **[Relationgraph](https://github.com/TimoStahl/kanboard_plugin_relationgraph) (Opsiyonel)**: Görev bağımlılıkları ve Kritik Yol analizlerinin görsel olarak daha iyi çizilebilmesi için tavsiye edilir.
 
 **Nasıl Yüklenir? (Kısayol)**
 - Kanboard sağ üst menüden **Eklentiler (Plugins) > Eklenti Dizini (Plugin Directory)** yolunu izleyin.
