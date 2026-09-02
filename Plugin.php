@@ -12,23 +12,25 @@ class Plugin extends Base
         $this->route->addRoute('/mcc', 'ExecutiveDashboardController', 'index', 'ExecutiveDashboard');
         $this->route->addRoute('/mcc/finance', 'ExecutiveDashboardController', 'finance', 'ExecutiveDashboard');
 
-        // 2. CSP OVERRIDE: Kanboard'un satır içi JS kodlarını (Prompt Kopyala) engellemesini durdurur
+        // 2. CSP OVERRIDE: Kanboard'un satır içi JS kodlarını engellemesini durdurur
         $this->setContentSecurityPolicy(array('script-src' => "'self' 'unsafe-inline' 'unsafe-eval'"));
 
-        // Add CSS and JS hooks
+        // Add CSS hooks
         $this->hook->on('template:layout:css', array('template' => 'plugins/ExecutiveDashboard/Asset/css/dashboard.css'));
-        // $this->hook->on('template:layout:js', array('template' => 'plugins/ExecutiveDashboard/Asset/js/sidedrawer.js'));
 
         // Register Helper
         $this->helper->register('dashboardFormat', '\Kanboard\Plugin\ExecutiveDashboard\Helper\DashboardFormatHelper');
 
-        // Add 'Yönetici Kontrol Merkezi' to the dashboard sidebar by overriding it
-        $this->template->setTemplateOverride('dashboard/sidebar', 'ExecutiveDashboard:dashboard/sidebar');
+        // DOĞRU YAKLAŞIM: Orijinal sidebar'ı ezmek yerine kanca (hook) ile ekliyoruz
+        $this->template->hook->attach('template:dashboard:sidebar', 'ExecutiveDashboard:dashboard/sidebar');
+
+        // Yönetici Kontrol Merkezi'ni üst açılır menüye (Header Dropdown) ekler
+        $this->template->hook->attach('template:header:dropdown', 'ExecutiveDashboard:dashboard/header_menu');
+        $this->template->hook->attach('template:dashboard:page-header:menu', 'ExecutiveDashboard:dashboard/header_menu');
     }
 
     public function onStartup()
     {
-        // Çeviri dosyalarını sisteme yükler
         \Kanboard\Core\Translator::load($this->languageModel->getCurrentLanguage(), __DIR__.'/Locale');
     }
 
