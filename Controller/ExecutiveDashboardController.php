@@ -275,6 +275,40 @@ class ExecutiveDashboardController extends BaseController
             }
         }
         $has_relationgraph = !empty($relationgraph_dir);
+
+        // 5. Genişletilmiş Fonlama & Gelir (Dynamic DB Search)
+        $funding_task = $this->db->table('tasks')
+            ->like('title', '%Fonlama%')
+            ->eq('is_active', 1)
+            ->findOne();
+
+        if (empty($funding_task)) {
+            $funding_task = $this->db->table('tasks')
+                ->like('title', '%Funding%')
+                ->eq('is_active', 1)
+                ->findOne();
+        }
+
+        $funding_data = [
+            'subtitle' => t('Hedef (Fonlama) Görevi Bulunamadı:'),
+            'days_left' => t('Tarih Yok'),
+            'target' => t('Belirtilmedi')
+        ];
+
+        if (!empty($funding_task)) {
+            $funding_data['subtitle'] = htmlspecialchars($funding_task['title']) . ':';
+            if (!empty($funding_task['date_due'])) {
+                $diff = $funding_task['date_due'] - time();
+                if ($diff > 0) {
+                    $funding_data['days_left'] = floor($diff / 86400) . ' ' . t('Gün Kaldı');
+                } else {
+                    $funding_data['days_left'] = t('Süresi Doldu');
+                }
+            }
+            if (!empty($funding_task['score'])) {
+                $funding_data['target'] = number_format($funding_task['score'], 0, ',', '.') . ' TL';
+            }
+        }
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/overview', array(
             'title' => t('Manager Control Center'),
             'user' => $user,
@@ -283,6 +317,7 @@ class ExecutiveDashboardController extends BaseController
             'total_blockers' => $total_blockers,
             'blocker_tree' => $blocker_tree,
             'has_relationgraph' => $has_relationgraph,
+            'funding_data' => $funding_data,
             'relationgraph_dir' => $relationgraph_dir,
             'blocker_links' => $blocker_links,
             'graph_nodes' => json_encode($graph_nodes),

@@ -63,8 +63,8 @@
                 <!-- Genişletilmiş Fonlama -->
                 <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:15px;">
                     <div style="font-weight:bold; font-size:13px; margin-bottom:5px;"><?= t('Genişletilmiş Fonlama & Gelir') ?></div>
-                    <div style="font-size:13px; color:#444; margin-bottom:5px;"><?= t('Kitlesel Fonlama Lansmanı:') ?> <b><?= t('14 Gün Kaldı') ?></b></div>
-                    <div style="font-size:13px; color:#444;"><?= t('Hedef:') ?> <b>500.000 TL</b></div>
+                    <div style="font-size:13px; color:#444; margin-bottom:5px;"><?= $funding_data['subtitle'] ?> <b><?= $funding_data['days_left'] ?></b></div>
+                    <div style="font-size:13px; color:#444;"><?= t('Hedef:') ?> <b><?= $funding_data['target'] ?></b></div>
                 </div>
             </div>
         </div>

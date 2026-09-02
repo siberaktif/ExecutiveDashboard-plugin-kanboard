@@ -75,5 +75,11 @@ return array(
     'Bütçe kaydı bulunamadı veya CostControl eklentisi aktif değil.' => 'Bütçe kaydı bulunamadı veya CostControl eklentisi aktif değil.',
     'Kontrol Merkezine Dön' => 'Kontrol Merkezine Dön',
     'Kalan Bütçe:' => 'Kalan Bütçe:',
+,
+    'Hedef (Fonlama) Görevi Bulunamadı:' => 'Hedef (Fonlama) Görevi Bulunamadı:',
+    'Tarih Yok' => 'Tarih Yok',
+    'Belirtilmedi' => 'Belirtilmedi',
+    'Gün Kaldı' => 'Gün Kaldı',
+    'Süresi Doldu' => 'Süresi Doldu',
 
 );
