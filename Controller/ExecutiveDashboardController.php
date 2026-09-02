@@ -223,7 +223,7 @@ class ExecutiveDashboardController extends BaseController
             'users' => $users,
             'projects' => $projects,
             'kpi' => $kpi,
-            'overdue_tasks' => $overdue_tasks,
+            'tasks_overdue' => $overdue_tasks,
             'ai_suggestion_1' => $ai_suggestion_1,
             'ai_suggestion_2' => $ai_velocity_alert
         )));
