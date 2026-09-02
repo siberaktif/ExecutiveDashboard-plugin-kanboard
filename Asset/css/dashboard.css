@@ -365,3 +365,12 @@
 .sidebar ul.no-bullets > li:nth-child(4) { order: 4; }
 .sidebar ul.no-bullets > li:nth-child(5) { order: 5; }
 .sidebar ul.no-bullets > li:has(a[href*="TodoNotes"]) { order: 6 !important; }
+
+/* NEW: Vis.js Relationgraph Container */
+#mcc-relationgraph-container {
+    height: 350px;
+    width: 100%;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    background: #ffffff;
+}

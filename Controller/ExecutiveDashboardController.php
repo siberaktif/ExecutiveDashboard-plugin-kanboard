@@ -245,6 +245,9 @@ class ExecutiveDashboardController extends BaseController
             'open_tasks' => $open_tasks,
             'total_blockers' => $total_blockers,
             'blocker_tree' => $blocker_tree,
+            $has_relationgraph = defined('PLUGINS_DIR') && file_exists(PLUGINS_DIR . '/Relationgraph');
+
+            'has_relationgraph' => $has_relationgraph,
             'blocker_links' => $blocker_links,
             'graph_nodes' => json_encode($graph_nodes),
             'graph_edges' => json_encode($graph_edges),
