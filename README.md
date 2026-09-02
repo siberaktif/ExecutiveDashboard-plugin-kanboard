@@ -30,9 +30,9 @@ This plugin transforms your Kanboard interface into a strategic, high-level exec
 ### Required Plugins
 To ensure the Executive Dashboard works flawlessly with all its features, the following Kanboard plugins must be installed:
 
-1. **[CostControl](https://github.com/aljawaid/CostControl/blob/master/README.md)**: Mandatory for the Global Finance Page (`/mcc/finance`), Burn Rate calculations, and realized expenditure data.
-2. **[KPI](https://github.com/rmsbal/kpi/blob/main/README.md)**: Required for routing and displaying Global Project Performance, System Health, Overall Score, and Overdue Tasks modules.
-3. **[Relationgraph](https://github.com/TimoStahl/kanboard_plugin_relationgraph) (Optional)**: Recommended for better visual mapping of task dependencies and Critical Path analysis.
+1. **<a href="https://github.com/aljawaid/CostControl/blob/master/README.md" target="_blank">CostControl</a>**: Mandatory for the Global Finance Page (`/mcc/finance`), Burn Rate calculations, and realized expenditure data.
+2. **<a href="https://github.com/rmsbal/kpi/blob/main/README.md" target="_blank">KPI</a>**: Required for routing and displaying Global Project Performance, System Health, Overall Score, and Overdue Tasks modules.
+3. **<a href="https://github.com/TimoStahl/kanboard_plugin_relationgraph" target="_blank">Relationgraph</a> (Optional)**: Recommended for better visual mapping of task dependencies and Critical Path analysis.
 
 **How to Install (Shortcut):**
 - In Kanboard, go to the top right menu and select **Plugins > Plugin Directory**.
@@ -43,16 +43,16 @@ To ensure the Executive Dashboard works flawlessly with all its features, the fo
 - Compatible with all standard Kanboard themes (integrates seamlessly without overriding core CSS globally).
 
 ### Documentation & Repository Guidelines
-- [CHANGELOG.md](CHANGELOG.md) - History of releases, new features, and bug fixes.
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Guidelines for developers.
-- [SECURITY.md](SECURITY.md) - Security policies.
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Behavioral standards.
+- <a href="CHANGELOG.md" target="_blank">CHANGELOG.md</a> - History of releases, new features, and bug fixes.
+- <a href="CONTRIBUTING.md" target="_blank">CONTRIBUTING.md</a> - Guidelines for developers.
+- <a href="SECURITY.md" target="_blank">SECURITY.md</a> - Security policies.
+- <a href="CODE_OF_CONDUCT.md" target="_blank">CODE_OF_CONDUCT.md</a> - Behavioral standards.
 
 ### Author & Credits
 Created and maintained by:
 - **Sencar Tosun**
-- [DediTeknoloji.com](https://dediteknoloji.com)
-- [Bilgiyapar.com](https://bilgiyapar.com)
+- <a href="https://dediteknoloji.com" target="_blank">DediTeknoloji.com</a>
+- <a href="https://bilgiyapar.com" target="_blank">Bilgiyapar.com</a>
 
 ---
 
@@ -82,9 +82,9 @@ Bu eklenti, Kanboard arayüzünüzü stratejik, üst düzey bir yönetici kontro
 ### Gerekli Eklentiler (Required Plugins)
 Bu eklentinin (Executive Dashboard) tüm fonksiyonlarıyla kusursuz çalışabilmesi için aşağıdaki Kanboard eklentilerinin sistemde kurulu olması gerekmektedir:
 
-1. **[CostControl](https://github.com/aljawaid/CostControl/blob/master/README.md)**: Küresel Finans Sayfası (`/mcc/finance`), Bütçe Kullanımı (Burn Rate) hesaplamaları ve gerçekleşen harcama verileri için zorunludur.
-2. **[KPI](https://github.com/rmsbal/kpi/blob/main/README.md)**: Genel Proje Performansı, Sistem Sağlığı, Genel Skor ve Geciken İşler (Overdue Tasks) modüllerinin yönlendirmeleri için gereklidir.
-3. **[Relationgraph](https://github.com/TimoStahl/kanboard_plugin_relationgraph) (Opsiyonel)**: Görev bağımlılıkları ve Kritik Yol analizlerinin görsel olarak daha iyi çizilebilmesi için tavsiye edilir.
+1. **<a href="https://github.com/aljawaid/CostControl/blob/master/README.md" target="_blank">CostControl</a>**: Küresel Finans Sayfası (`/mcc/finance`), Bütçe Kullanımı (Burn Rate) hesaplamaları ve gerçekleşen harcama verileri için zorunludur.
+2. **<a href="https://github.com/rmsbal/kpi/blob/main/README.md" target="_blank">KPI</a>**: Genel Proje Performansı, Sistem Sağlığı, Genel Skor ve Geciken İşler (Overdue Tasks) modüllerinin yönlendirmeleri için gereklidir.
+3. **<a href="https://github.com/TimoStahl/kanboard_plugin_relationgraph" target="_blank">Relationgraph</a> (Opsiyonel)**: Görev bağımlılıkları ve Kritik Yol analizlerinin görsel olarak daha iyi çizilebilmesi için tavsiye edilir.
 
 **Nasıl Yüklenir? (Kısayol)**
 - Kanboard sağ üst menüden **Eklentiler (Plugins) > Eklenti Dizini (Plugin Directory)** yolunu izleyin.
@@ -95,13 +95,13 @@ Bu eklentinin (Executive Dashboard) tüm fonksiyonlarıyla kusursuz çalışabil
 - Tüm standart Kanboard temalarıyla uyumludur (çekirdek CSS'i global olarak bozmadan entegre olur).
 
 ### Dökümantasyon ve Depo Kuralları
-- [CHANGELOG.md](CHANGELOG.md) - Sürüm geçmişi, yeni özellikler ve hata düzeltmeleri.
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Geliştiriciler için katkıda bulunma rehberi.
-- [SECURITY.md](SECURITY.md) - Güvenlik politikalarımız.
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Davranış kuralları.
+- <a href="CHANGELOG.md" target="_blank">CHANGELOG.md</a> - Sürüm geçmişi, yeni özellikler ve hata düzeltmeleri.
+- <a href="CONTRIBUTING.md" target="_blank">CONTRIBUTING.md</a> - Geliştiriciler için katkıda bulunma rehberi.
+- <a href="SECURITY.md" target="_blank">SECURITY.md</a> - Güvenlik politikalarımız.
+- <a href="CODE_OF_CONDUCT.md" target="_blank">CODE_OF_CONDUCT.md</a> - Davranış kuralları.
 
 ### Yazar & Katkıda Bulunanlar
 Oluşturan ve geliştiren:
 - **Sencar Tosun**
-- [DediTeknoloji.com](https://dediteknoloji.com)
-- [Bilgiyapar.com](https://bilgiyapar.com)
+- <a href="https://dediteknoloji.com" target="_blank">DediTeknoloji.com</a>
+- <a href="https://bilgiyapar.com" target="_blank">Bilgiyapar.com</a>
