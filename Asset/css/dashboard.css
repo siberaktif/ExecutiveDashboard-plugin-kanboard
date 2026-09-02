@@ -374,3 +374,20 @@
     border-radius: 6px;
     background: #ffffff;
 }
+
+/* NEW: Vis.js Custom Controls */
+#mcc-graph-controls button {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 4px 8px;
+    margin-right: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+#mcc-graph-controls button:hover {
+    background-color: #00ADFF;
+    color: #ffffff;
+    border-color: #00ADFF;
+}

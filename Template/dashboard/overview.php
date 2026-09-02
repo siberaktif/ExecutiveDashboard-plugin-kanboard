@@ -206,7 +206,14 @@
             <?php if(!empty($graph_nodes)): ?>
                 <?php if(isset($has_relationgraph) && $has_relationgraph): ?>
                     <!-- VIS.JS Container -->
-                    <div id="mcc-relationgraph-container"></div>
+                    <div class="bilgiyapar-mcc-graph-wrapper" style="position: relative;">
+                        <div id="mcc-relationgraph-container"></div>
+                        <div id="mcc-graph-controls" style="position: absolute; bottom: 10px; left: 10px; z-index: 10; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 4px; border: 1px solid #cbd5e1;">
+                            <button type="button" id="btn-zoom-in" class="btn btn-default btn-xs" title="Yakınlaştır"><i class="fa fa-search-plus"></i></button>
+                            <button type="button" id="btn-zoom-out" class="btn btn-default btn-xs" title="Uzaklaştır"><i class="fa fa-search-minus"></i></button>
+                            <button type="button" id="btn-zoom-fit" class="btn btn-default btn-xs" title="Ekrana Sığdır"><i class="fa fa-compress"></i></button>
+                        </div>
+                    </div>
                     
                     <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/<?= $relationgraph_dir ?>/Asset/Javascript/vis/vis.min.js"></script>
                     <script type="text/javascript">
@@ -221,7 +228,7 @@
                                 physics: { hierarchicalRepulsion: { nodeDistance: 150 } },
                                 edges: { font: { size: 12, align: 'middle' }, smooth: { type: 'cubicBezier' } },
                                 nodes: { font: { color: '#ffffff', size: 14 } },
-                                interaction: { hover: true, tooltipDelay: 200 }
+                                interaction: { hover: true, tooltipDelay: 200, navigationButtons: false, keyboard: true }
                             };
                             var network = new vis.Network(container, data, options);
                             
@@ -232,6 +239,19 @@
                                     window.open('?controller=TaskViewController&action=show&task_id=' + taskId, '_blank');
                                 }
                             });
+
+                            // Custom Navigation Controls
+                            document.getElementById('btn-zoom-in').onclick = function () {
+                                var scale = network.getScale();
+                                network.moveTo({ scale: scale * 1.2 });
+                            };
+                            document.getElementById('btn-zoom-out').onclick = function () {
+                                var scale = network.getScale();
+                                network.moveTo({ scale: scale * 0.8 });
+                            };
+                            document.getElementById('btn-zoom-fit').onclick = function () {
+                                network.fit({ animation: { duration: 500, easingFunction: 'easeInOutQuad' } });
+                            };
                         });
                     </script>
                 <?php else: ?>
