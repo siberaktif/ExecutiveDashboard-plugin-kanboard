@@ -37,7 +37,7 @@
                         <?php endif; ?>
                     </td>
                     <td style="padding:10px;">
-                        <span style="color:#6a737d; font-family:monospace;"><?= $tag['color_id'] ? $tag['color_id'] : '<?= t('Varsayılan') ?>' ?></span>
+                        <span style="color:#6a737d; font-family:monospace;"><?= $tag['color_id'] ? $tag['color_id'] : t('Varsayılan') ?></span>
                     </td>
                 </tr>
                 <?php endforeach; ?>
