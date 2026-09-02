@@ -276,7 +276,7 @@ class ExecutiveDashboardController extends BaseController
         $user = $this->getUser();
         
         $tags = $this->db->table('tags')
-            ->leftJoin('projects', 'id', 'project_id', 'tags')
+            ->join('projects', 'id', 'project_id', 'tags')
             ->columns('tags.id', 'tags.name', 'tags.color_id', 'tags.project_id', 'projects.name AS project_name')
             ->asc('tags.project_id')
             ->asc('tags.name')
