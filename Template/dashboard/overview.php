@@ -233,7 +233,7 @@
                                 edges: {
                                     font: { align: 'middle', size: 11, color: '#475569', background: '#ffffff' },
                                     arrows: 'to',
-                                    smooth: { type: 'cubicBezier', roundness: 0.3 }
+                                    smooth: { type: 'dynamic' }
                                 },
                                 physics: {
                                     barnesHut: {
