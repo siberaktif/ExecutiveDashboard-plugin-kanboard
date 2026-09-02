@@ -1,10 +1,10 @@
 # Kanboard Executive Dashboard Plugin
 
-[English Version](#english) | [Türkçe Sürüm (Turkish)](#türkçe)
+**[🇹🇷 Türkçe Sürüm İçin Tıklayın (Click for Turkish Version)](#turkish)** | **[🇬🇧 English Version](#english)**
 
 ---
 
-<a name="english"></a>
+<a id="english"></a>
 ## 🇬🇧 English Version
 
 This plugin transforms your Kanboard interface into a strategic, high-level executive dashboard. Designed specifically for C-level executives, project managers, and team leaders, it provides a bird's-eye view of all critical operations, financial metrics, and bottlenecks across your organization.
@@ -56,7 +56,7 @@ Created and maintained by:
 
 ---
 
-<a name="türkçe"></a>
+<a id="turkish"></a>
 ## 🇹🇷 Türkçe Sürüm
 
 Bu eklenti, Kanboard arayüzünüzü stratejik, üst düzey bir yönetici kontrol merkezine dönüştürür. Özellikle C-Level yöneticiler, proje yöneticileri ve takım liderleri için tasarlanmış olup, kuruluşunuzdaki tüm kritik operasyonların, finansal metriklerin ve darboğazların kuş bakışı görünümünü sunar.
