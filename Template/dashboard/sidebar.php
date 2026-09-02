@@ -13,16 +13,16 @@
 
         <!-- 3. Orijinal Kanboard Menüleri -->
         <li style="order: 3;" <?= $this->app->checkMenuSelection('DashboardController', 'show') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('Overview'), 'DashboardController', 'show', ['user_id' => $safe_user_id]) ?>
+            <?= $this->url->link('<i class="fa fa-dashboard fa-fw" aria-hidden="true"></i> ' . t('Overview'), 'DashboardController', 'show', ['user_id' => $safe_user_id]) ?>
         </li>
         <li style="order: 4;" <?= $this->app->checkMenuSelection('DashboardController', 'projects') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My projects'), 'DashboardController', 'projects', ['user_id' => $safe_user_id]) ?>
+            <?= $this->url->link('<i class="fa fa-folder fa-fw" aria-hidden="true"></i> ' . t('My projects'), 'DashboardController', 'projects', ['user_id' => $safe_user_id]) ?>
         </li>
         <li style="order: 5;" <?= $this->app->checkMenuSelection('DashboardController', 'tasks') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My tasks'), 'DashboardController', 'tasks', ['user_id' => $safe_user_id]) ?>
+            <?= $this->url->link('<i class="fa fa-tasks fa-fw" aria-hidden="true"></i> ' . t('My tasks'), 'DashboardController', 'tasks', ['user_id' => $safe_user_id]) ?>
         </li>
         <li style="order: 6;" <?= $this->app->checkMenuSelection('DashboardController', 'subtasks') ? 'class="active"' : '' ?>>
-            <?= $this->url->link(t('My subtasks'), 'DashboardController', 'subtasks', ['user_id' => $safe_user_id]) ?>
+            <?= $this->url->link('<i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> ' . t('My subtasks'), 'DashboardController', 'subtasks', ['user_id' => $safe_user_id]) ?>
         </li>
 
         <!-- 4. Diğer Eklentilerin Kancaları (En Alta Gider) -->

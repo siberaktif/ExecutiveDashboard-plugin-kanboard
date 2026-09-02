@@ -1,5 +1,4 @@
-<div class="bilgiyapar-mcc-dashboard-container">
-    <div class="bilgiyapar-mcc-dashboard-header"><i class="fa fa-money"></i> <?= t('Küresel Finans ve Bütçe Kırılımları') ?></div>
+
     
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('Tüm Projelerin Bütçe Kalemleri') ?></div>
@@ -48,4 +47,3 @@
     <div style="margin-top:20px;">
         <a href="<?= $this->url->href('ExecutiveDashboardController', 'index', array('plugin' => 'ExecutiveDashboard')) ?>" class="btn btn-blue"><i class="fa fa-arrow-left"></i> <?= t('Kontrol Merkezine Dön') ?></a>
     </div>
-</div>
