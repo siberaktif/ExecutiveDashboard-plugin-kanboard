@@ -1,49 +1,74 @@
-
+<div class="bilgiyapar-mcc-section">
+    <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('Küresel Finans ve Bütçe Kırılımları') ?></div>
     
-    <div class="bilgiyapar-mcc-section">
-        <div class="bilgiyapar-mcc-section-title"><?= t('Tüm Projelerin Bütçe Kalemleri') ?></div>
-        
-        <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:20px; overflow-x:auto;">
-            <table class="table-striped table-scrolling" style="width:100%; text-align:left; border-collapse:collapse;">
-                <thead>
-                    <tr style="border-bottom:2px solid #ddd;">
-                        <th style="padding:10px;"><?= t('Proje') ?></th>
-                        <th style="padding:10px;"><?= t('Başlık / Açıklama') ?></th>
-                        <th style="padding:10px;"><?= t('Tarih') ?></th>
-                        <th style="padding:10px;"><?= t('Miktar') ?></th>
-                        <th style="padding:10px;"><?= t('Durum') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if(!empty($budget_lines)): ?>
-                        <?php $total = 0; foreach($budget_lines as $line): $total += $line['amount']; ?>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px;"><a href="<?= $this->url->href('BudgetController', 'show', array('plugin' => 'CostControl', 'project_id' => $line['project_id'])) ?>" target="_blank"><strong><?= htmlspecialchars($line['project_name']) ?></strong></a></td>
-                            <td style="padding:10px;"><?= htmlspecialchars($line['comment']) ?></td>
-                            <td style="padding:10px;"><?php $d = $line['date'] ?? time(); echo is_numeric($d) ? date('Y-m-d', (int)$d) : htmlspecialchars($d); ?></td>
-                            <td style="padding:10px;"><strong><?= number_format($line['amount'], 2, ',', '.') ?> TL</strong></td>
-                            <td style="padding:10px;">
-                                <span style="background:#fce8e6; color:#d9534f; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:bold;"><?= t('Gerçekleşen Harcama') ?></span>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <tr style="background:#f9f9f9; border-top:2px solid #ddd;">
-                            <td colspan="3" style="padding:15px; text-align:right;"><strong><?= t('Genel Toplam (Tüm Projeler):') ?></strong></td>
-                            <td colspan="2" style="padding:15px; font-size:18px; color:#d9534f;"><strong><?= number_format($total, 2, ',', '.') ?> TL</strong></td>
-                        </tr>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" style="padding:20px; text-align:center; color:#888;">
-                                <i class="fa fa-info-circle fa-2x" style="margin-bottom:10px; display:block;"></i>
-                                <?= t('Bütçe kaydı bulunamadı veya CostControl eklentisi aktif değil.') ?>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <!-- Üst KPI Kartları -->
+    <div style="display:flex; gap:20px; margin-bottom:20px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:20px; text-align:center; border-left:4px solid #1a73e8;">
+            <div style="font-size:12px; color:#666; font-weight:bold;"><?= t('Tahsis Edilen Toplam Bütçe') ?></div>
+            <div style="font-size:24px; font-weight:bold; color:#1a73e8;"><?= number_format($global_budget, 2, ',', '.') ?> TL</div>
+            <div style="font-size:11px; color:#888; margin-top:5px;"><?= t('Projelerin Toplam Bütçe Havuzu') ?></div>
+        </div>
+
+        <div style="flex:1; min-width:200px; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:20px; text-align:center; border-left:4px solid #d73a49;">
+            <div style="font-size:12px; color:#666; font-weight:bold;"><?= t('Gerçekleşen Harcama (Maliyetler)') ?></div>
+            <div style="font-size:24px; font-weight:bold; color:#d73a49;"><?= number_format($budget_spent, 2, ',', '.') ?> TL</div>
+            <div style="font-size:11px; color:#888; margin-top:5px;"><?= t('Zaman Takibi ve Alt Görev Maliyeti') ?></div>
+        </div>
+
+        <?php 
+            $remaining = $global_budget - $budget_spent; 
+            $rem_color = $remaining >= 0 ? '#28a745' : '#d73a49';
+        ?>
+        <div style="flex:1; min-width:200px; background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:20px; text-align:center; border-left:4px solid <?= $rem_color ?>;">
+            <div style="font-size:12px; color:#666; font-weight:bold;"><?= t('Kalan Kullanılabilir Bakiye') ?></div>
+            <div style="font-size:24px; font-weight:bold; color:<?= $rem_color ?>;"><?= number_format($remaining, 2, ',', '.') ?> TL</div>
+            <div style="font-size:11px; color:#888; margin-top:5px;"><?= t('Net Kalan Bütçe') ?></div>
         </div>
     </div>
-    
-    <div style="margin-top:20px;">
-        <a href="<?= $this->url->href('ExecutiveDashboardController', 'index', array('plugin' => 'ExecutiveDashboard')) ?>" class="btn btn-blue"><i class="fa fa-arrow-left"></i> <?= t('Kontrol Merkezine Dön') ?></a>
+
+    <!-- Tanımlı Bütçe Kalemleri Tablosu -->
+    <div style="background:#fff; border:1px solid #e1e4e8; border-radius:6px; padding:20px; overflow-x:auto;">
+        <div style="font-weight:bold; font-size:14px; margin-bottom:15px; color:#333;"><?= t('Projeler Bazında Tahsis Edilen Bütçeler (budget_lines)') ?></div>
+        <table class="table-striped table-scrolling" style="width:100%; text-align:left; border-collapse:collapse;">
+            <thead>
+                <tr style="border-bottom:2px solid #ddd;">
+                    <th style="padding:10px;">ID</th>
+                    <th style="padding:10px;">Tarih</th>
+                    <th style="padding:10px;">Proje (Bütçe Sayfası)</th>
+                    <th style="padding:10px;">Açıklama / Fonlama Kalemi</th>
+                    <th style="padding:10px; text-align:right;">Bütçe Tutarı</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($budget_lines as $bl): ?>
+                <tr style="border-bottom:1px solid #f1f1f1;">
+                    <td style="padding:10px; color:#888;">#<?= $bl['id'] ?></td>
+                    <td style="padding:10px; font-weight:bold;"><?= htmlspecialchars($bl['date']) ?></td>
+                    <td style="padding:10px;">
+                        <!-- Doğrudan ilgili projenin bütçe sayfasına yönlendirir -->
+                        <a href="<?= $this->url->dir() ?>project/<?= $bl['project_id'] ?>/budget" target="_blank" style="text-decoration:none; color:#1a73e8; font-weight:bold;">
+                            <i class="fa fa-money"></i> <?= htmlspecialchars($bl['project_name']) ?>
+                        </a>
+                    </td>
+                    <td style="padding:10px; color:#555;"><?= htmlspecialchars($bl['comment'] ?? 'Açıklama yok') ?></td>
+                    <td style="padding:10px; text-align:right; font-weight:bold; color:#28a745;">
+                        +<?= number_format($bl['amount'], 2, ',', '.') ?> TL
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                
+                <?php if(empty($budget_lines)): ?>
+                <tr><td colspan="5" style="padding:20px; text-align:center; color:#6a737d;"><?= t('Sistemde kayıtlı bütçe kalemi bulunmuyor.') ?></td></tr>
+                <?php endif; ?>
+            </tbody>
+            <tfoot>
+                <tr style="border-top:2px solid #333; background:#fafafa;">
+                    <td colspan="4" style="padding:10px; text-align:right; font-weight:bold;"><?= t('TOPLAM TAHSİS EDİLEN BÜTÇE:') ?></td>
+                    <td style="padding:10px; text-align:right; font-weight:bold; color:#28a745; font-size:16px;">
+                        <?= number_format($global_budget, 2, ',', '.') ?> TL
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
+</div>
