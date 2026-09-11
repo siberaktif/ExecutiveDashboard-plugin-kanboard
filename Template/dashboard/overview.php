@@ -206,8 +206,16 @@
             <?php if(!empty($graph_nodes) && $graph_nodes !== "[]" && $graph_nodes !== "null"): ?>
                 <?php if(isset($has_relationgraph) && $has_relationgraph): ?>
                     <!-- VIS.JS Container -->
-                    <div id="mcc-relationgraph-container" style="height: 350px; width: 100%; border: 1px solid #e1e4e8; border-radius: 6px; background: #ffffff;"></div>
+                    <div class="bilgiyapar-mcc-graph-wrapper" style="position: relative;">
+                        <div id="mcc-relationgraph-container" style="height: 350px; width: 100%; border: 1px solid #e1e4e8; border-radius: 6px; background: #ffffff;"></div>
+                        <div id="mcc-graph-controls" style="position: absolute; bottom: 10px; left: 10px; z-index: 10; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 4px; border: 1px solid #cbd5e1;">
+                            <button type="button" id="btn-zoom-in" class="btn btn-default btn-xs" title="<?= t('Zoom In') ?>" ><i class="fa fa-search-plus"></i></button>
+                            <button type="button" id="btn-zoom-out" class="btn btn-default btn-xs" title="<?= t('Zoom Out') ?>" ><i class="fa fa-search-minus"></i></button>
+                            <button type="button" id="btn-zoom-fit" class="btn btn-default btn-xs" title="<?= t('Fit to Screen') ?>" ><i class="fa fa-compress"></i></button>
+                        </div>
+                    </div>
                     
+                    <link rel="stylesheet" href="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/css/vis-network.min.css" media="screen">
                     <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/js/vis-network.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
@@ -232,6 +240,19 @@
                                     window.open('?controller=TaskViewController&action=show&task_id=' + taskId, '_blank');
                                 }
                             });
+                            
+                            // Custom Navigation Controls
+                            document.getElementById('btn-zoom-in').onclick = function () {
+                                var scale = network.getScale();
+                                network.moveTo({ scale: scale * 1.2 });
+                            };
+                            document.getElementById('btn-zoom-out').onclick = function () {
+                                var scale = network.getScale();
+                                network.moveTo({ scale: scale * 0.8 });
+                            };
+                            document.getElementById('btn-zoom-fit').onclick = function () {
+                                network.fit();
+                            };
                         });
                     </script>
                 <?php else: ?>
