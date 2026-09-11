@@ -449,10 +449,15 @@ class ExecutiveDashboardController extends BaseController
         $link_labels = array();
         try {
             $link_labels = $this->db->table('link_labels')->findAll();
-            if (empty($link_labels)) {
+        } catch (\Exception $e) {
+            $link_labels = array();
+        }
+        
+        if (empty($link_labels)) {
+            try {
                 $link_labels = $this->db->table('links')->findAll();
-            }
-        } catch (\Exception $e) {}
+            } catch (\Exception $e) {}
+        }
 
         $this->response->html($this->helper->layout->dashboard('ExecutiveDashboard:dashboard/link_labels', array(
             'title' => t('Bağlantı Etiketleri'),
