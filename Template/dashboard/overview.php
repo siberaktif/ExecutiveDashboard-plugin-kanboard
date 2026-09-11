@@ -4,6 +4,11 @@
     <!-- 1. YÖNETİCİ FİNANS & STRATEJİ PANELİ -->
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-money"></i> <?= t('YÖNETİCİ FİNANS & STRATEJİ PANELİ (Finans Zirvesi)') ?></div>
+        <?php if (!file_exists(PLUGINS_DIR . '/CostControl')): ?>
+        <div style="background:#fff3cd; color:#856404; padding:15px; margin-bottom:15px; border-left:4px solid #ffeeba; border-radius:4px;">
+            <i class="fa fa-exclamation-triangle"></i> <strong>Uyarı:</strong> <em>CostControl</em> eklentisi bulunamadı! Finans, bütçe kullanımı ve harcama verilerinin doğru hesaplanması için bu eklentiyi yüklemeniz gerekmektedir.
+        </div>
+        <?php endif; ?>
         
         <div class="bilgiyapar-mcc-grid-3-responsive">
             <!-- 1. Bar Chart Kartı -->
@@ -73,6 +78,11 @@
     <!-- 2. KAPSAMLI SİSTEM & KÜRESEL KPI MATRİSİ -->
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><?= t('KAPSAMLI SİSTEM & KÜRESEL KPI MATRİSİ') ?></div>
+        <?php if (!file_exists(PLUGINS_DIR . '/KPI') && !file_exists(PLUGINS_DIR . '/kpi')): ?>
+        <div style="background:#fff3cd; color:#856404; padding:15px; margin-bottom:15px; border-left:4px solid #ffeeba; border-radius:4px;">
+            <i class="fa fa-exclamation-triangle"></i> <strong>Uyarı:</strong> <em>KPI</em> eklentisi bulunamadı! Proje performansları, tamamlanma oranları ve geciken işlerin hesaplanması için bu eklentiyi yüklemeniz gerekmektedir.
+        </div>
+        <?php endif; ?>
         
         <?php
         $kpi_groups = [
@@ -202,6 +212,11 @@
     <!-- 3. GÖREV BAĞIMLILIKLARI & KRİTİK YOL (RELATIONGRAPH) -->
     <div class="bilgiyapar-mcc-section">
         <div class="bilgiyapar-mcc-section-title"><i class="fa fa-link"></i> <?= t('GÖREV BAĞIMLILIKLARI & KRİTİK YOL (Relationgraph)') ?></div>
+        <?php if (!isset($has_relationgraph) || !$has_relationgraph): ?>
+        <div style="background:#fff3cd; color:#856404; padding:15px; margin-bottom:15px; border-left:4px solid #ffeeba; border-radius:4px;">
+            <i class="fa fa-exclamation-triangle"></i> <strong>Uyarı:</strong> <em>Relationgraph</em> (veya kanboard_plugin_relationgraph) eklentisi bulunamadı! Görev bağımlılıklarının harita üzerinde çizilebilmesi (Vis.js SVG Motoru) için bu eklentiyi yüklemeniz tavsiye edilir.
+        </div>
+        <?php endif; ?>
         <div class="bilgiyapar-mcc-card" style="background: #fdfdfd; padding:20px;">
             <?php if(!empty($graph_nodes) && $graph_nodes !== "[]" && $graph_nodes !== "null"): ?>
                 <?php if(isset($has_relationgraph) && $has_relationgraph): ?>
@@ -228,7 +243,7 @@
                                 layout: { hierarchical: { direction: "UD", sortMethod: "directed" } },
                                 physics: { hierarchicalRepulsion: { nodeDistance: 150 } },
                                 edges: { font: { size: 12, align: 'middle' }, smooth: { type: 'cubicBezier' } },
-                                nodes: { font: { color: '#ffffff', size: 14 } },
+                                nodes: { font: { color: '#333333', size: 14 } },
                                 interaction: { hover: true, tooltipDelay: 200 }
                             };
                             var network = new vis.Network(container, data, options);
