@@ -56,10 +56,5 @@
 
     </div>
 
-    <div style="display:flex; justify-content:flex-end;">
-        <a href="<?= $this->url->href('ExecutiveDashboardController', 'index', ['plugin' => 'ExecutiveDashboard']) ?>" class="btn btn-primary" style="text-decoration:none; border-radius:4px; padding:8px 15px;">
-            <i class="fa fa-arrow-left"></i> <?= t('Kontrol Merkezine Dön') ?>
-        </a>
-    </div>
 </div>
 <?= $this->render('ExecutiveDashboard:dashboard/back_button') ?>
