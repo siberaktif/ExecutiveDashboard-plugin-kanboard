@@ -208,7 +208,7 @@
                     <!-- VIS.JS Container -->
                     <div id="mcc-relationgraph-container" style="height: 350px; width: 100%; border: 1px solid #e1e4e8; border-radius: 6px; background: #ffffff;"></div>
                     
-                    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+                    <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/js/vis-network.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
                             var container = document.getElementById('mcc-relationgraph-container');
