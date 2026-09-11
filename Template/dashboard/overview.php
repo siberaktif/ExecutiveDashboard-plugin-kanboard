@@ -77,9 +77,9 @@
         <?php
         $kpi_groups = [
             'Genel Durum' => [
-                ['title' => 'Genel Proje Performansı', 'total' => '%'.$kpi['performance_avg'], 'sub' => '', 'color' => '#1a73e8', 'icon' => 'fa-line-chart', 'url' => ''],
-                ['title' => 'Proje Sağlığı', 'total' => $kpi['health_status'], 'sub' => 'Uyarı', 'color' => $kpi['health_color'], 'icon' => 'fa-heartbeat', 'url' => ''],
-                ['title' => 'Genel Skor', 'total' => '%'.$kpi['overall_score'], 'sub' => '', 'color' => '#f0ad4e', 'icon' => 'fa-trophy', 'url' => ''],
+                ['title' => 'Genel Proje Performansı', 'total' => '%'.$kpi['performance_avg'], 'sub' => '', 'color' => '#1a73e8', 'icon' => 'fa-line-chart', 'url' => $kpi['performance_avg'] > 0 ? $this->url->href('ExecutiveDashboardController', 'performance', ['plugin' => 'ExecutiveDashboard']) : ''],
+                ['title' => 'Proje Sağlığı', 'total' => $kpi['health_status'], 'sub' => 'Durum', 'color' => $kpi['health_color'], 'icon' => 'fa-heartbeat', 'url' => $this->url->href('ExecutiveDashboardController', 'health', ['plugin' => 'ExecutiveDashboard'])],
+                ['title' => 'Genel Skor', 'total' => '%'.$kpi['overall_score'], 'sub' => '', 'color' => '#f0ad4e', 'icon' => 'fa-trophy', 'url' => $kpi['overall_score'] > 0 ? $this->url->href('ExecutiveDashboardController', 'score', ['plugin' => 'ExecutiveDashboard']) : ''],
                 ['title' => 'Geciken Görevler', 'total' => $kpi['overdue_total_count'], 'sub' => 'Dikkat Gerektiriyor', 'color' => '#d73a49', 'icon' => 'fa-calendar-times-o', 'url' => $this->url->href('SearchController', 'index', array('search' => 'status:open due:<=today'))],
             ],
             'Projeler' => [
