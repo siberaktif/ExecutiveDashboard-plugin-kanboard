@@ -19,3 +19,4 @@
         </table>
     </div>
 </div>
+<?= $this->render('ExecutiveDashboard:dashboard/back_button') ?>

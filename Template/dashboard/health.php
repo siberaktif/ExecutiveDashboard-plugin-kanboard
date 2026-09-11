@@ -93,3 +93,4 @@ function filterRisk(type) {
     });
 }
 </script>
+<?= $this->render('ExecutiveDashboard:dashboard/back_button') ?>
