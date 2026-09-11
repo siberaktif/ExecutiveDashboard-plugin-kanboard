@@ -109,9 +109,9 @@
             ],
             'Kullanıcılar' => [
                 ['title' => 'Kullanıcılar', 'total' => $kpi['users_active']+$kpi['users_inactive'], 'sub' => 'Aktif:'.$kpi['users_active'].' Pasif:'.$kpi['users_inactive'], 'color' => '#d73a49', 'icon' => 'fa-user', 'url' => $this->url->href('UserListController', 'show')],
-                ['title' => 'Üyeler', 'total' => $kpi['users_user'], 'sub' => 'Standart', 'color' => '#d73a49', 'icon' => 'fa-user-o', 'url' => $this->url->href('UserListController', 'show')],
-                ['title' => 'Yöneticiler', 'total' => $kpi['users_manager'], 'sub' => 'PM', 'color' => '#d73a49', 'icon' => 'fa-user-circle-o', 'url' => $this->url->href('UserListController', 'show')],
-                ['title' => 'Sistem Yöneticileri', 'total' => $kpi['users_admin'], 'sub' => 'Admin', 'color' => '#d73a49', 'icon' => 'fa-user-secret', 'url' => $this->url->href('UserListController', 'show')],
+                ['title' => 'Standart Kullanıcı', 'total' => $kpi['users_user'], 'sub' => 'Üye', 'color' => '#d73a49', 'icon' => 'fa-user-o', 'url' => ''],
+                ['title' => 'Yöneticiler', 'total' => $kpi['users_manager'], 'sub' => 'PM', 'color' => '#d73a49', 'icon' => 'fa-user-circle-o', 'url' => ''],
+                ['title' => 'Sistem Yöneticileri', 'total' => $kpi['users_admin'], 'sub' => 'Admin', 'color' => '#d73a49', 'icon' => 'fa-user-secret', 'url' => ''],
                 ['title' => 'Kullanıcı Grupları', 'total' => $kpi['groups'], 'sub' => '', 'color' => '#d73a49', 'icon' => 'fa-users', 'url' => $this->url->href('GroupListController', 'index')],
             ],
         ];
