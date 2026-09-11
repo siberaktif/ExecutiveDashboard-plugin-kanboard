@@ -215,8 +215,8 @@
                         </div>
                     </div>
                     
-                    <link rel="stylesheet" href="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/css/vis-network.min.css" media="screen">
-                    <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/ExecutiveDashboard/Asset/js/vis-network.min.js"></script>
+                    <link rel="stylesheet" href="<?= $this->url->dir() ?>plugins/<?= $relationgraph_dir ?>/Asset/Javascript/vis/vis.min.css" media="screen">
+                    <script type="text/javascript" src="<?= $this->url->dir() ?>plugins/<?= $relationgraph_dir ?>/Asset/Javascript/vis/vis.min.js"></script>
                     <script type="text/javascript">
                         document.addEventListener("DOMContentLoaded", function() {
                             var container = document.getElementById('mcc-relationgraph-container');
