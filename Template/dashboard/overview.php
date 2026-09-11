@@ -56,7 +56,7 @@
                         </a>
                         <a href="<?= $this->url->href('UserListController', 'show') ?>" target="_blank" style="flex:1; border:1px solid #eee; border-radius:4px; padding:10px; text-decoration:none; color:inherit;">
                             <div style="font-size:24px; font-weight:bold; color:#333;"><?= count($users) ?></div>
-                            <div style="font-size:11px; color:#666;"><br>Kullanıcı</div>
+                            <div style="font-size:11px; color:#666;">Aktif<br>Kullanıcı</div>
                         </a>
                     </div>
                 </div>
