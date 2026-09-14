@@ -1,5 +1,7 @@
 # Kanboard Executive Dashboard Plugin
 
+**Version: 1.0.0 (Released: 2026-09-14)**
+
 **[🇹🇷 Türkçe Sürüm İçin Tıklayın (Click for Turkish Version)](#turkish)** | **[🇬🇧 English Version](#english)**
 
 ---

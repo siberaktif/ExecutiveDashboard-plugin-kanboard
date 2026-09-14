@@ -2,7 +2,7 @@
 
 Bu dosyada Kanboard Executive Dashboard eklentisindeki tüm önemli değişiklikler belgelenmektedir.
 
-## [Unreleased] - Sürüm Adayı (v1.0.0)
+## [1.0.0] - 2026-09-14
 
 ### Eklenenler
 - "Yönetici Kontrol Merkezi" ana panosu oluşturuldu.
