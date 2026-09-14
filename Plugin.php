@@ -8,6 +8,7 @@ class Plugin extends Base
 {
     public function initialize()
     {
+        $this->db->getConnection()->exec("SET SESSION sql_mode = ''");
         // 1. CLEAR URL: Çirkin linkleri temiz ve kısa bir rotaya bağlar
         $this->route->addRoute('/mcc', 'ExecutiveDashboardController', 'index', 'ExecutiveDashboard');
         $this->route->addRoute('/mcc/finance', 'ExecutiveDashboardController', 'finance', 'ExecutiveDashboard');
