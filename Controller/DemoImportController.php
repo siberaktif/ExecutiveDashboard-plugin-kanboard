@@ -40,6 +40,7 @@ class DemoImportController extends BaseController
             'column_id' => $done_column_id,
             'owner_id' => $user_id,
             'creator_id' => $user_id,
+            'user_id' => $user_id,
             'color_id' => 'yellow',
             'score' => 5, // Karmaşıklık puanı
             'priority' => 3,
@@ -49,8 +50,8 @@ class DemoImportController extends BaseController
             'date_started' => $base_time + 3600,
             'date_completed' => $base_time + (24 * 3600)
         ]);
-        $this->subtaskModel->create(['task_id' => $t1, 'title' => 'Apache .htaccess ve ModSecurity rewrite kurallarının incelenmesi', 'status' => SubtaskModel::STATUS_DONE, 'time_estimated'=>12, 'time_spent'=>12]);
-        $this->subtaskModel->create(['task_id' => $t1, 'title' => 'Forgejo yerel entegrasyonu ve pnpm monorepo yapısının kurulması', 'status' => SubtaskModel::STATUS_DONE, 'time_estimated'=>4, 'time_spent'=>4]);
+        $this->subtaskModel->create(['task_id' => $t1, 'title' => 'Apache .htaccess ve ModSecurity rewrite kurallarının incelenmesi', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_estimated'=>12, 'time_spent'=>12]);
+        $this->subtaskModel->create(['task_id' => $t1, 'title' => 'Forgejo yerel entegrasyonu ve pnpm monorepo yapısının kurulması', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_estimated'=>4, 'time_spent'=>4]);
 
         // GÖREV 2
         $t2 = $this->taskCreationModel->create([
@@ -60,6 +61,7 @@ class DemoImportController extends BaseController
             'column_id' => $done_column_id,
             'owner_id' => $user_id,
             'creator_id' => $user_id,
+            'user_id' => $user_id,
             'color_id' => 'blue',
             'score' => 8,
             'priority' => 2,
@@ -69,8 +71,8 @@ class DemoImportController extends BaseController
             'date_started' => $base_time + (2 * 86400) + 3600,
             'date_completed' => $base_time + (3 * 86400)
         ]);
-        $this->subtaskModel->create(['task_id' => $t2, 'title' => 'ExecutiveDashboardController.php içinde score() ve performance() metotlarının yazılması', 'status' => SubtaskModel::STATUS_DONE, 'time_estimated'=>3, 'time_spent'=>3]);
-        $this->subtaskModel->create(['task_id' => $t2, 'title' => 'Görev karmaşıklığı (score) ve öncelik çarpanlarının (priority) ceza formüllerine entegre edilmesi', 'status' => SubtaskModel::STATUS_DONE, 'time_estimated'=>3, 'time_spent'=>3]);
+        $this->subtaskModel->create(['task_id' => $t2, 'title' => 'ExecutiveDashboardController.php içinde score() ve performance() metotlarının yazılması', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_estimated'=>3, 'time_spent'=>3]);
+        $this->subtaskModel->create(['task_id' => $t2, 'title' => 'Görev karmaşıklığı (score) ve öncelik çarpanlarının (priority) ceza formüllerine entegre edilmesi', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_estimated'=>3, 'time_spent'=>3]);
 
         // GÖREV 3
         $t3 = $this->taskCreationModel->create([
@@ -80,6 +82,7 @@ class DemoImportController extends BaseController
             'column_id' => $done_column_id,
             'owner_id' => $user_id,
             'creator_id' => $user_id,
+            'user_id' => $user_id,
             'color_id' => 'green',
             'score' => 13,
             'priority' => 3,
@@ -89,8 +92,8 @@ class DemoImportController extends BaseController
             'date_started' => $base_time + (4 * 86400) + 3600,
             'date_completed' => $base_time + (5 * 86400)
         ]);
-        $this->subtaskModel->create(['task_id' => $t3, 'title' => 'budget_lines (Tahsis edilen bütçe havuzu) ile zaman takibi maliyetlerinin ayrıştırılması', 'status' => SubtaskModel::STATUS_DONE, 'time_spent'=>2]);
-        $this->subtaskModel->create(['task_id' => $t3, 'title' => '/project/{id}/budget temiz URL (clean URL) yönlendirmelerinin kusursuz hale getirilmesi', 'status' => SubtaskModel::STATUS_DONE, 'time_spent'=>2]);
+        $this->subtaskModel->create(['task_id' => $t3, 'title' => 'budget_lines (Tahsis edilen bütçe havuzu) ile zaman takibi maliyetlerinin ayrıştırılması', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_spent'=>2]);
+        $this->subtaskModel->create(['task_id' => $t3, 'title' => '/project/{id}/budget temiz URL (clean URL) yönlendirmelerinin kusursuz hale getirilmesi', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_spent'=>2]);
 
         // GÖREV 4
         $t4 = $this->taskCreationModel->create([
@@ -100,6 +103,7 @@ class DemoImportController extends BaseController
             'column_id' => $done_column_id,
             'owner_id' => $user_id,
             'creator_id' => $user_id,
+            'user_id' => $user_id,
             'color_id' => 'red',
             'score' => 3,
             'priority' => 1,
@@ -109,8 +113,8 @@ class DemoImportController extends BaseController
             'date_started' => $base_time + (6 * 86400) + 3600,
             'date_completed' => $base_time + (7 * 86400)
         ]);
-        $this->subtaskModel->create(['task_id' => $t4, 'title' => 'Geciken görevler ve kritik blokajlar için JS filtreleme butonlarının eklenmesi', 'status' => SubtaskModel::STATUS_DONE, 'time_spent'=>1.5]);
-        $this->subtaskModel->create(['task_id' => $t4, 'title' => 'health.php şablonunun modern glassmorphism/minimalist estetiğe uyarlanması', 'status' => SubtaskModel::STATUS_DONE, 'time_spent'=>1.5]);
+        $this->subtaskModel->create(['task_id' => $t4, 'title' => 'Geciken görevler ve kritik blokajlar için JS filtreleme butonlarının eklenmesi', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_spent'=>1.5]);
+        $this->subtaskModel->create(['task_id' => $t4, 'title' => 'health.php şablonunun modern glassmorphism/minimalist estetiğe uyarlanması', 'status' => SubtaskModel::STATUS_DONE, 'user_id' => $user_id, 'time_spent'=>1.5]);
 
         // YORUMLAR
         $this->commentModel->create([
