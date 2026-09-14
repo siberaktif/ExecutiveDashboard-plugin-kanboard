@@ -30,6 +30,12 @@ class DemoImportController extends BaseController
 
         $user_id = $this->userSession->getId();
         
+        // Önceki tüm kopya görevleri temizle (Sıfırla)
+        $tasks = $this->taskFinderModel->getAll($project_id);
+        foreach ($tasks as $task) {
+            $this->taskModel->remove($task['id']);
+        }
+
         $base_time = strtotime('2026-09-01 18:59:00');
 
         // GÖREV 1
